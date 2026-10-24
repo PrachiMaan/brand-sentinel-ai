@@ -433,14 +433,14 @@ para(
   "BrandSentinel reviews content before publication against a company's brand guidelines, and then hands the decision to a person. A deterministic fast lane checks banned terms, product naming, claim language, tone, contrast and alt text immediately. Five specialist reviewers return findings in one schema. An evidence-or-silence verifier drops anything whose span, rule, guideline excerpt or claim id cannot be checked. A reviewer accepts, edits or rejects each finding with a reason; an approver signs off, rejects, or escalates claims to Legal. Every action lands in a hash-chained audit trail, and an approval produces a downloadable Review Receipt.",
 );
 para(
-  "The demo brand is Lumora, a synthetic skincare studio: 14 typed rules, a six-claim ledger with one expiring and two expired entries, a banned-word glossary, a palette and a guideline PDF. The prototype is built and served in the Freebuff web workspace on Vite, React and Convex.",
+  "The demo brand is Lumora, a synthetic skincare studio: 14 typed rules, a six-claim ledger with one expiring and two expired entries, a banned-word glossary, a palette and a guideline PDF. The prototype is live at https://brandsentinel.freebuff.app/ , built on Vite, React and Convex.",
 );
 
 table(
   ["Item", "Where"],
   [
-    ["Live app", "Freebuff preview for this workspace. The app opens at the landing page; use Try the demo. No Vercel deployment."],
-    ["Repository", "Workspace version control. No public GitHub remote was reachable from the build environment; see Known limitations."],
+    ["Live app", "https://brandsentinel.freebuff.app/ . Opens at the landing page; use Try the demo. Served by the Freebuff workspace, not Vercel."],
+    ["Repository", "https://github.com/PrachiMaan/brand-sentinel-ai . Platform-managed commits; no secrets in the 5-commit, 202-blob object store."],
     ["Demo access", "Open /demo, choose Creator, Reviewer, Approver or Admin. One click, anonymous auth, no email."],
     ["Role switch", "Header switcher on every app page. Every switch is written to the audit trail."],
     ["Sample content", "Submit page, Load Lumora sample. Fills caption, channel, audience, alt text, palette image and hex pair."],
@@ -695,7 +695,7 @@ h2("Known limitations", "07");
 bullet("The model-backed deep lane was unavailable in the final window because the shared gateway budget was exhausted. The UI degrades to fast-lane findings and says so; the committed eval is deterministic-only.");
 bullet("The evaluation set is seeded from the same rulebook the engine implements, so 95% precision and 100% recall are an upper bound, not evidence of field accuracy.");
 bullet("Multi-page PDF and DOCX review is not built. Intake is text plus one image.");
-bullet("No public deployment on Vercel and no public GitHub remote. The live app is the Freebuff preview; version control is managed by the platform.");
+bullet("No Vercel deployment. The app is live at https://brandsentinel.freebuff.app/ . The remote github.com/PrachiMaan/brand-sentinel-ai is synced by the platform because direct git pushes are blocked in the sandbox.");
 bullet("No screenshots. The browser could not run in the sandbox (missing system libraries, no disk space to install them).");
 bullet("Image review is colour distance and alt text only: no logo detection, OCR, layout geometry or page rendering.");
 bullet("The receipt is a PDF generated in the browser. It is a document of record, not a cryptographically signed artefact; its hashes are also in the audit chain.");

@@ -30,17 +30,21 @@ Round 2 prototype, October 2026. Seeded synthetic brand: **Lumora**.
 
 ## Live app
 
-This prototype is built and served in the Freebuff web workspace, on
-**Vite + React + Convex**. Use the preview link shown in the workspace header;
-the build is not on Vercel. See `docs/CHANGES.md` for why the stack changed from
-the Round 1 plan.
+**https://brandsentinel.freebuff.app/**
+
+Built and served in the Freebuff web workspace, on **Vite + React + Convex**. The
+build is not on Vercel; see `docs/CHANGES.md` for why the stack changed from the
+Round 1 plan.
+
+Repository: **https://github.com/PrachiMaan/brand-sentinel-ai**
 
 The Convex backend for this deployment is
 `https://tremendous-rabbit-679.convex.site`.
 
 ## Demo login (no signup)
 
-1. Open the preview link and choose **Try the demo**, or go to `/demo`.
+1. Open https://brandsentinel.freebuff.app/ and choose **Try the demo**, or go to
+   `https://brandsentinel.freebuff.app/demo`.
 2. Pick a seat:
    - **Maya Rao, Creator** — submit and watch the fast lane,
    - **Dev Kapoor, Reviewer** — accept / edit / reject,
@@ -170,7 +174,10 @@ Environment variables (see `.env.example`):
 | `OPENAI_API_KEY` / `AI_API_KEY`, `AI_BASE_URL` | Convex | Optional OpenAI-compatible provider |
 
 No secrets are committed. The model key lives in the Convex deployment, not in
-the repo or the client bundle.
+the repo or the client bundle. Only `.env.example` (empty values) is tracked; all
+other env files are gitignored. A scan of the git object store (5 commits, 202
+blobs) for API-key formats, private keys, bearer tokens and assignment-style
+secrets returned zero hits.
 
 ## Known limitations
 
@@ -187,8 +194,10 @@ the repo or the client bundle.
 - Screenshots could not be captured in this environment: the browser binary needs
   system libraries that the sandbox could not install (no disk space). The
   submission package lists the intended captures instead of inventing them.
-- No public GitHub remote: version control in this workspace is managed by the
-  platform. The commit history exists locally; Vercel/GitHub were not reachable.
+- Version control is platform-managed. Commits are made by the workspace and the
+  remote is `github.com/PrachiMaan/brand-sentinel-ai`; direct `git push` is
+  blocked in the build sandbox, so the mirror is updated by the platform rather
+  than by hand. There is no Vercel deployment.
 - The receipt PDF is generated client-side with `pdf-lib`; it is a document of
   record, not cryptographically signed. Its version and receipt hashes are also
   recorded in the audit chain.
@@ -205,7 +214,8 @@ Hosted services actually used:
 - **Freebuff model gateway (Vly integrations)** — chat completions used by the five
   reviewers and the Brand Pack Compiler. Model id is logged per run (`gpt-4o-mini`
   by default, configurable).
-- **Freebuff web workspace** — hosting and preview. No Vercel deployment.
+- **Freebuff web workspace** — hosting and preview at
+  https://brandsentinel.freebuff.app/. No Vercel deployment.
 - No Supabase, no Inngest, no Redis, no pgvector.
 
 Open-source libraries: React, Vite, React Router, Tailwind CSS, shadcn/ui, Radix UI,

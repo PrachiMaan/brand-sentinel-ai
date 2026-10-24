@@ -49,14 +49,16 @@ the deployed app. The sandbox had no browser system libraries and no disk space 
 install them. Rather than stage screenshots, the package lists the intended shots
 and their routes. This is a real gap in the submission, not a design choice.
 
-**Deployment: not on Vercel.** There is no public Vercel URL and no public GitHub
-remote in this workspace. The live app is the Freebuff preview. The README says so
-plainly. Anyone reading the repo should not look for a Vercel link.
+**Deployment: not on Vercel.** The live app is served by the Freebuff workspace at
+**https://brandsentinel.freebuff.app/**. There is no Vercel project and no Vercel
+`maxDuration` control; the app is a static Vite build against a Convex deployment.
+The README gives the link plainly so nobody looks for a Vercel URL.
 
-**Commit history: local only.** The repository is initialised and contains the
-work, but the platform manages version control and blocks GitHub pushes. The
-"incremental commits" requirement is therefore only partly met: the history exists
-locally, not on a public remote.
+**Commit history: platform-managed.** The repository is initialised and contains
+the work. Version control and committing are handled by the Freebuff workspace,
+which also blocks direct `git push` from the sandbox, so the remote
+(`github.com/PrachiMaan/brand-sentinel-ai`) is synced by the platform rather than
+by hand. Publishing it publicly is a repository setting, not a code change.
 
 ## Things that were added beyond the plan
 

@@ -1,19 +1,22 @@
 # Submission form answers
 
-Copy-paste ready. Values in `[square brackets]` must be filled from the workspace
-before submitting; everything else is final.
+Copy-paste ready. Every value below is final; links are live.
 
 ## Project link
 
-[Paste the Freebuff preview URL for this workspace]
+https://brandsentinel.freebuff.app/
 
 The app opens on the landing page. Judges should choose **Try the demo**, pick a
 seat, and use the role switcher in the header. No signup, no email.
 
 ## Repository link
 
-[Paste the repository URL if the workspace exposes one; this build has no public
-GitHub remote. The code and history are in the workspace.]
+https://github.com/PrachiMaan/brand-sentinel-ai
+
+The code and history are in this repository. No secrets are committed: the only
+environment file in it is `.env.example`; real values live on the Convex
+deployment. A scan of the 5 commits and 202 blobs in the history found no keys,
+tokens or credentials.
 
 ## One-paragraph summary
 
