@@ -105,7 +105,11 @@ export function runFastLane(input: FastLaneInput): FastLaneResult {
   // 1. Banned and deprecated glossary terms.
   for (const entry of input.glossary) {
     if (entry.status === "banned") {
-      const re = new RegExp(`\\b${escapeRegExp(entry.term)}\\b`, "gi");
+      // Allow simple inflections so "cures" is still caught by the entry "cure".
+      const re = new RegExp(
+        `\\b${escapeRegExp(entry.term)}(?:s|d|ed|ing)?\\b`,
+        "gi",
+      );
       let match: RegExpExecArray | null;
       let guard = 0;
       while ((match = re.exec(text)) && guard < 3) {
@@ -195,41 +199,249 @@ export function runFastLane(input: FastLaneInput): FastLaneResult {
     }
   }
 
-  // 4. Expired claim wording.
+  // 4. Claim Ledger matching: expired wording, unsupported performance claims
+  // and medical language. This is a deterministic ledger match, not a model.
   {
     const today = input.today ? new Date(input.today) : new Date();
-    for (const claim of input.claims) {
-      if (claim.status !== "expired") continue;
-      const expiredOn = claim.expiresAt
-        ? new Date(claim.expiresAt) < today
-        : false;
-      if (!expiredOn) continue;
-      const distinctive = claim.text
-        .replace(/^(Clinically|Visibly|Reduces)\s+/i, "")
-        .replace(/\.$/, "");
-      const probe = distinctive.split(/\s+/).slice(0, 5).join(" ");
-      const at = probe ? firstVerbatimIndex(text, probe) : -1;
-      if (at < 0) continue;
-      const span =
-        claim.text.length <= 160 ? claim.text : text.slice(at, at + 120);
+    const sentences: { text: string; index: number }[] = [];
+    const sentenceRe = /[^.!?\n]+[.!?]?/g;
+    let sentenceMatch: RegExpExecArray | null;
+    while ((sentenceMatch = sentenceRe.exec(text))) {
+      const value = sentenceMatch[0].trim();
+      if (value.length < 8) continue;
+      const offset = sentenceMatch.index + sentenceMatch[0].indexOf(value);
+      sentences.push({ text: value, index: offset });
+    }
+
+    const stop = new Set([
+      "the", "and", "for", "with", "that", "this", "from", "your", "our",
+      "are", "was", "were", "has", "have", "into", "over", "after",
+      "study", "shown", "reported", "participants", "users", "people",
+    ]);
+    const stem = (word: string) =>
+      word.replace(/(ing|ed|es|s)$/, "").replace(/e$/, "");
+    const tokens = (value: string) =>
+      value
+        .toLowerCase()
+        .replace(/[^a-z0-9%]+/g, " ")
+        .split(/\s+/)
+        .filter((word) => word.length > 2 && !stop.has(word))
+        .map(stem);
+
+    const claimWords = input.claims.map((claim) => ({
+      claim,
+      words: tokens(claim.text),
+    }));
+    const ledgerScore = (sentenceTokens: string[], claimTokens: string[]) => {
+      const set = new Set(claimTokens);
+      const hits = new Set(sentenceTokens.filter((word) => set.has(word)));
+      return {
+        hits: hits.size,
+        score: hits.size / Math.max(1, claimTokens.length),
+      };
+    };
+
+    for (const sentence of sentences) {
+      const words = tokens(sentence.text);
+      if (!words.length) continue;
+      let expiredMatch = false;
+
+      // 4a. Expired or expiring ledger entries used again.
+      for (const { claim, words: cWords } of claimWords) {
+        if (claim.status !== "expired" && claim.status !== "expiring") continue;
+        const { hits, score } = ledgerScore(words, cWords);
+        if (hits < 2 || score < 0.45) continue;
+        const expiredOn = claim.expiresAt
+          ? new Date(claim.expiresAt) < today
+          : claim.status === "expired";
+        // An expiring claim is still valid until its date. Only an actually
+        // expired entry is a violation.
+        if (!expiredOn) continue;
+        // If both the claim and the sentence carry numbers, they must agree.
+        const claimNumbers: string[] = claim.text.match(/\d+/g) ?? [];
+        const sentenceNumbers: string[] = sentence.text.match(/\d+/g) ?? [];
+        if (
+          claimNumbers.length &&
+          sentenceNumbers.length &&
+          !claimNumbers.some((n) => sentenceNumbers.includes(n))
+        ) {
+          continue;
+        }
+        add(
+          makeFinding({
+            input,
+            ruleId: "R-CLAIM-03",
+            severity: "high",
+            span: sentence.text,
+            text,
+            index: sentence.index,
+            why: `This sentence matches ledger claim ${claim.claimId}${
+              expiredOn
+                ? `, which expired on ${claim.expiresAt}`
+                : `, which expires on ${claim.expiresAt}`
+            }. Expired evidence cannot support new copy, and rewording does not renew it.`,
+            fix: claim.approvedWording
+              ? claim.approvedWording
+              : "Remove the timeframe and use an approved claim from the ledger.",
+          }),
+        );
+        expiredMatch = true;
+        break;
+      }
+      if (expiredMatch) continue;
+
+      // 4b. Medical language. Cosmetics may not promise treatment.
+      const medical = sentence.text.match(
+        /\b(heals?|healing|cures?|treats?|treatment|repairs?|eczema|acne|rosacea|psoriasis|medical|therapeutic)\b/i,
+      );
+      if (medical) {
+        add(
+          makeFinding({
+            input,
+            ruleId: "R-CLAIM-02",
+            severity: "critical",
+            span: medical[0],
+            text,
+            index: sentence.index + (medical.index ?? 0),
+            why: "Lumora sells cosmetics. Treatment, healing and medical language turns a cosmetic benefit into a regulated medical claim.",
+            fix: "Describe the cosmetic appearance instead, for example 'visibly calmer-looking skin'.",
+          }),
+        );
+      }
+
+      // 4c. Performance numbers and absolutes must match an approved entry.
+      const assertion =
+        /(\d+(\.\d+)?\s?%|\b\d+\s*(out of|\/)\s*\d+|\b(in|within|after|just)\s+\d+\s+(day|week|hour)s?\b|\b(twice|three times|\d+x)\s+(as\s+)?(fast|effective|strong|powerful)\b|clinically proven|instant results?|works instantly|overnight results?|guaranteed|leading serums?|transform your skin|the only .{0,30} you will ever need)/i.test(
+          sentence.text,
+        );
+      if (!assertion) continue;
+      const supported = claimWords.some(({ claim, words: cWords }) => {
+        if (claim.status === "expired") return false;
+        const { hits, score } = ledgerScore(words, cWords);
+        return hits >= 2 && score >= 0.4;
+      });
+      if (supported) continue;
       add(
         makeFinding({
           input,
-          ruleId: "R-CLAIM-03",
-          severity: "high",
-          span,
+          ruleId: "R-CLAIM-01",
+          severity: "critical",
+          span: sentence.text,
           text,
-          index: at,
-          why: `This matches ledger claim ${claim.claimId}, which expired on ${claim.expiresAt}. Expired evidence cannot support new copy, and rewording does not renew it.`,
-          fix: claim.approvedWording
-            ? claim.approvedWording
-            : "Remove the timeframe and use an approved claim from the ledger.",
+          index: sentence.index,
+          why: "This is a performance assertion with a number or absolute wording, but it does not match any approved entry in the Claim Ledger. There is no evidence on file for it.",
+          fix: "Replace it with the nearest approved wording from the Claim Ledger, or remove the number and timeframe.",
         }),
       );
     }
   }
 
-  // 5. Contrast, for explicit hex pairs in the copy or a design swatch.
+  // 5. Tone: urgency, hype and clinical jargon.
+  {
+    const tonePatterns: { ruleId: string; re: RegExp; why: string; fix: string }[] = [
+      {
+        ruleId: "R-TONE-01",
+        re: /\b(hurry|last chance|don'?t miss|before it'?s gone|before it is gone|only [a-z0-9]+ left|buy now|act now|limited time)\b/i,
+        why: "This is pressure selling. Lumora never manufactures urgency, and the voice rule asks for a quieter register.",
+        fix: "State the availability or benefit plainly, without a countdown or a command to buy.",
+      },
+      {
+        ruleId: "R-TONE-01",
+        re: /\b(game-?changer|you need this|must-have|unbelievable|life-changing|obsessed|revolutionary|unprecedented|scientifically engineered|the only [a-z ]{0,40} you will ever need)\b/i,
+        why: "Hype language breaks the quiet-confidence voice and reads like every other skincare ad.",
+        fix: "Name the actual benefit in plain words.",
+      },
+      {
+        ruleId: "R-TONE-01",
+        re: /\b(limited stock|order in the next [a-z0-9]+|secure yours|while stocks last|last step you need)\b/i,
+        why: "This creates artificial scarcity. The voice rule asks Lumora to inform rather than pressure.",
+        fix: "Say when the product is available and let the reader decide.",
+      },
+      {
+        ruleId: "R-TONE-01",
+        re: /!{2,}/g,
+        why: "Stacked exclamation marks are explicitly excluded by the voice rule.",
+        fix: "Use a full stop.",
+      },
+      {
+        ruleId: "R-TONE-02",
+        re: /\b(cutaneous|dermal|bio-?active|matrix|optimises|optimizes|modulates|proprietary|synergy|paradigm|pathways|scientifically engineered)\b/i,
+        why: "Clinical and marketing jargon asks the reader to decode the sentence. The rule asks for the everyday word.",
+        fix: "Rewrite in plain language: say what the serum does for skin, not how the formula is described internally.",
+      },
+    ];
+    for (const tonePattern of tonePatterns) {
+      const match = text.match(tonePattern.re);
+      if (!match) continue;
+      add(
+        makeFinding({
+          input,
+          ruleId: tonePattern.ruleId,
+          severity: tonePattern.ruleId === "R-TONE-02" ? "medium" : "high",
+          span: match[0],
+          text,
+          why: tonePattern.why,
+          fix: tonePattern.fix,
+        }),
+      );
+    }
+  }
+
+  // 6. Deprecated glossary terms (for example "anti-aging").
+  for (const entry of input.glossary) {
+    if (entry.status !== "deprecated") continue;
+    const re = new RegExp(`\\b${escapeRegExp(entry.term)}\\b`, "gi");
+    const match = re.exec(text);
+    if (!match) continue;
+    // "Lumora Glow Serum" is the approved full name, not a deprecated use.
+    if (
+      entry.term.toLowerCase() === "glow serum" &&
+      /lumora\s+$/i.test(text.slice(Math.max(0, match.index - 8), match.index))
+    ) {
+      continue;
+    }
+    add(
+      makeFinding({
+        input,
+        ruleId:
+          entry.term.toLowerCase() === "anti-aging"
+            ? "R-TERM-04"
+            : entry.term.toLowerCase() === "glow serum"
+              ? "R-TERM-01"
+              : "R-TERM-02",
+        severity: "medium",
+        span: match[0],
+        text,
+        index: match.index,
+        why: `"${entry.term}" is deprecated in the glossary. ${entry.note ?? ""}`.trim(),
+        fix: entry.replacement
+          ? `Replace with "${entry.replacement}".`
+          : "Remove the term.",
+      }),
+    );
+  }
+
+  // 7. Email subject discipline.
+  if (input.channel === "email") {
+    const subject = text.match(/^Subject:\s*(.+)$/im)?.[1] ?? text.split("\n")[0];
+    if (subject && subject.length > 60) {
+      add(
+        makeFinding({
+          input,
+          ruleId: "R-CHAN-01",
+          severity: "low",
+          span: subject.trim(),
+          text,
+          why: `The subject line is ${subject.trim().length} characters. The channel rule keeps email subjects under 60 so they are not truncated in the inbox.`,
+          fix: subject.trim().slice(0, 57).trimEnd() + "...",
+          measured: `${subject.trim().length} characters`,
+          computed: false,
+        }),
+      );
+    }
+  }
+
+  // 8. Contrast, for explicit hex pairs in the copy or a design swatch.
   {
     const hexes = text.match(/#[0-9a-fA-F]{6}\b/g) ?? [];
     const pairs: { fg: string; bg: string; span: string }[] = [];
@@ -279,7 +491,7 @@ export function runFastLane(input: FastLaneInput): FastLaneResult {
     }
   }
 
-  // 6. Missing alt text.
+  // 9. Missing alt text.
   if (input.hasImage && !input.altText.trim()) {
     add(
       makeFinding({
@@ -307,6 +519,8 @@ export function runFastLane(input: FastLaneInput): FastLaneResult {
     checks: [
       { id: "banned", label: "Banned terms", ran: true },
       { id: "naming", label: "Naming & casing", ran: true },
+      { id: "claims", label: "Claim Ledger match", ran: true },
+      { id: "tone", label: "Tone & jargon", ran: true },
       {
         id: "contrast",
         label: "Contrast ratio",

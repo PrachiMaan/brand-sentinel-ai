@@ -1,0 +1,1387 @@
+{
+  "generatedAt": "2026-10-24T19:08:18.138Z",
+  "dataset": "eval/dataset.json",
+  "pipeline": "src/convex/ai/pipeline.ts",
+  "model": "gpt-4o-mini",
+  "provider": "vly-gateway",
+  "itemCount": 60,
+  "overall": {
+    "precision": 0.952,
+    "recall": 1,
+    "f1": 0.975,
+    "expected": 59,
+    "predicted": 62,
+    "matched": 59
+  },
+  "byFailureMode": [
+    {
+      "mode": "tone",
+      "expected": 10,
+      "predicted": 11,
+      "matched": 10,
+      "falsePositives": 1,
+      "precision": 0.909,
+      "recall": 1
+    },
+    {
+      "mode": "naming",
+      "expected": 11,
+      "predicted": 12,
+      "matched": 11,
+      "falsePositives": 1,
+      "precision": 0.917,
+      "recall": 1
+    },
+    {
+      "mode": "terminology",
+      "expected": 4,
+      "predicted": 4,
+      "matched": 4,
+      "falsePositives": 0,
+      "precision": 1,
+      "recall": 1
+    },
+    {
+      "mode": "unsupported_claim",
+      "expected": 12,
+      "predicted": 13,
+      "matched": 12,
+      "falsePositives": 1,
+      "precision": 0.923,
+      "recall": 1
+    },
+    {
+      "mode": "expired_claim",
+      "expected": 8,
+      "predicted": 8,
+      "matched": 8,
+      "falsePositives": 0,
+      "precision": 1,
+      "recall": 1
+    },
+    {
+      "mode": "visual",
+      "expected": 6,
+      "predicted": 6,
+      "matched": 6,
+      "falsePositives": 0,
+      "precision": 1,
+      "recall": 1
+    },
+    {
+      "mode": "accessibility",
+      "expected": 8,
+      "predicted": 8,
+      "matched": 8,
+      "falsePositives": 0,
+      "precision": 1,
+      "recall": 1
+    }
+  ],
+  "evidence": {
+    "modelFindings": 0,
+    "validEvidence": 0,
+    "validityPct": null,
+    "suppressed": 0,
+    "needsHuman": 0
+  },
+  "timing": {
+    "fastMedianMs": 0.233,
+    "fullMedianMs": 5207.5
+  },
+  "injection": {
+    "items": 2,
+    "handled": 2
+  },
+  "errors": 300,
+  "deepLane": {
+    "reviewerCalls": 300,
+    "reviewerFailures": 300,
+    "available": false
+  },
+  "findingsBySource": {
+    "deterministic": 79,
+    "model": 0
+  },
+  "failures": [],
+  "notes": [
+    "The model-backed deep lane returned no findings in this run: every reviewer call failed (gateway quota). The table above therefore measures the deterministic rule engine only. It is not a measurement of the full two-lane pipeline.",
+    "Weakest recall: tone at 100% (10/10).",
+    "Lowest precision: tone at 91%, 1 item(s) flagged without that expected mode.",
+    "0 of 0 model findings (0%) were suppressed by the verifier; 0 went to the human bucket.",
+    "300 reviewer error(s) occurred. Affected items keep their fast-lane findings and are counted as misses, not dropped from the set.",
+    "Prompt injection: 2/2 probes were treated as data while their expected findings still fired.",
+    "Matching is item-level per failure mode, not exact wording. Any finding on a clean control counts against that mode's precision, which is why clean controls dominate false positives."
+  ],
+  "items": [
+    {
+      "id": "clean-001",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 1.4864899999999892,
+      "totalMs": 6623,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "clean-002",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 0.21305900000000122,
+      "totalMs": 6609,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "clean-003",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 0.10125199999998813,
+      "totalMs": 6599,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "clean-004",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 0.07473200000001157,
+      "totalMs": 6593,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "clean-005",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 0.9236469999999883,
+      "totalMs": 6621,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "clean-006",
+      "mode": "clean",
+      "expectedRules": [],
+      "ruleIds": [],
+      "findingCount": 0,
+      "suppressed": 0,
+      "fastMs": 0.12219299999999578,
+      "totalMs": 6620,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "tone-007",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01",
+        "R-TONE-01",
+        "R-TERM-03"
+      ],
+      "findingCount": 3,
+      "suppressed": 0,
+      "fastMs": 0.498258000000007,
+      "totalMs": 6620,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "tone-008",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.10383600000000115,
+      "totalMs": 6620,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "tone-009",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-02"
+      ],
+      "ruleIds": [
+        "R-TONE-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.09077699999998856,
+      "totalMs": 6610,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "tone-010",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01",
+        "R-TONE-01"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 1.6540020000000055,
+      "totalMs": 6598,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+      ]
+    },
+    {
+      "id": "tone-011",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01",
+        "R-TONE-01"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.42815299999983836,
+      "totalMs": 6227,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+      ]
+    },
+    {
+      "id": "tone-012",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.22366599999986647,
+      "totalMs": 6283,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "tone-013",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01",
+        "R-TONE-02"
+      ],
+      "ruleIds": [
+        "R-TONE-01",
+        "R-TONE-02"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.2386580000002141,
+      "totalMs": 6218,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+      ]
+    },
+    {
+      "id": "tone-014",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-02"
+      ],
+      "ruleIds": [
+        "R-TONE-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.14286400000037247,
+      "totalMs": 6215,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+      ]
+    },
+    {
+      "id": "tone-015",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.1630249999998341,
+      "totalMs": 6245,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "tone-016",
+      "mode": "tone",
+      "expectedRules": [
+        "R-TONE-01"
+      ],
+      "ruleIds": [
+        "R-TONE-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.14477700000043114,
+      "totalMs": 6246,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-017",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.16651999999976397,
+      "totalMs": 6245,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-018",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.14537800000016432,
+      "totalMs": 6234,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-019",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-03"
+      ],
+      "ruleIds": [
+        "R-TERM-03",
+        "R-TERM-03"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.22511800000029325,
+      "totalMs": 6235,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-020",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-04"
+      ],
+      "ruleIds": [
+        "R-TERM-04"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.1447470000002795,
+      "totalMs": 6233,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+      ]
+    },
+    {
+      "id": "naming-021",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01",
+        "R-TERM-01"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.6392799999994168,
+      "totalMs": 6184,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17521s."
+      ]
+    },
+    {
+      "id": "naming-022",
+      "mode": "naming",
+      "expectedRules": [
+        "R-CHAN-01",
+        "R-TERM-03"
+      ],
+      "ruleIds": [
+        "R-TERM-03",
+        "R-TERM-03",
+        "R-TERM-03",
+        "R-CHAN-01"
+      ],
+      "findingCount": 4,
+      "suppressed": 0,
+      "fastMs": 0.5759139999991021,
+      "totalMs": 5196,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s.",
+        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s."
+      ]
+    },
+    {
+      "id": "naming-023",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-03"
+      ],
+      "ruleIds": [
+        "R-TERM-03",
+        "R-TERM-03",
+        "R-TERM-03"
+      ],
+      "findingCount": 3,
+      "suppressed": 0,
+      "fastMs": 0.48129299999891373,
+      "totalMs": 5188,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s."
+      ]
+    },
+    {
+      "id": "naming-024",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 1.1700660000005882,
+      "totalMs": 2211,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-025",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.2637859999995271,
+      "totalMs": 2219,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "naming-026",
+      "mode": "naming",
+      "expectedRules": [
+        "R-TERM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-01",
+        "R-TERM-01"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.3162339999998949,
+      "totalMs": 2240,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-027",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.19666499999948428,
+      "totalMs": 2239,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-028",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.1419530000002851,
+      "totalMs": 2220,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-029",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.15996999999879336,
+      "totalMs": 2225,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-030",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-02"
+      ],
+      "ruleIds": [
+        "R-CLAIM-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.23696600000039325,
+      "totalMs": 2243,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-031",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-02"
+      ],
+      "ruleIds": [
+        "R-CLAIM-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.38904399999955785,
+      "totalMs": 6198,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
+        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-032",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.4676309999995283,
+      "totalMs": 6189,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
+        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
+        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-033",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.24495799999931478,
+      "totalMs": 5202,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-034",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-TERM-02",
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-02",
+        "R-CLAIM-01",
+        "R-TONE-01"
+      ],
+      "findingCount": 3,
+      "suppressed": 0,
+      "fastMs": 0.43307999999888125,
+      "totalMs": 5205,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-035",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-TERM-02",
+        "R-CLAIM-02"
+      ],
+      "ruleIds": [
+        "R-TERM-02",
+        "R-CLAIM-02"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.2538009999989299,
+      "totalMs": 5205,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+      ]
+    },
+    {
+      "id": "unsupported_claim-036",
+      "mode": "unsupported_claim",
+      "expectedRules": [
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-CLAIM-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.183735999999044,
+      "totalMs": 5210,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+      ]
+    },
+    {
+      "id": "expired_claim-037",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.20230399999854853,
+      "totalMs": 2231,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "expired_claim-038",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.19220800000039162,
+      "totalMs": 2237,
+      "errors": [
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "expired_claim-039",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.1342510000031325,
+      "totalMs": 2238,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "expired_claim-040",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.3912080000009155,
+      "totalMs": 2234,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "expired_claim-041",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.36305500000162283,
+      "totalMs": 6197,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
+        "Claims: review:claims failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
+        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+      ]
+    },
+    {
+      "id": "expired_claim-042",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.18930399999953806,
+      "totalMs": 6197,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+      ]
+    },
+    {
+      "id": "expired_claim-043",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.14767199999914737,
+      "totalMs": 2286,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17512s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "expired_claim-044",
+      "mode": "expired_claim",
+      "expectedRules": [
+        "R-CLAIM-03"
+      ],
+      "ruleIds": [
+        "R-CLAIM-03"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.1890029999995022,
+      "totalMs": 2276,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "visual-045",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.515903999999864,
+      "totalMs": 5236,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+      ]
+    },
+    {
+      "id": "visual-046",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.266379999997298,
+      "totalMs": 3271,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17511s."
+      ]
+    },
+    {
+      "id": "visual-047",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.2232350000012957,
+      "totalMs": 2286,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "visual-048",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.22110199999951874,
+      "totalMs": 2292,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "visual-049",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.22856299999693874,
+      "totalMs": 2296,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "visual-050",
+      "mode": "visual",
+      "expectedRules": [
+        "R-VIS-01"
+      ],
+      "ruleIds": [
+        "R-VIS-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.3282330000001821,
+      "totalMs": 2292,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "accessibility-051",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01"
+      ],
+      "ruleIds": [
+        "R-A11Y-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.6770360000009532,
+      "totalMs": 6201,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
+        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+      ]
+    },
+    {
+      "id": "accessibility-052",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01"
+      ],
+      "ruleIds": [
+        "R-A11Y-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.3054290000000037,
+      "totalMs": 6198,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+      ]
+    },
+    {
+      "id": "accessibility-053",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-02"
+      ],
+      "ruleIds": [
+        "R-A11Y-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.2761740000023565,
+      "totalMs": 6198,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
+        "Accessibility: review:accessibility failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
+        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+      ]
+    },
+    {
+      "id": "accessibility-054",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01",
+        "R-A11Y-02"
+      ],
+      "ruleIds": [
+        "R-A11Y-01",
+        "R-A11Y-02"
+      ],
+      "findingCount": 2,
+      "suppressed": 0,
+      "fastMs": 0.46593900000152644,
+      "totalMs": 5196,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s."
+      ]
+    },
+    {
+      "id": "accessibility-055",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01"
+      ],
+      "ruleIds": [
+        "R-A11Y-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.16505799999868032,
+      "totalMs": 2217,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "accessibility-056",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01"
+      ],
+      "ruleIds": [
+        "R-A11Y-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.17278900000019348,
+      "totalMs": 2254,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "accessibility-057",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-02"
+      ],
+      "ruleIds": [
+        "R-A11Y-02"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.6610519999994722,
+      "totalMs": 2224,
+      "errors": [
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "accessibility-058",
+      "mode": "accessibility",
+      "expectedRules": [
+        "R-A11Y-01"
+      ],
+      "ruleIds": [
+        "R-A11Y-01"
+      ],
+      "findingCount": 1,
+      "suppressed": 0,
+      "fastMs": 0.17813699999896926,
+      "totalMs": 2230,
+      "errors": [
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "injection-059",
+      "mode": "injection",
+      "expectedRules": [
+        "R-TERM-02",
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-02",
+        "R-TERM-02",
+        "R-TERM-02",
+        "R-CLAIM-02",
+        "R-CLAIM-01"
+      ],
+      "findingCount": 5,
+      "suppressed": 0,
+      "fastMs": 0.6276519999992161,
+      "totalMs": 2236,
+      "errors": [
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    },
+    {
+      "id": "injection-060",
+      "mode": "injection",
+      "expectedRules": [
+        "R-TERM-01",
+        "R-TERM-02",
+        "R-CLAIM-01"
+      ],
+      "ruleIds": [
+        "R-TERM-02",
+        "R-TERM-01",
+        "R-CLAIM-01",
+        "R-TERM-03",
+        "R-CHAN-01"
+      ],
+      "findingCount": 5,
+      "suppressed": 0,
+      "fastMs": 1.4682339999999385,
+      "totalMs": 2251,
+      "errors": [
+        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
+        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17506s.",
+        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+      ]
+    }
+  ]
+}

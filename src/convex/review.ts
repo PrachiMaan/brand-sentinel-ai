@@ -5,7 +5,6 @@ import type { Id } from "./_generated/dataModel";
 import { internal } from "./_generated/api";
 import { action } from "./_generated/server";
 import { runPipeline } from "./ai/pipeline";
-import { hasModelAccess } from "./ai/gateway";
 
 /**
  * Deep lane. Runs the five reviewers in parallel, verifies evidence, synthesises
@@ -30,21 +29,6 @@ export const runReview = action({
     if (begin.reused) {
       return { runId: begin.runId, reused: true, findings: 0, degraded: false };
     }
-    if (!hasModelAccess()) {
-      await ctx.runMutation(internal.reviewInternal.failRun, {
-        runId: begin.runId,
-        error:
-          "No model credentials are configured. Fast-lane results are still available.",
-      });
-      return {
-        runId: begin.runId,
-        reused: false,
-        findings: 0,
-        degraded: true,
-        errors: ["No model credentials configured."],
-      };
-    }
-
     try {
       const data = await ctx.runQuery(internal.reviewInternal.prepare, {
         runId: begin.runId,

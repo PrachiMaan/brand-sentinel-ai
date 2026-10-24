@@ -220,6 +220,11 @@ export async function completeJSON<T>(args: CompleteArgs<T>): Promise<{
       const latencyMs = Date.now() - attemptStarted;
       totalMs += latencyMs;
       lastError = error instanceof Error ? error.message : String(error);
+      // A quota or credential failure will not be fixed by a second attempt.
+      // Fail immediately so the UI reaches its degraded state sooner.
+      const permanent = /budget is exhausted|rate limit exceeded|unauthori[sz]ed|forbidden|\b401\b|\b403\b/i.test(
+        lastError,
+      );
       await args.onLog?.({
         purpose: attempt === 1 ? args.purpose : `${args.purpose}:repair`,
         provider: prov,
@@ -230,6 +235,7 @@ export async function completeJSON<T>(args: CompleteArgs<T>): Promise<{
         error: lastError.slice(0, 300),
         redactions: args.redactions ?? 0,
       });
+      if (permanent) break;
     }
   }
 

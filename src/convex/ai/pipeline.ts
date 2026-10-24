@@ -70,9 +70,11 @@ export async function runPipeline(
   } = {},
 ): Promise<PipelineResult> {
   const totalStart = Date.now();
+  const clock = () =>
+    typeof performance !== "undefined" ? performance.now() : Date.now();
   const guidelineText = options.guidelineText ?? GUIDELINE_DOCUMENT;
 
-  const fastStart = Date.now();
+  const fastStart = clock();
   const fast = runFastLane({
     text: input.text,
     channel: input.channel,
@@ -100,7 +102,7 @@ export async function runPipeline(
       guidelineText,
     }),
   );
-  const fastMs = Date.now() - fastStart;
+  const fastMs = clock() - fastStart;
 
   const redaction = redactPII(input.text);
   const redactedAlt = redactPII(input.altText);
