@@ -12,7 +12,14 @@ import "./index.css";
 // Lazy load route components for better code splitting
 const Landing = lazy(() => import("./pages/Landing.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
-const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const Demo = lazy(() => import("./pages/Demo.tsx"));
+const AppDashboard = lazy(() => import("./pages/AppDashboard.tsx"));
+const Submit = lazy(() => import("./pages/Submit.tsx"));
+const Review = lazy(() => import("./pages/Review.tsx"));
+const Audit = lazy(() => import("./pages/Audit.tsx"));
+const Rulebook = lazy(() => import("./pages/Rulebook.tsx"));
+const RuleHealth = lazy(() => import("./pages/RuleHealth.tsx"));
+const Reliability = lazy(() => import("./pages/Reliability.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
@@ -120,15 +127,67 @@ createRoot(document.getElementById("root")!).render(
           <Suspense fallback={<RouteLoading />}>
             <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/demo" element={<Demo />} />
               <Route
                 path="/auth"
-                element={<AuthPage redirectAfterAuth="/dashboard" />}
+                element={<AuthPage redirectAfterAuth="/app" />}
               />
               <Route
-                path="/dashboard"
+                path="/app"
                 element={
-                  <RequireAuth>
-                    <Dashboard />
+                  <RequireAuth
+                    title="Sign in to open the review queue"
+                    description="The Lumora demo workspace is one click away."
+                  >
+                    <AppDashboard />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/submit"
+                element={
+                  <RequireAuth title="Sign in to submit content">
+                    <Submit />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/review/:id"
+                element={
+                  <RequireAuth title="Sign in to open this review">
+                    <Review />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/audit"
+                element={
+                  <RequireAuth title="Sign in to read the audit trail">
+                    <Audit />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/rulebook"
+                element={
+                  <RequireAuth title="Sign in to open the rulebook">
+                    <Rulebook />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/rules"
+                element={
+                  <RequireAuth title="Sign in to see rule health">
+                    <RuleHealth />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/reliability"
+                element={
+                  <RequireAuth title="Sign in to see reliability data">
+                    <Reliability />
                   </RequireAuth>
                 }
               />
