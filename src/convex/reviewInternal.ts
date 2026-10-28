@@ -11,13 +11,20 @@ import type { Finding } from "./lib/types";
 import { GUIDELINE_DOCUMENT } from "./lib/lumora";
 
 export const beginReview = internalMutation({
-  args: { submissionId: v.id("submissions") },
+  args: {
+    submissionId: v.id("submissions"),
+    /** Set only by the API path, which authenticates with a key instead of a session. */
+    apiKeyId: v.optional(v.id("apiKeys")),
+  },
   handler: async (ctx, args) => {
-    const session = await requireRole(ctx, ["creator", "admin"]);
+    const apiKey = args.apiKeyId ? await ctx.db.get(args.apiKeyId) : null;
+    const session = apiKey ? null : await requireRole(ctx, ["creator", "admin"]);
     const submission = await ctx.db.get(args.submissionId);
-    if (!submission || submission.workspaceId !== session.workspace._id) {
+    const workspaceId = apiKey?.workspaceId ?? session!.workspace._id;
+    if (!submission || submission.workspaceId !== workspaceId) {
       throw new Error("Submission not found.");
     }
+    if (apiKey?.revokedAt) throw new Error("That API key is revoked.");
     if (["approved", "receipt_exported", "rejected"].includes(submission.status)) {
       throw new Error("This submission is closed. Start a new version instead.");
     }
@@ -66,9 +73,9 @@ export const beginReview = internalMutation({
     });
     await appendAudit(ctx, {
       workspaceId: submission.workspaceId,
-      actorId: session.userId,
-      actorRole: session.membership.role,
-      actorName: session.membership.displayName,
+      actorId: apiKey ? `api:${apiKey._id}` : session!.userId,
+      actorRole: apiKey ? apiKey.scope : session!.membership.role,
+      actorName: apiKey ? `API key ${apiKey.prefix}` : session!.membership.displayName,
       action: "review.started",
       entityType: "run",
       entityId: runId,
@@ -84,17 +91,21 @@ export const beginReview = internalMutation({
 });
 
 export const prepare = internalQuery({
-  args: { runId: v.id("runs") },
+  args: { runId: v.id("runs"), apiKeyId: v.optional(v.id("apiKeys")) },
   handler: async (ctx, args) => {
-    const session = await requireMember(ctx);
     const run = await ctx.db.get(args.runId);
-    if (!run || run.workspaceId !== session.workspace._id) {
-      throw new Error("Run not found.");
+    if (!run) throw new Error("Run not found.");
+    if (args.apiKeyId) {
+      const key = await ctx.db.get(args.apiKeyId);
+      if (!key || key.workspaceId !== run.workspaceId) throw new Error("Run not found.");
+    } else {
+      const session = await requireMember(ctx);
+      if (run.workspaceId !== session.workspace._id) throw new Error("Run not found.");
     }
     const submission = await ctx.db.get(run.submissionId);
     const version = await ctx.db.get(run.versionId);
     if (!submission || !version) throw new Error("Run data is incomplete.");
-    const brand = await brandState(ctx, session.workspace._id);
+    const brand = await brandState(ctx, run.workspaceId);
     if (!brand.pack) throw new Error("No published brand pack in this workspace.");
 
     let imagePalette: { hex: string; share: number }[] = [];
@@ -118,12 +129,14 @@ export const prepare = internalQuery({
         altText: version.altText,
         contentHash: version.contentHash,
       },
+      sampleId: submission.sampleId ?? null,
+      pageCount: version.pageCount ?? 1,
       input: {
         text: version.text,
         channel: version.channel,
         audience: version.audience,
         altText: version.altText,
-        hasImage: Boolean(submission.imageStorageId),
+        hasImage: Boolean(submission.imageStorageId) || (version.pageCount ?? 1) > 1,
         design:
           submission.designTextColor && submission.designBgColor
             ? {
@@ -145,6 +158,7 @@ export const prepare = internalQuery({
           description: r.description,
           severity: r.severity,
           sourceExcerpt: r.sourceExcerpt,
+          config: r.config,
         })),
         claims: brand.claims.map((c) => ({
           claimId: c.claimId,
@@ -203,12 +217,25 @@ export const saveResults = internalMutation({
     model: v.string(),
     error: v.optional(v.string()),
     progressJson: v.string(),
+    source: v.string(),
+    degradedCause: v.optional(v.string()),
+    apiKeyId: v.optional(v.id("apiKeys")),
   },
   handler: async (ctx, args) => {
-    const session = await requireMember(ctx);
     const run = await ctx.db.get(args.runId);
-    if (!run || run.workspaceId !== session.workspace._id) {
-      throw new Error("Run not found.");
+    if (!run) throw new Error("Run not found.");
+    let actorId = "system";
+    let actorRole = "system";
+    let actorName = "BrandSentinel";
+    if (args.apiKeyId) {
+      const key = await ctx.db.get(args.apiKeyId);
+      if (!key || key.workspaceId !== run.workspaceId) throw new Error("Run not found.");
+      actorId = `api:${key._id}`;
+      actorRole = key.scope;
+      actorName = `API key ${key.prefix}`;
+    } else {
+      const session = await requireMember(ctx);
+      if (run.workspaceId !== session.workspace._id) throw new Error("Run not found.");
     }
     const existing = await ctx.db
       .query("findings")
@@ -242,6 +269,10 @@ export const saveResults = internalMutation({
         claimId: f.claimId,
         intentScore: f.intentScore,
         fixRisk: f.fixRisk,
+        page: f.page,
+        bbox: f.bbox,
+        measured: f.measured,
+        threshold: f.threshold,
         order: index,
         createdAt: Date.now(),
       });
@@ -260,6 +291,8 @@ export const saveResults = internalMutation({
       brandFit: args.brandFit,
       model: args.model,
       error: args.error,
+      source: args.source,
+      degradedCause: args.degradedCause,
       progress: JSON.parse(args.progressJson),
     });
     const submission = await ctx.db.get(run.submissionId);
@@ -274,9 +307,9 @@ export const saveResults = internalMutation({
     }
     await appendAudit(ctx, {
       workspaceId: run.workspaceId,
-      actorId: session.userId,
-      actorRole: "system",
-      actorName: "BrandSentinel",
+      actorId,
+      actorRole,
+      actorName,
       action: args.error ? "review.degraded" : "review.completed",
       entityType: "run",
       entityId: run._id,
@@ -286,10 +319,158 @@ export const saveResults = internalMutation({
         verifier: JSON.parse(args.verifierJson),
         brandFit: args.brandFit,
         model: args.model,
+        source: args.source,
+        degradedCause: args.degradedCause ?? null,
         error: args.error ?? null,
       },
     });
     return { findings: findings.length };
+  },
+});
+
+export const probeAccess = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const session = await requireRole(ctx, ["admin", "approver"]);
+    return { workspaceId: session.workspace._id };
+  },
+});
+
+export const findCache = internalQuery({
+  args: { workspaceId: v.id("workspaces"), contentHash: v.string() },
+  handler: async (ctx, args) => {
+    const row = await ctx.db
+      .query("cachedRuns")
+      .withIndex("by_hash", (q) =>
+        q.eq("workspaceId", args.workspaceId).eq("contentHash", args.contentHash),
+      )
+      .first();
+    if (!row) return null;
+    return {
+      id: row._id,
+      findingsJson: row.findingsJson,
+      verifierJson: row.verifierJson,
+      countsJson: row.countsJson,
+      summary: row.summary,
+      brandFit: row.brandFit,
+      model: row.model,
+      createdAt: row.createdAt,
+    };
+  },
+});
+
+/**
+ * Only seeded sample content may be cached. The check is on the submission's
+ * sampleId, so user-entered copy can never be replayed from a stored run.
+ */
+export const cacheRun = internalMutation({
+  args: {
+    workspaceId: v.id("workspaces"),
+    contentHash: v.string(),
+    sampleId: v.string(),
+    findingsJson: v.string(),
+    verifierJson: v.string(),
+    countsJson: v.string(),
+    summary: v.string(),
+    brandFit: v.number(),
+    model: v.string(),
+    sourceRunId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("cachedRuns")
+      .withIndex("by_hash", (q) =>
+        q.eq("workspaceId", args.workspaceId).eq("contentHash", args.contentHash),
+      )
+      .first();
+    if (existing) {
+      await ctx.db.patch(existing._id, { ...args, createdAt: Date.now() });
+      return existing._id;
+    }
+    return await ctx.db.insert("cachedRuns", { ...args, createdAt: Date.now() });
+  },
+});
+
+export const recordModelState = internalMutation({
+  args: {
+    workspaceId: v.id("workspaces"),
+    ok: v.boolean(),
+    cause: v.optional(v.string()),
+    error: v.optional(v.string()),
+    model: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    const existing = await ctx.db
+      .query("modelState")
+      .withIndex("by_workspace", (q) => q.eq("workspaceId", args.workspaceId))
+      .first();
+    if (!existing) {
+      await ctx.db.insert("modelState", {
+        workspaceId: args.workspaceId,
+        consecutiveFailures: args.ok ? 0 : 1,
+        openedUntil: undefined,
+        lastSuccessAt: args.ok ? now : undefined,
+        lastErrorAt: args.ok ? undefined : now,
+        lastError: args.error,
+        lastCause: args.cause,
+        lastModel: args.model,
+        updatedAt: now,
+      });
+      return;
+    }
+    await ctx.db.patch(existing._id, {
+      consecutiveFailures: args.ok ? 0 : existing.consecutiveFailures + 1,
+      openedUntil:
+        !args.ok && existing.consecutiveFailures + 1 >= 3
+          ? now + 90_000
+          : args.ok
+            ? undefined
+            : existing.openedUntil,
+      lastSuccessAt: args.ok ? now : existing.lastSuccessAt,
+      lastErrorAt: args.ok ? existing.lastErrorAt : now,
+      lastError: args.ok ? existing.lastError : (args.error ?? existing.lastError),
+      lastCause: args.ok ? existing.lastCause : (args.cause ?? existing.lastCause),
+      lastModel: args.model ?? existing.lastModel,
+      updatedAt: now,
+    });
+  },
+});
+
+/** A run that has not finished in three minutes is stale, not in progress. */
+export const sweepStuckRun = internalMutation({
+  args: { submissionId: v.id("submissions") },
+  handler: async (ctx, args) => {
+    const run = await ctx.db
+      .query("runs")
+      .withIndex("by_submission", (q) => q.eq("submissionId", args.submissionId))
+      .order("desc")
+      .first();
+    if (!run) return { swept: false, runId: null };
+    if (!["queued", "running"].includes(run.status)) return { swept: false, runId: run._id };
+    if (Date.now() - run.startedAt < 3 * 60 * 1000) return { swept: false, runId: run._id };
+    await ctx.db.patch(run._id, {
+      status: "failed",
+      finishedAt: Date.now(),
+      degradedCause: "timeout",
+      error:
+        "This run stopped reporting progress for three minutes. It was marked failed so the submission could be retried.",
+    });
+    const submission = await ctx.db.get(run.submissionId);
+    if (submission && submission.status === "ai_review") {
+      await ctx.db.patch(submission._id, { status: "findings_ready", updatedAt: Date.now() });
+    }
+    await appendAudit(ctx, {
+      workspaceId: run.workspaceId,
+      actorId: "system",
+      actorRole: "system",
+      actorName: "BrandSentinel watchdog",
+      action: "review.stuck_failed",
+      entityType: "run",
+      entityId: run._id,
+      payload: { timeoutMs: 180_000 },
+    });
+    return { swept: true, runId: run._id };
   },
 });
 

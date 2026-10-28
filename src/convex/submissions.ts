@@ -8,10 +8,11 @@ import {
   requireRole,
 } from "./helpers";
 import { canonicalJson, sha256Hex } from "./lib/sha256";
-import { REVIEWER_META, STATUS_LABEL } from "./lib/types";
+import { MAX_TEXT_CHARS, REVIEWER_META, STATUS_LABEL } from "./lib/types";
 import { GUIDELINE_DOCUMENT } from "./lib/lumora";
 
 const CHANNELS = ["instagram", "email", "linkedin", "landing", "print"] as const;
+export const TEAMS = ["Social", "Email", "Web", "Paid"] as const;
 
 function cleanTitle(title: string) {
   const t = title.trim();
@@ -41,6 +42,10 @@ export const create = mutation({
     audience: v.string(),
     text: v.string(),
     altText: v.string(),
+    team: v.optional(v.string()),
+    sampleId: v.optional(v.string()),
+    kind: v.optional(v.string()),
+    docName: v.optional(v.string()),
     designTextColor: v.optional(v.string()),
     designBgColor: v.optional(v.string()),
     imageStorageId: v.optional(v.id("_storage")),
@@ -51,13 +56,38 @@ export const create = mutation({
     const session = await requireRole(ctx, ["creator", "admin"]);
     const text = args.text.trim();
     if (!text) throw new Error("Add some content before submitting.");
-    if (text.length > 40000) {
-      throw new Error("Content is over 40,000 characters. Split it into a document.");
+    if (text.length > MAX_TEXT_CHARS) {
+      throw new Error(
+        `Content is ${text.length.toLocaleString()} characters. The limit is ${MAX_TEXT_CHARS.toLocaleString()}; split it into a document.`,
+      );
     }
     if (!CHANNELS.includes(args.channel as (typeof CHANNELS)[number])) {
       throw new Error("Choose a valid channel.");
     }
+    if (args.team && !TEAMS.includes(args.team as (typeof TEAMS)[number])) {
+      throw new Error("Choose a valid team.");
+    }
     const now = Date.now();
+    const hash = contentHash({ ...args, text });
+
+    // Double-click guard: an identical submission from the same person in the
+    // last minute returns the row that already exists instead of creating one.
+    const dupe = await ctx.db
+      .query("versions")
+      .withIndex("by_submission")
+      .collect()
+      .then((rows) =>
+        rows
+          .filter(
+            (r) =>
+              r.contentHash === hash &&
+              r.createdBy === session.userId &&
+              now - r.createdAt < 60_000,
+          )
+          .sort((a, b) => b.createdAt - a.createdAt)[0],
+      );
+    if (dupe) return dupe.submissionId;
+
     const submissionId = await ctx.db.insert("submissions", {
       workspaceId: session.workspace._id,
       creatorId: session.userId,
@@ -67,6 +97,10 @@ export const create = mutation({
       audience: args.audience.trim() || "General audience",
       currentVersion: 1,
       status: "draft",
+      team: args.team ?? "Social",
+      sampleId: args.sampleId,
+      kind: args.kind ?? (args.imageStorageId ? "image" : "text"),
+      docName: args.docName,
       imageStorageId: args.imageStorageId,
       imageName: args.imageName,
       altText: args.altText.trim(),
@@ -85,7 +119,7 @@ export const create = mutation({
       channel: args.channel,
       audience: args.audience.trim() || "General audience",
       altText: args.altText.trim(),
-      contentHash: contentHash({ ...args, text }),
+      contentHash: hash,
       createdAt: now,
       createdBy: session.userId,
     });
@@ -100,10 +134,34 @@ export const create = mutation({
       payload: {
         title: cleanTitle(args.title),
         channel: args.channel,
+        team: args.team ?? "Social",
+        sampleId: args.sampleId ?? null,
         version: 1,
-        contentHash: contentHash({ ...args, text }),
+        contentHash: hash,
       },
     });
+
+    if (args.sampleId) {
+      const progress = await ctx.db
+        .query("demoProgress")
+        .withIndex("by_user", (q) =>
+          q.eq("workspaceId", session.workspace._id).eq("userId", session.userId),
+        )
+        .first();
+      if (progress) {
+        await ctx.db.patch(progress._id, {
+          sampleLoadedAt: progress.sampleLoadedAt ?? now,
+          updatedAt: now,
+        });
+      } else {
+        await ctx.db.insert("demoProgress", {
+          workspaceId: session.workspace._id,
+          userId: session.userId,
+          sampleLoadedAt: now,
+          updatedAt: now,
+        });
+      }
+    }
     return submissionId;
   },
 });
@@ -274,8 +332,28 @@ export const decideFinding = mutation({
       submissionId: finding.submissionId,
       findingId: finding.findingId,
       seeded: false,
+      synthetic: false,
       createdAt: now,
     });
+    const progress = await ctx.db
+      .query("demoProgress")
+      .withIndex("by_user", (q) =>
+        q.eq("workspaceId", finding.workspaceId).eq("userId", session.userId),
+      )
+      .first();
+    if (progress) {
+      await ctx.db.patch(progress._id, {
+        findingDecidedAt: progress.findingDecidedAt ?? now,
+        updatedAt: now,
+      });
+    } else {
+      await ctx.db.insert("demoProgress", {
+        workspaceId: finding.workspaceId,
+        userId: session.userId,
+        findingDecidedAt: now,
+        updatedAt: now,
+      });
+    }
     const submission = await ctx.db.get(finding.submissionId);
     if (submission && submission.status === "findings_ready") {
       await ctx.db.patch(submission._id, {
@@ -329,7 +407,21 @@ export const escalateLegal = mutation({
       submissionId: finding.submissionId,
       findingId: finding.findingId,
       seeded: false,
+      synthetic: false,
       createdAt: now,
+    });
+    await ctx.db.insert("legalCases", {
+      workspaceId: finding.workspaceId,
+      submissionId: finding.submissionId,
+      findingDocId: finding._id,
+      findingId: finding.findingId,
+      ruleId: finding.ruleId,
+      claimId: finding.claimId,
+      excerpt: finding.spanText.slice(0, 400),
+      reason: args.note?.trim() || "Escalated to Legal by approver",
+      status: "open",
+      openedBy: session.membership.displayName,
+      openedAt: now,
     });
     await appendAudit(ctx, {
       workspaceId: finding.workspaceId,
@@ -408,6 +500,25 @@ export const approve = mutation({
       status: "approved",
       updatedAt: now,
     });
+    const progress = await ctx.db
+      .query("demoProgress")
+      .withIndex("by_user", (q) =>
+        q.eq("workspaceId", submission.workspaceId).eq("userId", session.userId),
+      )
+      .first();
+    if (progress) {
+      await ctx.db.patch(progress._id, {
+        approvedAt: progress.approvedAt ?? now,
+        updatedAt: now,
+      });
+    } else {
+      await ctx.db.insert("demoProgress", {
+        workspaceId: submission.workspaceId,
+        userId: session.userId,
+        approvedAt: now,
+        updatedAt: now,
+      });
+    }
     await appendAudit(ctx, {
       workspaceId: submission.workspaceId,
       actorId: session.userId,
@@ -469,10 +580,27 @@ export const markReceiptExported = mutation({
     if (submission.status !== "approved") {
       throw new Error("A receipt is only available for an approved submission.");
     }
+    const stamp = Date.now();
     await ctx.db.patch(submission._id, {
       status: "receipt_exported",
-      updatedAt: Date.now(),
+      updatedAt: stamp,
     });
+    const progress = await ctx.db
+      .query("demoProgress")
+      .withIndex("by_user", (q) =>
+        q.eq("workspaceId", submission.workspaceId).eq("userId", session.userId),
+      )
+      .first();
+    if (progress) {
+      await ctx.db.patch(progress._id, { receiptAt: progress.receiptAt ?? stamp, updatedAt: stamp });
+    } else {
+      await ctx.db.insert("demoProgress", {
+        workspaceId: submission.workspaceId,
+        userId: session.userId,
+        receiptAt: stamp,
+        updatedAt: stamp,
+      });
+    }
     await appendAudit(ctx, {
       workspaceId: submission.workspaceId,
       actorId: session.userId,
@@ -614,6 +742,8 @@ export const get = query({
             droppedLog: run.droppedLog ? JSON.parse(run.droppedLog) : [],
             error: run.error ?? null,
             model: run.model ?? null,
+            source: run.source ?? "live",
+            degradedCause: run.degradedCause ?? null,
             version: run.version,
           }
         : null,
@@ -641,6 +771,10 @@ export const get = query({
           claimId: f.claimId ?? null,
           intentScore: f.intentScore ?? null,
           fixRisk: f.fixRisk ?? null,
+          page: f.page ?? null,
+          bbox: f.bbox ?? null,
+          measured: f.measured ?? null,
+          threshold: f.threshold ?? null,
         })),
       decisions: decisions.map((d) => ({
         findingId: d.findingId,

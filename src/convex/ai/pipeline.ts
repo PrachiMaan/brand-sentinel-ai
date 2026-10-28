@@ -11,8 +11,8 @@ import type { SeedClaim, SeedRule } from "../lib/lumora";
 import { GUIDELINE_DOCUMENT } from "../lib/lumora";
 import { systemPrompt, userPrompt } from "../lib/prompts";
 import type { ReviewContext } from "../lib/prompts";
-import { completeJSON, modelFor, providerName } from "./gateway";
-import type { CallLog } from "./gateway";
+import { completeJSON, errorCodeOf, LIMITS, modelFor, providerName } from "./gateway";
+import type { CallLog, GatewayErrorCode } from "./gateway";
 
 export type PipelineRule = SeedRule;
 export type PipelineClaim = SeedClaim & { expiresAt?: string | null };
@@ -55,6 +55,7 @@ export type PipelineResult = {
   model: string;
   provider: string;
   errors: string[];
+  degradedCause: GatewayErrorCode | null;
   redactions: number;
   progress: { reviewer: string; status: string; ms?: number }[];
 };
@@ -131,10 +132,19 @@ export async function runPipeline(
   const progress: { reviewer: string; status: string; ms?: number }[] = [];
   const errors: string[] = [];
   const modelFindings: (ModelFinding & { reviewer: ReviewerId })[] = [];
+  const codes = new Map<GatewayErrorCode, number>();
   const deepStart = Date.now();
+  let callsStarted = 0;
 
   const tasks = REVIEWERS.map(async (reviewer) => {
     const started = Date.now();
+    if (callsStarted >= LIMITS.maxCallsPerReview) {
+      errors.push(`${REVIEWER_META[reviewer].label}: skipped, per-run call budget reached.`);
+      progress.push({ reviewer, status: "skipped" });
+      await options.onProgress?.({ reviewer, status: "skipped" });
+      return;
+    }
+    callsStarted += 1;
     progress.push({ reviewer, status: "running" });
     await options.onProgress?.({ reviewer, status: "running" });
     try {
@@ -168,6 +178,8 @@ export async function runPipeline(
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
+      const code = errorCodeOf(error);
+      codes.set(code, (codes.get(code) ?? 0) + 1);
       errors.push(`${REVIEWER_META[reviewer].label}: ${message}`);
       progress.push({
         reviewer,
@@ -184,6 +196,10 @@ export async function runPipeline(
 
   await Promise.all(tasks);
   const deepMs = Date.now() - deepStart;
+  let degradedCause: GatewayErrorCode | null = null;
+  for (const [code, count] of codes) {
+    if (!degradedCause || count > (codes.get(degradedCause) ?? 0)) degradedCause = code;
+  }
 
   const verified = verifyFindings({
     raw: modelFindings,
@@ -212,7 +228,57 @@ export async function runPipeline(
     model: modelFor("fast"),
     provider: providerName(),
     errors,
+    degradedCause,
     redactions: redaction.count,
     progress,
+  };
+}
+
+/**
+ * Deterministic-only pass. Used by the eval runner and as the last-resort
+ * fallback when the model is unavailable: the product still produces a report.
+ */
+export function runDeterministic(
+  input: PipelineInput,
+  brand: PipelineBrand,
+  options: { guidelineText?: string; today?: string } = {},
+): Pick<PipelineResult, "findings" | "brandFit" | "counts" | "summary" | "fastMs"> {
+  const clock = () =>
+    typeof performance !== "undefined" ? performance.now() : Date.now();
+  const started = clock();
+  const fast = runFastLane({
+    text: input.text,
+    channel: input.channel,
+    altText: input.altText,
+    hasImage: input.hasImage,
+    design: input.design,
+    rules: brand.rules,
+    claims: brand.claims,
+    glossary: brand.glossary,
+    today: options.today,
+  });
+  const palette = input.hasImage
+    ? paletteFindings({
+        dominant: input.imagePalette ?? [],
+        palette: brand.palette,
+        rules: brand.rules,
+        text: input.text,
+      })
+    : [];
+  const deterministic = [...fast.findings, ...palette].filter((f) =>
+    verifyDeterministic(f, {
+      runText: input.text,
+      rules: brand.rules,
+      claims: brand.claims,
+      guidelineText: options.guidelineText ?? GUIDELINE_DOCUMENT,
+    }),
+  );
+  const synthesis = synthesize(deterministic);
+  return {
+    findings: synthesis.findings,
+    brandFit: synthesis.brandFit,
+    counts: synthesis.counts,
+    summary: synthesis.summary,
+    fastMs: clock() - started,
   };
 }

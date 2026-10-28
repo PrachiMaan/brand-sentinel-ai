@@ -1,0 +1,917 @@
+{
+  "generatedBy": "scripts/make-visual-fixtures.mjs",
+  "page": {
+    "width": 960,
+    "height": 540
+  },
+  "palette": {
+    "bone": "#F4EFE6",
+    "ink": "#1F1D1A",
+    "clay": "#B4643C",
+    "sage": "#7C8B72",
+    "sand": "#D9C9AF"
+  },
+  "decks": [
+    {
+      "deckId": "clean",
+      "pdf": "demo-assets/decks/lumora-deck-clean.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "png": "demo-assets/decks/png/clean-p1.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "png": "demo-assets/decks/png/clean-p2.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 3,
+          "png": "demo-assets/decks/png/clean-p3.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 4,
+          "png": "demo-assets/decks/png/clean-p4.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 5,
+          "png": "demo-assets/decks/png/clean-p5.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 6,
+          "png": "demo-assets/decks/png/clean-p6.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 7,
+          "png": "demo-assets/decks/png/clean-p7.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 8,
+          "png": "demo-assets/decks/png/clean-p8.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 9,
+          "png": "demo-assets/decks/png/clean-p9.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 10,
+          "png": "demo-assets/decks/png/clean-p10.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        }
+      ],
+      "groundTruth": {
+        "deckId": "clean",
+        "violations": []
+      }
+    },
+    {
+      "deckId": "violations",
+      "pdf": "demo-assets/decks/lumora-deck-violations.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "png": "demo-assets/decks/png/violations-p1.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "png": "demo-assets/decks/png/violations-p2.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 3,
+          "png": "demo-assets/decks/png/violations-p3.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 4,
+          "png": "demo-assets/decks/png/violations-p4.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 5,
+          "png": "demo-assets/decks/png/violations-p5.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 6,
+          "png": "demo-assets/decks/png/violations-p6.png",
+          "textItems": []
+        },
+        {
+          "page": 7,
+          "png": "demo-assets/decks/png/violations-p7.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 24,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.027555555555555555
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 24,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.027555555555555555
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 24,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.027555555555555555
+            }
+          ]
+        },
+        {
+          "page": 8,
+          "png": "demo-assets/decks/png/violations-p8.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 9,
+          "png": "demo-assets/decks/png/violations-p9.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        },
+        {
+          "page": 10,
+          "png": "demo-assets/decks/png/violations-p10.png",
+          "textItems": [
+            {
+              "text": "Measured radiance",
+              "fontFamily": "sans-serif",
+              "sizePt": 28,
+              "x": 0.08,
+              "y": 0.28,
+              "w": 0.44,
+              "h": 0.03214814814814815
+            },
+            {
+              "text": "Lumora Glow Serum is a fragrance-free daily serum.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.4,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "In a four-week study, hydration improved by 38%.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.49,
+              "w": 0.43000000000000005,
+              "h": 0.016074074074074074
+            },
+            {
+              "text": "Dermatologist tested and suitable for sensitive skin.",
+              "fontFamily": "sans-serif",
+              "sizePt": 14,
+              "x": 0.08,
+              "y": 0.56,
+              "w": 0.46,
+              "h": 0.016074074074074074
+            }
+          ]
+        }
+      ],
+      "groundTruth": {
+        "deckId": "violations",
+        "violations": [
+          {
+            "ruleId": "VIS-LOGO-MARGIN",
+            "page": 2,
+            "bbox": {
+              "x": 0.003,
+              "y": 0.07,
+              "w": 0.055,
+              "h": 0.09777777777777777
+            },
+            "note": "0.3% from the nearest edge"
+          },
+          {
+            "ruleId": "VIS-LOGO-CLEARSPACE",
+            "page": 3,
+            "bbox": {
+              "x": 0.06,
+              "y": 0.07,
+              "w": 0.08499999999999999,
+              "h": 0.09777777777777777
+            },
+            "note": "a block enters the clear space"
+          },
+          {
+            "ruleId": "VIS-PALETTE",
+            "page": 4,
+            "bbox": {
+              "x": 0.55,
+              "y": 0.45,
+              "w": 0.3,
+              "h": 0.22
+            },
+            "note": "#FF2E93 is not a palette colour"
+          },
+          {
+            "ruleId": "VIS-TYPE-FAMILY",
+            "page": 5,
+            "bbox": {
+              "x": 0.08,
+              "y": 0.42,
+              "w": 0.46,
+              "h": 0.22
+            },
+            "note": "body copy set outside the brand sans"
+          },
+          {
+            "ruleId": "VIS-DENSITY",
+            "page": 6,
+            "bbox": {
+              "x": 0,
+              "y": 0,
+              "w": 0.25,
+              "h": 0.333
+            },
+            "note": "densest grid cell; page coverage over the limit"
+          },
+          {
+            "ruleId": "VIS-TYPE-SIZE",
+            "page": 7,
+            "bbox": {
+              "x": 0.06,
+              "y": 0.08,
+              "w": 0.88,
+              "h": 0.8
+            },
+            "note": "body size deviates from the deck"
+          },
+          {
+            "ruleId": "VIS-LOGO-PRESENT",
+            "page": 10,
+            "bbox": {
+              "x": 0.02,
+              "y": 0.02,
+              "w": 0.06,
+              "h": 0.06
+            },
+            "note": "no mark on this page"
+          }
+        ]
+      }
+    }
+  ]
+}

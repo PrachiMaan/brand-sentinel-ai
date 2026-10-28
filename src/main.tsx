@@ -20,6 +20,7 @@ const Audit = lazy(() => import("./pages/Audit.tsx"));
 const Rulebook = lazy(() => import("./pages/Rulebook.tsx"));
 const RuleHealth = lazy(() => import("./pages/RuleHealth.tsx"));
 const Reliability = lazy(() => import("./pages/Reliability.tsx"));
+const ApiAccess = lazy(() => import("./pages/ApiAccess.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
@@ -180,6 +181,14 @@ createRoot(document.getElementById("root")!).render(
                 element={
                   <RequireAuth title="Sign in to see rule health">
                     <RuleHealth />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/app/api"
+                element={
+                  <RequireAuth title="Sign in to manage integrations">
+                    <ApiAccess />
                   </RequireAuth>
                 }
               />

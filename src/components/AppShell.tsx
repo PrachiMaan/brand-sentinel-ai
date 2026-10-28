@@ -21,6 +21,7 @@ import {
   PenLine,
   ScrollText,
   ShieldCheck,
+  Webhook,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
@@ -30,8 +31,9 @@ const NAV = [
   { to: "/app", label: "Review queue", icon: LayoutList, end: true },
   { to: "/app/submit", label: "New submission", icon: PenLine },
   { to: "/app/rulebook", label: "Rulebook", icon: BookOpen },
-  { to: "/app/rules", label: "Rule health", icon: Gauge },
+  { to: "/app/rules", label: "Drift & rule health", icon: Gauge },
   { to: "/app/audit", label: "Audit trail", icon: ScrollText },
+  { to: "/app/api", label: "API & webhooks", icon: Webhook },
   { to: "/app/reliability", label: "Reliability", icon: ShieldCheck },
 ];
 
@@ -39,7 +41,14 @@ const PAGE_TITLE: Record<string, { title: string; note: string }> = {
   "/app": { title: "Review queue", note: "Everything waiting on a human decision." },
   "/app/submit": { title: "New submission", note: "Fast lane runs as you type." },
   "/app/rulebook": { title: "Rulebook", note: "Published rules, claims and glossary." },
-  "/app/rules": { title: "Rule health", note: "Where reviewers disagree with the machine." },
+  "/app/rules": {
+    title: "Drift & rule health",
+    note: "Where reviewers disagree with the machine, and which channel is drifting.",
+  },
+  "/app/api": {
+    title: "API & webhooks",
+    note: "Keys, signed events and the delivery log.",
+  },
   "/app/audit": { title: "Audit trail", note: "Append-only. Every row commits to the last." },
   "/app/reliability": { title: "Reliability", note: "Model calls, verifier counts and eval results." },
 };

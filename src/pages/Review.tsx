@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/AppShell";
 import { HighlightedText } from "@/components/brand/HighlightedText";
+import { PageViewer } from "@/components/brand/PageViewer";
 import {
   ClaimChip,
   SeverityChip,
@@ -47,6 +48,10 @@ export default function Review() {
   const submissionId = params.id as Id<"submissions"> | undefined;
   const data = useQuery(
     api.submissions.get,
+    submissionId ? { submissionId } : "skip",
+  );
+  const visual = useQuery(
+    api.visual.forSubmission,
     submissionId ? { submissionId } : "skip",
   );
   const decide = useMutation(api.submissions.decideFinding);
@@ -515,6 +520,29 @@ export default function Review() {
                 {findings.length} findings
               </p>
             </div>
+            {visual && visual.pages.length > 0 && (
+              <div className="border-b border-border/70 p-4">
+                <PageViewer
+                  pages={visual.pages}
+                  boxes={findings
+                    .filter((f) => f.page && f.bbox)
+                    .map((f) => ({
+                      id: f.id,
+                      page: f.page,
+                      bbox: f.bbox,
+                      severity: f.severity,
+                      ruleId: f.ruleId,
+                    }))}
+                  activeId={activeId}
+                  onSelect={(id) => {
+                    setActiveId(id);
+                    document
+                      .getElementById(`finding-${id}`)
+                      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                />
+              </div>
+            )}
             {submission.imageUrl && (
               <div className="border-b border-border/70">
                 <img
@@ -859,6 +887,14 @@ export default function Review() {
                           Needs human
                         </span>
                       )}
+                      {finding.page !== null && (
+                        <button
+                          onClick={() => setActiveId(finding.id)}
+                          className="border border-border px-1.5 py-[1px] font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+                        >
+                          Page {finding.page}
+                        </button>
+                      )}
                       {finding.claimStatus && <ClaimChip status={finding.claimStatus} />}
                       <span className="ml-auto font-mono text-[8.5px] text-muted-foreground">
                         {(finding.confidence * 100).toFixed(0)}% conf
@@ -874,6 +910,26 @@ export default function Review() {
                         )}
                       </p>
                     </div>
+                    {finding.measured && (
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 border border-border/70 bg-background px-2.5 py-2 font-mono text-[9.5px] text-muted-foreground">
+                        <span>
+                          <span className="uppercase tracking-[0.1em]">measured</span>{" "}
+                          {finding.measured}
+                        </span>
+                        {finding.threshold && (
+                          <span>
+                            <span className="uppercase tracking-[0.1em]">threshold</span>{" "}
+                            {finding.threshold}
+                          </span>
+                        )}
+                        {finding.bbox && (
+                          <span>
+                            box {finding.bbox.x.toFixed(2)}, {finding.bbox.y.toFixed(2)},{" "}
+                            {finding.bbox.w.toFixed(2)} × {finding.bbox.h.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                    )}
                     <p className="mt-2 text-[11.5px] leading-5">{finding.whyItMatters}</p>
 
                     {finding.guidelineExcerpt && (

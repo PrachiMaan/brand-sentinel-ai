@@ -71,6 +71,8 @@ export type SeedRule = {
   description: string;
   severity: "critical" | "high" | "medium" | "low";
   sourceExcerpt: string;
+  /** JSON thresholds for measurable visual rules. Visible and editable. */
+  config?: string;
 };
 
 export const RULES: SeedRule[] = [
@@ -227,6 +229,88 @@ export const RULES: SeedRule[] = [
     severity: "low",
     sourceExcerpt:
       "Email subject lines stay under 60 characters and avoid all caps.",
+  },
+  {
+    ruleId: "VIS-LOGO-PRESENT",
+    category: "visual",
+    type: "measurable",
+    title: "Brand mark on first and last page",
+    description:
+      "The Lumora mark appears on the first and last page of every deck, and on every standalone image. A page without it reads as another brand.",
+    severity: "high",
+    sourceExcerpt:
+      "The Lumora mark appears on the first and last page of every deck, and on every standalone image.",
+    config: JSON.stringify({ logoMinConfidence: 0.55 }),
+  },
+  {
+    ruleId: "VIS-LOGO-CLEARSPACE",
+    category: "visual",
+    type: "measurable",
+    title: "Logo clear space",
+    description:
+      "Clear space around the mark is at least half the mark's height on every side. Nothing may enter that area.",
+    severity: "medium",
+    sourceExcerpt:
+      "Clear space around the mark is at least half the mark's height on every side.",
+    config: JSON.stringify({ clearSpaceRatio: 0.5 }),
+  },
+  {
+    ruleId: "VIS-LOGO-MARGIN",
+    category: "visual",
+    type: "measurable",
+    title: "Logo margin and placement",
+    description:
+      "The mark sits at least 4% of the page width from any trim edge, in a permitted corner.",
+    severity: "medium",
+    sourceExcerpt: "Keep the mark at least 4% of the page width from any trim edge.",
+    config: JSON.stringify({ marginFraction: 0.04 }),
+  },
+  {
+    ruleId: "VIS-PALETTE",
+    category: "visual",
+    type: "measurable",
+    title: "Off-palette colour regions",
+    description:
+      "Dominant non-neutral colours must sit within ΔE 12 of an approved palette colour. Neutral whites, blacks and grays are exempt.",
+    severity: "medium",
+    sourceExcerpt:
+      "Use only the Lumora palette: Bone #F4EFE6, Ink #1F1D1A, Clay #B4643C, Sage #7C8B72 and Sand #D9C9AF. Off-palette accent colours are not permitted.",
+    config: JSON.stringify({ paletteDeltaE: 12 }),
+  },
+  {
+    ruleId: "VIS-TYPE-FAMILY",
+    category: "visual",
+    type: "deterministic",
+    title: "Brand typeface only",
+    description:
+      "Only the brand sans family may be used. Serif and monospace faces are not part of the system.",
+    severity: "medium",
+    sourceExcerpt:
+      "Only the brand sans family may be used; do not set body copy in a serif or monospace face.",
+    config: JSON.stringify({ allowedFamilies: ["sans-serif"] }),
+  },
+  {
+    ruleId: "VIS-TYPE-SIZE",
+    category: "visual",
+    type: "measurable",
+    title: "Consistent body size",
+    description:
+      "Body copy stays at one size across a deck, within 18%, and never below 8pt.",
+    severity: "low",
+    sourceExcerpt:
+      "Body copy stays at one size across a deck, with a minimum of 8pt.",
+    config: JSON.stringify({ bodySizeTolerance: 0.18, minBodyPt: 8 }),
+  },
+  {
+    ruleId: "VIS-DENSITY",
+    category: "visual",
+    type: "measurable",
+    title: "Page density",
+    description:
+      "No page may be more than 60% covered by content. Leave room to breathe.",
+    severity: "low",
+    sourceExcerpt: "No page may be more than 60% covered by content; leave room to breathe.",
+    config: JSON.stringify({ maxInkRatio: 0.6 }),
   },
 ];
 
@@ -414,6 +498,15 @@ export const GUIDELINE_DOCUMENT = [
   "",
   "6. Colour",
   "Use only the Lumora palette: Bone #F4EFE6, Ink #1F1D1A, Clay #B4643C, Sage #7C8B72 and Sand #D9C9AF. Off-palette accent colours are not permitted. Keep clear space around the logotype equal to the height of the L mark. Do not recolour, outline or rotate the logotype.",
+  "",
+  "6.1 Layout and the mark",
+  "The Lumora mark appears on the first and last page of every deck, and on every standalone image. Clear space around the mark is at least half the mark's height on every side. Keep the mark at least 4% of the page width from any trim edge. Hold the mark in the top-left or bottom-right corner; never centre it over content.",
+  "",
+  "6.2 Typography",
+  "Only the brand sans family may be used; do not set body copy in a serif or monospace face. Body copy stays at one size across a deck, with a minimum of 8pt. Headlines may scale freely, but the body size is a constant.",
+  "",
+  "6.3 Density",
+  "No page may be more than 60% covered by content; leave room to breathe. If a page needs more than that, split it.",
   "",
   "7. Accessibility",
   "Body and caption text must meet WCAG 2.1 AA contrast of at least 4.5:1 against its background. Every published image needs descriptive alt text written for a person who cannot see it. Avoid text baked into images without a text alternative.",

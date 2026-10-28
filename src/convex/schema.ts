@@ -113,6 +113,7 @@ const schema = defineSchema(
         v.literal("low"),
       ),
       sourceExcerpt: v.string(),
+      config: v.optional(v.string()),
       published: v.boolean(),
       order: v.number(),
       createdAt: v.number(),
@@ -158,6 +159,12 @@ const schema = defineSchema(
       audience: v.string(),
       currentVersion: v.number(),
       status: submissionStatus,
+      team: v.optional(v.string()),
+      sampleId: v.optional(v.string()),
+      kind: v.optional(v.string()),
+      docName: v.optional(v.string()),
+      apiOrigin: v.optional(v.boolean()),
+      externalRef: v.optional(v.string()),
       imageStorageId: v.optional(v.id("_storage")),
       imageName: v.optional(v.string()),
       altText: v.string(),
@@ -167,6 +174,7 @@ const schema = defineSchema(
       brandFit: v.optional(v.number()),
       lastRunId: v.optional(v.id("runs")),
       legalFlag: v.boolean(),
+      synthetic: v.optional(v.boolean()),
       createdAt: v.number(),
       updatedAt: v.number(),
     })
@@ -182,6 +190,8 @@ const schema = defineSchema(
       audience: v.string(),
       altText: v.string(),
       contentHash: v.string(),
+      pageTexts: v.optional(v.string()),
+      pageCount: v.optional(v.number()),
       createdAt: v.number(),
       createdBy: v.id("users"),
     }).index("by_submission", ["submissionId"]),
@@ -216,6 +226,8 @@ const schema = defineSchema(
       droppedLog: v.optional(v.string()),
       error: v.optional(v.string()),
       model: v.optional(v.string()),
+      source: v.optional(v.string()),
+      degradedCause: v.optional(v.string()),
       createdAt: v.number(),
     })
       .index("by_submission", ["submissionId"])
@@ -245,6 +257,18 @@ const schema = defineSchema(
       claimId: v.optional(v.string()),
       intentScore: v.optional(v.number()),
       fixRisk: v.optional(v.string()),
+      page: v.optional(v.number()),
+      bbox: v.optional(
+        v.object({
+          x: v.number(),
+          y: v.number(),
+          w: v.number(),
+          h: v.number(),
+        }),
+      ),
+      measured: v.optional(v.string()),
+      threshold: v.optional(v.string()),
+      synthetic: v.optional(v.boolean()),
       order: v.number(),
       createdAt: v.number(),
     })
@@ -268,10 +292,12 @@ const schema = defineSchema(
       actorId: v.id("users"),
       actorRole: v.string(),
       actorName: v.string(),
+      synthetic: v.optional(v.boolean()),
       createdAt: v.number(),
     })
       .index("by_submission", ["submissionId"])
-      .index("by_finding", ["findingDocId"]),
+      .index("by_finding", ["findingDocId"])
+      .index("by_finding_id", ["findingId"]),
 
     comments: defineTable({
       submissionId: v.id("submissions"),
@@ -331,8 +357,223 @@ const schema = defineSchema(
       submissionId: v.string(),
       findingId: v.string(),
       seeded: v.optional(v.boolean()),
+      synthetic: v.optional(v.boolean()),
       createdAt: v.number(),
     }).index("by_workspace", ["workspaceId"]),
+
+    visualAssets: defineTable({
+      submissionId: v.id("submissions"),
+      versionId: v.id("versions"),
+      workspaceId: v.id("workspaces"),
+      page: v.number(),
+      width: v.number(),
+      height: v.number(),
+      storageId: v.optional(v.id("_storage")),
+      kind: v.string(),
+      sha256: v.string(),
+      createdAt: v.number(),
+    })
+      .index("by_version", ["versionId"])
+      .index("by_submission", ["submissionId"]),
+
+    visualRuns: defineTable({
+      submissionId: v.id("submissions"),
+      versionId: v.id("versions"),
+      workspaceId: v.id("workspaces"),
+      status: v.union(
+        v.literal("queued"),
+        v.literal("running"),
+        v.literal("complete"),
+        v.literal("failed"),
+      ),
+      pages: v.number(),
+      findingsJson: v.optional(v.string()),
+      droppedJson: v.optional(v.string()),
+      countsJson: v.optional(v.string()),
+      error: v.optional(v.string()),
+      startedAt: v.number(),
+      finishedAt: v.optional(v.number()),
+    }).index("by_submission", ["submissionId"]),
+
+    cachedRuns: defineTable({
+      workspaceId: v.id("workspaces"),
+      contentHash: v.string(),
+      sampleId: v.string(),
+      findingsJson: v.string(),
+      verifierJson: v.string(),
+      countsJson: v.string(),
+      summary: v.string(),
+      brandFit: v.number(),
+      model: v.string(),
+      sourceRunId: v.string(),
+      createdAt: v.number(),
+    })
+      .index("by_hash", ["workspaceId", "contentHash"])
+      .index("by_workspace", ["workspaceId"]),
+
+    ruleHealth: defineTable({
+      workspaceId: v.id("workspaces"),
+      day: v.string(),
+      ruleId: v.string(),
+      team: v.string(),
+      channel: v.string(),
+      findings: v.number(),
+      accepted: v.number(),
+      edited: v.number(),
+      rejected: v.number(),
+      overridden: v.number(),
+      driftScore: v.number(),
+      synthetic: v.boolean(),
+      computedAt: v.number(),
+    })
+      .index("by_workspace", ["workspaceId"])
+      .index("by_workspace_rule", ["workspaceId", "ruleId"])
+      .index("by_workspace_day", ["workspaceId", "day"]),
+
+    ruleSuggestions: defineTable({
+      workspaceId: v.id("workspaces"),
+      ruleId: v.string(),
+      proposedWording: v.string(),
+      rationale: v.string(),
+      evidenceDecisionIds: v.array(v.string()),
+      method: v.string(),
+      status: v.union(
+        v.literal("proposed"),
+        v.literal("accepted"),
+        v.literal("dismissed"),
+      ),
+      dismissReason: v.optional(v.string()),
+      createdAt: v.number(),
+      decidedAt: v.optional(v.number()),
+      decidedBy: v.optional(v.string()),
+    })
+      .index("by_workspace", ["workspaceId"])
+      .index("by_workspace_rule", ["workspaceId", "ruleId"]),
+
+    ruleDrafts: defineTable({
+      workspaceId: v.id("workspaces"),
+      ruleId: v.string(),
+      title: v.string(),
+      proposedWording: v.string(),
+      suggestionId: v.optional(v.id("ruleSuggestions")),
+      status: v.union(
+        v.literal("draft"),
+        v.literal("published"),
+        v.literal("discarded"),
+      ),
+      createdBy: v.string(),
+      createdAt: v.number(),
+      publishedAt: v.optional(v.number()),
+    }).index("by_workspace", ["workspaceId"]),
+
+    legalCases: defineTable({
+      workspaceId: v.id("workspaces"),
+      submissionId: v.id("submissions"),
+      findingDocId: v.id("findings"),
+      findingId: v.string(),
+      ruleId: v.string(),
+      claimId: v.optional(v.string()),
+      excerpt: v.string(),
+      reason: v.string(),
+      status: v.union(
+        v.literal("open"),
+        v.literal("supported"),
+        v.literal("unsupported"),
+        v.literal("needs_evidence"),
+      ),
+      note: v.optional(v.string()),
+      openedBy: v.string(),
+      openedAt: v.number(),
+      resolvedBy: v.optional(v.string()),
+      resolvedAt: v.optional(v.number()),
+    }).index("by_workspace", ["workspaceId"]),
+
+    demoProgress: defineTable({
+      workspaceId: v.id("workspaces"),
+      userId: v.id("users"),
+      sampleLoadedAt: v.optional(v.number()),
+      findingDecidedAt: v.optional(v.number()),
+      approvedAt: v.optional(v.number()),
+      receiptAt: v.optional(v.number()),
+      dismissedAt: v.optional(v.number()),
+      updatedAt: v.number(),
+    }).index("by_user", ["workspaceId", "userId"]),
+
+    modelState: defineTable({
+      workspaceId: v.id("workspaces"),
+      consecutiveFailures: v.number(),
+      openedUntil: v.optional(v.number()),
+      lastSuccessAt: v.optional(v.number()),
+      lastErrorAt: v.optional(v.number()),
+      lastError: v.optional(v.string()),
+      lastCause: v.optional(v.string()),
+      lastModel: v.optional(v.string()),
+      updatedAt: v.number(),
+    }).index("by_workspace", ["workspaceId"]),
+
+    apiKeys: defineTable({
+      workspaceId: v.id("workspaces"),
+      name: v.string(),
+      prefix: v.string(),
+      keyHash: v.string(),
+      scope: v.union(
+        v.literal("creator"),
+        v.literal("reviewer"),
+        v.literal("approver"),
+      ),
+      createdBy: v.string(),
+      createdAt: v.number(),
+      lastUsedAt: v.optional(v.number()),
+      revokedAt: v.optional(v.number()),
+      windowStart: v.optional(v.number()),
+      windowCount: v.optional(v.number()),
+    })
+      .index("by_workspace", ["workspaceId"])
+      .index("by_hash", ["keyHash"]),
+
+    webhookEndpoints: defineTable({
+      workspaceId: v.id("workspaces"),
+      url: v.string(),
+      description: v.string(),
+      secret: v.string(),
+      events: v.array(v.string()),
+      active: v.boolean(),
+      createdBy: v.string(),
+      createdAt: v.number(),
+    }).index("by_workspace", ["workspaceId"]),
+
+    webhookDeliveries: defineTable({
+      workspaceId: v.id("workspaces"),
+      endpointId: v.id("webhookEndpoints"),
+      eventId: v.string(),
+      eventType: v.string(),
+      payload: v.string(),
+      payloadHash: v.string(),
+      idempotencyKey: v.string(),
+      attempt: v.number(),
+      status: v.union(
+        v.literal("pending"),
+        v.literal("delivered"),
+        v.literal("failed"),
+        v.literal("dead"),
+      ),
+      responseCode: v.optional(v.number()),
+      error: v.optional(v.string()),
+      nextAttemptAt: v.optional(v.number()),
+      createdAt: v.number(),
+      deliveredAt: v.optional(v.number()),
+    })
+      .index("by_endpoint", ["endpointId"])
+      .index("by_workspace", ["workspaceId"]),
+
+    idempotencyKeys: defineTable({
+      workspaceId: v.id("workspaces"),
+      key: v.string(),
+      requestHash: v.string(),
+      responseJson: v.string(),
+      submissionId: v.optional(v.id("submissions")),
+      createdAt: v.number(),
+    }).index("by_key", ["workspaceId", "key"]),
 
     compileJobs: defineTable({
       workspaceId: v.id("workspaces"),

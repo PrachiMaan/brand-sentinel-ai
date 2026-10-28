@@ -2,6 +2,12 @@ import { z } from "zod";
 
 /** Shared vocabulary for the whole product. */
 
+/** Hard limit for pasted content. Checked on the client and again on the server. */
+export const MAX_TEXT_CHARS = 20_000;
+
+export const TEAMS = ["Social", "Email", "Web", "Paid"] as const;
+export const CHANNELS = ["instagram", "email", "linkedin", "landing", "print"] as const;
+
 export const REVIEWERS = [
   "tone",
   "terminology",
@@ -127,7 +133,24 @@ export type Finding = {
   intentScore?: number;
   fixRisk?: "low" | "medium" | "high";
   order?: number;
+  /** Visual findings carry a page number, a normalised box and a measurement. */
+  page?: number;
+  bbox?: { x: number; y: number; w: number; h: number };
+  measured?: string;
+  threshold?: string;
 };
+
+export const BBOX_KEYS = ["x", "y", "w", "h"] as const;
+
+/** A visual finding is only admissible with a page, a box and a measured value. */
+export function validBbox(bbox: Finding["bbox"]): boolean {
+  if (!bbox) return false;
+  const { x, y, w, h } = bbox;
+  if (![x, y, w, h].every((n) => Number.isFinite(n))) return false;
+  if (w <= 0 || h <= 0) return false;
+  if (x < 0 || y < 0 || x + w > 1.0001 || y + h > 1.0001) return false;
+  return true;
+}
 
 /** Structured output requested from one specialist reviewer. */
 export const modelFindingSchema = z.object({

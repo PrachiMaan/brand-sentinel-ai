@@ -195,6 +195,7 @@ export async function ensureWorkspace(ctx: MutationCtx) {
       description: rule.description,
       severity: rule.severity,
       sourceExcerpt: rule.sourceExcerpt,
+      config: rule.config,
       published: true,
       order: index,
       createdAt: now,

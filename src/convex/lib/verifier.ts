@@ -1,5 +1,5 @@
 import type { Finding, ModelFinding, ReviewerId, Severity } from "./types";
-import { SEVERITIES } from "./types";
+import { SEVERITIES, validBbox } from "./types";
 import { firstVerbatimIndex } from "./text";
 import type { SeedClaim, SeedRule } from "./lumora";
 import { GUIDELINE_DOCUMENT } from "./lumora";
@@ -35,6 +35,7 @@ export type VerifyInput = {
   rules: SeedRule[];
   claims: SeedClaim[];
   guidelineText?: string;
+  pageCount?: number;
 };
 
 const normalise = (s: string) =>
@@ -208,8 +209,71 @@ export function verifyDeterministic(finding: Finding, input: VerifyInput): boole
   ) {
     return false;
   }
+  if (!verifyVisualFields(finding, input)) return false;
   if (finding.evidenceType === "verbatim_span") {
     return firstVerbatimIndex(input.runText, finding.spanText) >= 0;
   }
   return true;
+}
+
+/**
+ * Visual evidence is a measurement, not an opinion. A finding without a page in
+ * range, a box inside the page and a measured value is inadmissible.
+ */
+export function verifyVisualFields(
+  finding: Pick<Finding, "page" | "bbox" | "measured" | "reviewer" | "source">,
+  input: Pick<VerifyInput, "pageCount">,
+): boolean {
+  if (finding.page === undefined && finding.bbox === undefined) return true;
+  if (finding.page === undefined || !finding.bbox) return false;
+  if (!Number.isInteger(finding.page) || finding.page < 1) return false;
+  if (input.pageCount !== undefined && finding.page > input.pageCount) return false;
+  if (!validBbox(finding.bbox)) return false;
+  if (!finding.measured?.trim()) return false;
+  return true;
+}
+
+/**
+ * Re-admission check for a stored (cached) result. The rulebook may have moved
+ * on since the run was cached, so every quote and every box is checked again
+ * against the current rules and the current content.
+ */
+export function verifyCachedFindings(
+  findings: Finding[],
+  input: VerifyInput,
+): { findings: Finding[]; dropped: number; reasons: string[] } {
+  const kept: Finding[] = [];
+  const reasons: string[] = [];
+  for (const finding of findings) {
+    const rule = input.rules.find((r) => r.ruleId === finding.ruleId);
+    if (!rule) {
+      reasons.push(`${finding.ruleId}: rule is no longer published`);
+      continue;
+    }
+    if (
+      !excerptIsFromRulebook(
+        finding.guidelineExcerpt,
+        rule,
+        input.guidelineText ?? GUIDELINE_DOCUMENT,
+      )
+    ) {
+      reasons.push(`${finding.ruleId}: guideline excerpt no longer matches the rulebook`);
+      continue;
+    }
+    if (!verifyVisualFields(finding, input)) {
+      reasons.push(`${finding.ruleId}: visual evidence is incomplete`);
+      continue;
+    }
+    if (finding.evidenceType === "verbatim_span") {
+      const at = firstVerbatimIndex(input.runText, finding.spanText);
+      if (at < 0) {
+        reasons.push(`${finding.ruleId}: quoted span is not in the current content`);
+        continue;
+      }
+      kept.push({ ...finding, spanStart: at, spanEnd: at + finding.spanText.length });
+      continue;
+    }
+    kept.push(finding);
+  }
+  return { findings: kept, dropped: findings.length - kept.length, reasons };
 }

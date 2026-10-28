@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-10-28T19:51:53.466Z",
+  "engine": "deterministic (lib/visual.ts)",
+  "raster": "Pages decoded from the fixture PNGs generated from the same geometry as the PDFs; no canvas backend in this environment.",
+  "decks": [
+    {
+      "deckId": "clean",
+      "pdf": "demo-assets/decks/lumora-deck-clean.pdf",
+      "pages": 10,
+      "findings": 0,
+      "expected": 0,
+      "detected": 0,
+      "detectedWithIou": 0,
+      "meanIou": 0,
+      "violations": [],
+      "unexpected": []
+    },
+    {
+      "deckId": "violations",
+      "pdf": "demo-assets/decks/lumora-deck-violations.pdf",
+      "pages": 10,
+      "findings": 7,
+      "expected": 7,
+      "detected": 7,
+      "detectedWithIou": 6,
+      "meanIou": 0.795,
+      "violations": [
+        {
+          "ruleId": "VIS-LOGO-MARGIN",
+          "page": 2,
+          "note": "0.3% from the nearest edge",
+          "detected": true,
+          "iou": 0.91,
+          "measured": "0.3% of page width from the left edge",
+          "bbox": {
+            "x": 0.003125,
+            "y": 0.07222222222222222,
+            "w": 0.05625,
+            "h": 0.1
+          },
+          "truthBbox": {
+            "x": 0.003,
+            "y": 0.07,
+            "w": 0.055,
+            "h": 0.09777777777777777
+          }
+        },
+        {
+          "ruleId": "VIS-LOGO-CLEARSPACE",
+          "page": 3,
+          "note": "a block enters the clear space",
+          "detected": true,
+          "iou": 0.946,
+          "measured": "0.16x logo height (right side)",
+          "bbox": {
+            "x": 0.06041666666666667,
+            "y": 0.07037037037037037,
+            "w": 0.084375,
+            "h": 0.10185185185185185
+          },
+          "truthBbox": {
+            "x": 0.06,
+            "y": 0.07,
+            "w": 0.08499999999999999,
+            "h": 0.09777777777777777
+          }
+        },
+        {
+          "ruleId": "VIS-PALETTE",
+          "page": 4,
+          "note": "#FF2E93 is not a palette colour",
+          "detected": true,
+          "iou": 0.998,
+          "measured": "#FF2E93 is ΔE 65.6 from the nearest palette colour #B4643C (6.6% of the page)",
+          "bbox": {
+            "x": 0.55,
+            "y": 0.45,
+            "w": 0.3,
+            "h": 0.22037037037037038
+          },
+          "truthBbox": {
+            "x": 0.55,
+            "y": 0.45,
+            "w": 0.3,
+            "h": 0.22
+          }
+        },
+        {
+          "ruleId": "VIS-TYPE-FAMILY",
+          "page": 5,
+          "note": "body copy set outside the brand sans",
+          "detected": true,
+          "iou": 0.709,
+          "measured": "3 text item(s) set in serif",
+          "bbox": {
+            "x": 0.08,
+            "y": 0.42,
+            "w": 0.46,
+            "h": 0.1560740740740742
+          },
+          "truthBbox": {
+            "x": 0.08,
+            "y": 0.42,
+            "w": 0.46,
+            "h": 0.22
+          }
+        },
+        {
+          "ruleId": "VIS-DENSITY",
+          "page": 6,
+          "note": "densest grid cell; page coverage over the limit",
+          "detected": true,
+          "iou": 0,
+          "measured": "64.7% of the page is covered",
+          "bbox": {
+            "x": 0.75,
+            "y": 0.3333333333333333,
+            "w": 0.25,
+            "h": 0.3333333333333333
+          },
+          "truthBbox": {
+            "x": 0,
+            "y": 0,
+            "w": 0.25,
+            "h": 0.333
+          }
+        },
+        {
+          "ruleId": "VIS-TYPE-SIZE",
+          "page": 7,
+          "note": "body size deviates from the deck",
+          "detected": true,
+          "iou": 1,
+          "measured": "median body size 24.0pt across 4 items",
+          "bbox": {
+            "x": 0.06,
+            "y": 0.08,
+            "w": 0.88,
+            "h": 0.8
+          },
+          "truthBbox": {
+            "x": 0.06,
+            "y": 0.08,
+            "w": 0.88,
+            "h": 0.8
+          }
+        },
+        {
+          "ruleId": "VIS-LOGO-PRESENT",
+          "page": 10,
+          "note": "no mark on this page",
+          "detected": true,
+          "iou": 1,
+          "measured": "logo not detected (best correlation below 0.35)",
+          "bbox": {
+            "x": 0.02,
+            "y": 0.02,
+            "w": 0.06,
+            "h": 0.06
+          },
+          "truthBbox": {
+            "x": 0.02,
+            "y": 0.02,
+            "w": 0.06,
+            "h": 0.06
+          }
+        }
+      ],
+      "unexpected": []
+    }
+  ],
+  "expectations": [
+    {
+      "check": "Every injected logo/margin/clear-space and palette violation found",
+      "pass": true
+    },
+    {
+      "check": "Those violations have IoU >= 0.70",
+      "pass": true
+    },
+    {
+      "check": "Clean deck produces zero visual findings",
+      "pass": true
+    },
+    {
+      "check": "No unexpected findings on the violations deck pages",
+      "pass": true
+    }
+  ],
+  "passed": 4,
+  "total": 4
+}

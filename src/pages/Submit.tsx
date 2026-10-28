@@ -17,9 +17,13 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { dominantColors } from "@/convex/lib/color";
 import { runFastLane, paletteFindings } from "@/convex/lib/fastlane";
 import { SAMPLE_CAPTIONS } from "@/convex/lib/lumora";
+import { MAX_TEXT_CHARS, TEAMS } from "@/convex/lib/types";
 import type { Finding } from "@/convex/lib/types";
-import { useMutation, useQuery } from "convex/react";
-import { Loader2, Sparkles, Upload, X } from "lucide-react";
+import { analyseDeck } from "@/convex/lib/visual";
+import type { PageInput } from "@/convex/lib/visual";
+import { extractDocx, pageInputOf, PdfError, renderPdf } from "@/lib/pdf";
+import { useAction, useMutation, useQuery } from "convex/react";
+import { FileText, Loader2, Sparkles, Upload, X } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -32,6 +36,9 @@ export default function Submit() {
   const me = useQuery(api.session.me);
   const create = useMutation(api.submissions.create);
   const uploadUrl = useMutation(api.submissions.generateUploadUrl);
+  const attachPages = useMutation(api.visual.attachPages);
+  const submitVisual = useMutation(api.visual.submitFindings);
+  const runReview = useAction(api.review.runReview);
 
   const [title, setTitle] = useState("Lumora launch caption");
   const [channel, setChannel] = useState("instagram");
@@ -44,7 +51,15 @@ export default function Submit() {
   const [imagePreview, setImagePreview] = useState<string | null>(SAMPLE_IMAGE);
   const [palette, setPalette] = useState<{ hex: string; share: number }[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [team, setTeam] = useState<string>("Social");
+  const [deckName, setDeckName] = useState<string | null>(null);
+  const [deckPages, setDeckPages] = useState<{ page: number; text: string }[] | null>(null);
+  const [deckFile, setDeckFile] = useState<File | null>(null);
+  const [deckBusy, setDeckBusy] = useState(false);
+  const [deckProgress, setDeckProgress] = useState<{ page: number; total: number } | null>(null);
+  const [cancelDeck, setCancelDeck] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const deckRef = useRef<HTMLInputElement>(null);
 
   const rules = (rulebook?.rules ?? []) as Parameters<typeof runFastLane>[0]["rules"];
   const claims = (rulebook?.claims ?? []) as Parameters<typeof runFastLane>[0]["claims"];
@@ -128,14 +143,170 @@ export default function Submit() {
     toast("Sample content loaded", { description: sample.label });
   };
 
+  const readDeck = async (file: File) => {
+    if (deckBusy) return;
+    setDeckBusy(true);
+    setCancelDeck(false);
+    setDeckName(file.name);
+    setDeckPages(null);
+    setDeckFile(null);
+    try {
+      if (/pdf$/i.test(file.type) || /\.pdf$/i.test(file.name)) {
+        const pages = await renderPdf(file, {
+          onProgress: (progress) =>
+            setDeckProgress({ page: progress.page, total: progress.total }),
+          isCancelled: () => cancelDeck,
+        });
+        const combined = pages
+          .map((page) => `[Page ${page.page}] ${page.text}`)
+          .join("\n\n")
+          .slice(0, MAX_TEXT_CHARS);
+        setText(combined);
+        setDeckPages(pages.map((page) => ({ page: page.page, text: page.text })));
+        setDeckFile(file);
+        toast(`Read ${pages.length} pages`, {
+          description: "Visual review will run on every page.",
+        });
+      } else if (/\.docx$/i.test(file.name)) {
+        const extracted = await extractDocx(file);
+        if (!extracted.trim()) {
+          toast.error("That document has no extractable text.");
+          return;
+        }
+        setText(extracted.slice(0, MAX_TEXT_CHARS));
+        setDeckPages([{ page: 1, text: extracted }]);
+        setDeckFile(file);
+        toast("Word document read as text", {
+          description: "DOCX intake is text only; no visual check is claimed for it.",
+        });
+      } else {
+        toast.error("Choose a PDF or DOCX file.");
+        setDeckName(null);
+      }
+    } catch (error) {
+      if (error instanceof PdfError) toast.error(error.message);
+      else toast.error(error instanceof Error ? error.message : "That file could not be read.");
+      setDeckName(null);
+      setDeckPages(null);
+    } finally {
+      setDeckBusy(false);
+      setDeckProgress(null);
+    }
+  };
+
+  const loadSampleDeck = async (which: "violations" | "clean") => {
+    const url = `/demo-assets/decks/lumora-deck-${which}.pdf`;
+    setTitle(which === "clean" ? "Lumora clean deck" : "Lumora launch deck");
+    setTeam("Web");
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      await readDeck(new File([blob], `lumora-deck-${which}.pdf`, { type: "application/pdf" }));
+    } catch {
+      toast.error("The sample deck could not be loaded.");
+    }
+  };
+
+  const submitDeck = async (): Promise<boolean> => {
+    if (!deckFile || !deckPages || !text.trim()) return false;
+    const isPdf = /pdf$/i.test(deckFile.name);
+    let submissionId: Id<"submissions"> | null = null;
+    try {
+      submissionId = await create({
+        title: title || deckFile.name,
+        channel,
+        audience,
+        team,
+        text: text.slice(0, MAX_TEXT_CHARS),
+        altText,
+        kind: isPdf ? "deck" : "document",
+        docName: deckFile.name,
+        sampleId: /lumora-deck-(clean|violations)/.test(deckFile.name)
+          ? `deck-${deckFile.name.includes("clean") ? "clean" : "violations"}`
+          : undefined,
+      });
+
+      if (isPdf) {
+        const rendered = await renderPdf(deckFile, {
+          onProgress: (progress) =>
+            setDeckProgress({ page: progress.page, total: progress.total }),
+          isCancelled: () => cancelDeck,
+        });
+        const uploaded = [];
+        for (const page of rendered) {
+          setDeckProgress({ page: page.page, total: rendered.length });
+          const target = await uploadUrl({});
+          const response = await fetch(target, {
+            method: "POST",
+            headers: { "content-type": "image/png" },
+            body: page.blob,
+          });
+          const { storageId } = (await response.json()) as { storageId: Id<"_storage"> };
+          uploaded.push({
+            page: page.page,
+            storageId,
+            width: page.width,
+            height: page.height,
+            sha256: `${page.page}-${page.blob.size}`,
+            text: page.text.slice(0, 4000),
+          });
+        }
+        await attachPages({ submissionId, pages: uploaded, kind: "page" });
+      }
+
+      await runReview({ submissionId });
+
+      if (isPdf) {
+        const rendered = await renderPdf(deckFile, { isCancelled: () => cancelDeck });
+        const pages: PageInput[] = rendered
+          .map((page) => pageInputOf(page))
+          .filter((page): page is PageInput => Boolean(page));
+        const rules = rulebook?.rules ?? [];
+        const palette = (rulebook?.pack?.palette ?? []).map((entry) => entry.hex);
+        const analysis = analyseDeck({ pages, rules, palette });
+        const result = await submitVisual({
+          submissionId,
+          findingsJson: JSON.stringify(analysis.findings),
+        });
+        toast(`${result.kept} visual findings kept`, {
+          description: result.dropped
+            ? `${result.dropped} dropped by the verifier for incomplete evidence.`
+            : "Every box carried a page, a measured value and a published rule.",
+        });
+      }
+
+      navigate(`/app/review/${submissionId}`);
+      return true;
+    } catch (error) {
+      if (submissionId) {
+        toast.error(
+          error instanceof Error ? error.message : "The visual review did not finish.",
+          { description: "The text review is still on the submission." },
+        );
+        navigate(`/app/review/${submissionId}`);
+        return true;
+      }
+      toast.error(error instanceof Error ? error.message : "Could not submit this file.");
+      return false;
+    }
+  };
+
   const submit = async () => {
     if (submitting) return;
     if (!text.trim()) {
       toast.error("Add some content before submitting.");
       return;
     }
+    if (text.length > MAX_TEXT_CHARS) {
+      toast.error(`Content is over ${MAX_TEXT_CHARS.toLocaleString()} characters.`);
+      return;
+    }
     setSubmitting(true);
     try {
+      if (deckFile && deckPages) {
+        await submitDeck();
+        return;
+      }
       let storageId: Id<"_storage"> | undefined;
       let imageName: string | undefined;
       if (imagePreview) {
@@ -169,6 +340,7 @@ export default function Submit() {
         imageStorageId: storageId,
         imageName,
         imagePalette: palette.length ? JSON.stringify(palette) : undefined,
+        team,
       });
       toast("Submitted. Running the deep review now.", {
         description: "The report opens while the five reviewers work.",
@@ -247,21 +419,83 @@ export default function Submit() {
                 />
               </div>
 
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label className="label-caps text-[9px]">Team</Label>
+                  <Select value={team} onValueChange={setTeam}>
+                    <SelectTrigger className="h-9 w-full rounded-none border-border bg-background text-[13px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TEAMS.map((value) => (
+                        <SelectItem key={value} value={value}>
+                          {value}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="label-caps text-[9px]">Document or deck</Label>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-9 rounded-none text-[11px]"
+                      onClick={() => deckRef.current?.click()}
+                      disabled={deckBusy}
+                    >
+                      <FileText className="mr-1.5 size-3.5" />
+                      {deckBusy ? "Reading…" : "Choose PDF / DOCX"}
+                    </Button>
+                    {deckName && (
+                      <button
+                        onClick={() => {
+                          setDeckName(null);
+                          setDeckFile(null);
+                          setDeckPages(null);
+                        }}
+                        className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground"
+                      >
+                        clear
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <Label className="label-caps text-[9px]">Content</Label>
                   <span className="font-mono text-[9px] text-muted-foreground">
-                    {text.length.toLocaleString()} / 40,000
+                    {text.length.toLocaleString()} / {MAX_TEXT_CHARS.toLocaleString()}
                   </span>
                 </div>
                 <Textarea
                   value={text}
-                  onChange={(e) => setText(e.target.value)}
+                  onChange={(e) => {
+                    setText(e.target.value.slice(0, MAX_TEXT_CHARS));
+                    setDeckPages(null);
+                    setDeckFile(null);
+                    setDeckName(null);
+                  }}
                   rows={11}
                   className="min-h-[230px] resize-y rounded-none border-border bg-background font-sans text-[13.5px] leading-6"
                   placeholder="Paste the caption, email or landing copy…"
                 />
                 <div className="flex flex-wrap gap-1.5 pt-1">
+                  <button
+                    onClick={() => loadSampleDeck("violations")}
+                    className="border border-border bg-background px-2 py-1 font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
+                  >
+                    Load sample deck
+                  </button>
+                  <button
+                    onClick={() => loadSampleDeck("clean")}
+                    className="border border-border bg-background px-2 py-1 font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
+                  >
+                    Load clean deck
+                  </button>
                   {SAMPLE_CAPTIONS.map((sample, index) => (
                     <button
                       key={sample.id}
@@ -310,6 +544,46 @@ export default function Submit() {
                   </div>
                 </div>
               </div>
+
+              <input
+                ref={deckRef}
+                type="file"
+                accept="application/pdf,.docx"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) void readDeck(file);
+                  e.target.value = "";
+                }}
+              />
+              {(deckProgress || deckName) && (
+                <div className="border border-border bg-background px-4 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="truncate font-mono text-[10px] text-muted-foreground">
+                      {deckName}
+                      {deckPages ? ` · ${deckPages.length} page${deckPages.length === 1 ? "" : "s"}` : ""}
+                    </p>
+                    {deckBusy && (
+                      <button
+                        onClick={() => setCancelDeck(true)}
+                        className="font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground"
+                      >
+                        cancel
+                      </button>
+                    )}
+                  </div>
+                  {deckProgress && (
+                    <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                      Page {deckProgress.page} of {deckProgress.total}
+                    </p>
+                  )}
+                  {deckName && !/pdf$/i.test(deckName) && (
+                    <p className="mt-1 text-[10px] leading-4 text-muted-foreground">
+                      DOCX is reviewed as text only. Visual layout checks need a PDF.
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className="space-y-2 border-t border-border/70 pt-4">
                 <div className="flex items-center justify-between">
