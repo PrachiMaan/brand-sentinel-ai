@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T19:03:56.307Z",
+  "generatedAt": "2026-10-29T19:49:42.422Z",
   "engine": "deterministic (lib/visual.ts)",
   "raster": "Pages decoded from the fixture PNGs generated from the same geometry as the PDFs; no canvas backend in this environment.",
   "decks": [
@@ -12,8 +12,8 @@
       "detected": 0,
       "detectedWithIou": 0,
       "meanIou": 0,
-      "analysisMs": 732.36,
-      "msPerPage": 73.24,
+      "analysisMs": 773.77,
+      "msPerPage": 77.38,
       "violations": [],
       "unexpected": []
     },
@@ -24,10 +24,10 @@
       "findings": 7,
       "expected": 7,
       "detected": 7,
-      "detectedWithIou": 6,
-      "meanIou": 0.795,
-      "analysisMs": 543.94,
-      "msPerPage": 54.39,
+      "detectedWithIou": 7,
+      "meanIou": 0.918,
+      "analysisMs": 677.56,
+      "msPerPage": 67.76,
       "violations": [
         {
           "ruleId": "VIS-LOGO-MARGIN",
@@ -112,21 +112,21 @@
         {
           "ruleId": "VIS-DENSITY",
           "page": 6,
-          "note": "densest grid cell; page coverage over the limit",
+          "note": "dense region declared by the fixture geometry",
           "detected": true,
-          "iou": 0,
+          "iou": 0.862,
           "measured": "64.7% of the page is covered",
           "bbox": {
-            "x": 0.75,
+            "x": 0,
             "y": 0.3333333333333333,
-            "w": 0.25,
-            "h": 0.3333333333333333
+            "w": 1,
+            "h": 0.6666666666666667
           },
           "truthBbox": {
-            "x": 0,
-            "y": 0,
-            "w": 0.25,
-            "h": 0.333
+            "x": 0.015,
+            "y": 0.27,
+            "w": 0.97,
+            "h": 0.7100000000000001
           }
         },
         {
@@ -189,8 +189,12 @@
     {
       "check": "No unexpected findings on the violations deck pages",
       "pass": true
+    },
+    {
+      "check": "Density points at the dense region (IoU >= 0.70)",
+      "pass": true
     }
   ],
-  "passed": 4,
-  "total": 4
+  "passed": 5,
+  "total": 5
 }

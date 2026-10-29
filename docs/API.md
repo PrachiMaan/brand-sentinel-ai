@@ -195,6 +195,25 @@ curl -sS "$BASE/submissions/$ID/findings" \
   -H "Authorization: Bearer $BRANDSENTINEL_KEY" | jq
 ```
 
-These commands are documented from the handler and the OpenAPI document. They
-were not run with a live key in this pass; see `docs/TEST_RESULTS.md` for what was
-verified (OpenAPI 200 and the 401 shape).
+These commands were run live on 29 October 2026, including replay, 409, 403 and
+429. See `docs/TEST_RESULTS.md` for the full output.
+
+## Scripted proof
+
+`scripts/api-demo.ts` runs the whole path and asserts each status:
+
+```bash
+BASE_URL="https://tremendous-rabbit-679.convex.site/api/v1" \
+BRANDSENTINEL_KEY="bss_live_…" \
+BRANDSENTINEL_CREATOR_KEY="bss_live_…" \
+  bun run scripts/api-demo.ts
+```
+
+It submits with an `Idempotency-Key`, replays the same request, sends a
+conflicting body, attempts an approval with the creator key, polls until findings
+arrive, decides every pending finding, approves, confirms the status and receipt
+manifest, and finally drives the creator key to 429. It exits non-zero if any
+check fails.
+
+The Review Receipt PDF is generated in the web app; the API has no receipt
+endpoint, so the script confirms the data the receipt is built from.

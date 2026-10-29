@@ -263,11 +263,20 @@ function groundTruth(deckId, pages) {
       });
     }
     if (page.blocks && page.blocks.length >= 5) {
+      // The dense region is the area the page's own content occupies. Ground
+      // truth comes from the declared block geometry, not from a hard-coded
+      // corner and not from the engine's pixel scan.
+      const xs = page.blocks.map((block) => block.x);
+      const ys = page.blocks.map((block) => block.y);
+      const x1 = Math.max(...page.blocks.map((block) => block.x + block.w));
+      const y1 = Math.max(...page.blocks.map((block) => block.y + block.h));
+      const x0 = Math.min(...xs);
+      const y0 = Math.min(...ys);
       violations.push({
         ruleId: "VIS-DENSITY",
         page: page.page,
-        bbox: { x: 0, y: 0, w: 0.25, h: 0.333 },
-        note: "densest grid cell; page coverage over the limit",
+        bbox: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 },
+        note: "dense region declared by the fixture geometry",
       });
     }
   }

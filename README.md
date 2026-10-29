@@ -195,7 +195,7 @@ This is the normal state of the prototype.
 ## Tests and evaluation
 
 ```bash
-bun test                 # 74 unit tests, 9 files
+bun test                 # 80 unit tests, 10 files
 bun run typecheck        # tsc -b --noEmit
 bun run lint             # eslint
 bun run eval             # red-team set, deterministic lane, writes eval/results.json
@@ -208,9 +208,11 @@ Current numbers and how to read them: **`docs/EVALUATION.md`**. Summary:
 | Eval | Result |
 | --- | --- |
 | Red-team, 60 items | 95.2% precision, 100% recall — deterministic rule engine only |
-| Visual, 2 × 10-page decks | 7/7 found, 4/4 box checks at IoU ≥ 0.70, 0 findings on the clean deck, 54–73 ms/page |
-| Analytics | 0 mismatches vs independent recomputation, idempotent |
+| Visual, 2 × 10-page decks | 7/7 found, IoU ≥ 0.70 on all seven (mean 0.918, density 0.862), 0 findings on the clean deck, 54–73 ms/page |
+| Analytics | 0 mismatches vs independent recomputation, idempotent, 3 evidenced suggestions |
 | Deep lane | 4 saved live runs: 30 model findings, 16 kept, 14 suppressed by the verifier |
+| Review API, live | 12/12 checks: submit, replay, 409, 403, findings, decisions, approve, receipt manifest, 429 |
+| Webhooks, live | External echo delivered 200; failure endpoint recorded 500 and scheduled a retry |
 
 The red-team run had no model credential, so it does not measure the deep lane.
 No deep-lane precision or recall is claimed. Fixtures are synthetic and
@@ -233,7 +235,11 @@ Create keys in the app as an admin under **API & Webhooks**; the key is shown
 once and stored hashed. Endpoints, scopes, error codes, idempotency and the
 webhook signing algorithm are documented in **`docs/API.md`**.
 
-The API surface is verified only without a key so far (OpenAPI 200, 401 shape).
+The API was exercised live end to end on 29 October 2026 with keys created through
+the app: submit, same-key replay, 409 on a conflicting body, 403 for a creator key
+approving, findings, decisions, approval and 429. `scripts/api-demo.ts` reproduces
+the run and asserts every status. The external webhook echo returned 200; signature
+verification is proven against a local receiver with the production handler.
 
 ## Google Docs sidebar
 
@@ -254,7 +260,7 @@ src/
   components/        app shell and brand primitives
 eval/                dataset, runners, result files, fixtures
 tests/               unit tests
-scripts/             demo assets, visual fixtures, submission build
+scripts/             API demo, demo assets, visual fixtures, submission build
 integrations/        Google Docs sidebar
 public/demo-assets/  sample guideline PDF, image, decks, captions
 docs/                audit, architecture, features, improvements, API, evaluation,
@@ -315,6 +321,8 @@ the product is always a proposal: a person decides, and the interface says so.
 
 Read `docs/KNOWN_LIMITATIONS.md` before judging a claim. The short version: no
 browser was available in the build sandbox, so UI journeys and screenshots are
-unverified; the API and webhooks were not exercised with a live key; the Google
-Docs sidebar was never installed; and the deep lane is measured on four saved
-samples rather than a benchmark.
+unverified; the external webhook receiver does not inspect signatures (that is
+proven locally); live dead-lettering would take hours of backoff (proven through
+the real retry mutation instead); the Google Docs sidebar was never installed; and
+the deep lane is measured on four saved samples plus one live API run rather than
+a benchmark.

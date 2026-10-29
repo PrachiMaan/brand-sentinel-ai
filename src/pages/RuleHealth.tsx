@@ -139,6 +139,13 @@ export default function RuleHealth() {
       await suggest({});
     });
 
+  const removeHistory = () =>
+    run("Removing synthetic history", async () => {
+      for (let batch = 0; batch < 3; batch++) {
+        await remove({ batch });
+      }
+    });
+
   const recomputeAll = () =>
     run("Recomputing", async () => {
       for (let batch = 0; batch < 3; batch++) {
@@ -222,7 +229,7 @@ export default function RuleHealth() {
                 variant="outline"
                 className="h-8 rounded-none text-[11px]"
                 disabled={Boolean(busy) || !synthetic}
-                onClick={() => run("Removing synthetic history", () => remove({}))}
+                onClick={removeHistory}
               >
                 <Trash2 className="mr-1.5 size-3.5" /> Remove synthetic history
               </Button>
@@ -409,6 +416,11 @@ export default function RuleHealth() {
                     <span className="border border-border px-1.5 py-[1px] font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground">
                       {suggestion.status}
                     </span>
+                    {synthetic && (
+                      <span className="border border-[#B99A5E]/60 bg-[#B99A5E]/10 px-1.5 py-[1px] font-mono text-[8px] uppercase tracking-[0.1em] text-[#7A6334]">
+                        synthetic
+                      </span>
+                    )}
                     <button
                       onClick={() =>
                         setOpenTrace(openTrace === suggestion.id ? null : suggestion.id)

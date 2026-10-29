@@ -598,12 +598,19 @@ export function inkRatio(image: RgbaImage): number {
   return total ? Math.round((ink / total) * 1000) / 1000 : 0;
 }
 
+/**
+ * The dense region of a page: every grid cell whose ink ratio is within five
+ * points of the densest cell, merged into one box. A single cell on a page
+ * whose content fills two rows is arbitrary; the merged box points at the area
+ * a designer has to open up.
+ */
 export function densestBlock(
   image: RgbaImage,
   grid: { cols: number; rows: number } = { cols: 4, rows: 3 },
-): { bbox: BBox; ratio: number } {
+): { bbox: BBox; ratio: number; cells: number } {
   const bg = backgroundColour(image);
-  let best = { bbox: { x: 0, y: 0, w: 1 / grid.cols, h: 1 / grid.rows }, ratio: 0 };
+  const cells: { bbox: BBox; ratio: number }[] = [];
+  let max = 0;
   for (let gy = 0; gy < grid.rows; gy++) {
     for (let gx = 0; gx < grid.cols; gx++) {
       const x0 = Math.floor((gx / grid.cols) * image.width);
@@ -619,15 +626,28 @@ export function densestBlock(
         }
       }
       const ratio = total ? ink / total : 0;
-      if (ratio > best.ratio) {
-        best = {
-          bbox: { x: gx / grid.cols, y: gy / grid.rows, w: 1 / grid.cols, h: 1 / grid.rows },
-          ratio: Math.round(ratio * 1000) / 1000,
-        };
-      }
+      max = Math.max(max, ratio);
+      cells.push({
+        bbox: {
+          x: gx / grid.cols,
+          y: gy / grid.rows,
+          w: 1 / grid.cols,
+          h: 1 / grid.rows,
+        },
+        ratio,
+      });
     }
   }
-  return best;
+  const dense = cells.filter((cell) => cell.ratio >= max - 0.05);
+  const x0 = Math.min(...dense.map((cell) => cell.bbox.x));
+  const y0 = Math.min(...dense.map((cell) => cell.bbox.y));
+  const x1 = Math.max(...dense.map((cell) => cell.bbox.x + cell.bbox.w));
+  const y1 = Math.max(...dense.map((cell) => cell.bbox.y + cell.bbox.h));
+  return {
+    bbox: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 },
+    ratio: Math.round(max * 1000) / 1000,
+    cells: dense.length,
+  };
 }
 
 export function median(values: number[]): number {

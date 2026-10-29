@@ -60,8 +60,8 @@ as the PDFs, because this environment has no canvas backend for pdf.js.
 
 | Deck | Pages | Findings | Expected | Detected | IoU ≥ 0.70 | Mean IoU | Runtime |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Clean | 10 | 0 | 0 | 0 | 0 | 0 | 73.2 ms/page |
-| Violations | 10 | 7 | 7 | 7 | 6 | 0.795 | 54.4 ms/page |
+| Clean | 10 | 0 | 0 | 0 | 0 | — | 72.5 ms/page |
+| Violations | 10 | 7 | 7 | 7 | **7** | **0.918** | 54.5 ms/page |
 
 Per violation:
 
@@ -69,13 +69,13 @@ Per violation:
 | ---: | --- | --- | ---: | --- |
 | 2 | VIS-LOGO-MARGIN | found | 0.91 | 0.3% of page width from the left edge |
 | 3 | VIS-LOGO-CLEARSPACE | found | 0.95 | 0.16× logo height |
-| 4 | VIS-PALETTE | found | 1.00 | #FF2E93, ΔE 65.6 from nearest palette colour |
-| 5 | VIS-TYPE-FAMILY | found | 0.71 | 3 text items set in serif |
-| 6 | VIS-DENSITY | found | 0.00 | 64.7% of the page covered |
+| 4 | VIS-PALETTE | found | 0.998 | #FF2E93, ΔE 65.6 from nearest palette colour |
+| 5 | VIS-TYPE-FAMILY | found | 0.709 | 3 text items set in serif |
+| 6 | VIS-DENSITY | found | 0.862 | 64.7% of the page covered |
 | 7 | VIS-TYPE-SIZE | found | 1.00 | median body size 24.0 pt |
 | 10 | VIS-LOGO-PRESENT | found | 1.00 | logo not detected |
 
-Acceptance checks: **4/4 pass**.
+Acceptance checks: **5/5 pass**, including density pointing at the dense region.
 
 1. Every injected logo, margin, clear-space and palette violation found.
 2. Those violations have IoU ≥ 0.70.
@@ -84,10 +84,11 @@ Acceptance checks: **4/4 pass**.
 
 Weak spots, stated plainly:
 
-- The density check is a whole-page measurement, so its box IoU is 0.00 by
-  construction. It is reported, not asserted.
+- The density box is the merged dense region rather than a single grid cell.
+  Its IoU is 0.862 against the fixture's declared block geometry. It is a
+  page-level measure, so it points at the area to open up, not at an object.
 - The serif check detects that something is off-family and boxes the affected
-  text, not a pixel-perfect glyph region (IoU 0.71).
+  text, not a pixel-perfect glyph region (IoU 0.709).
 - Only generated fixtures were measured. A real Keynote/PowerPoint/Google Slides
   export was **not** available in this environment, so "does not crash on a real
   export" is unverified.
@@ -98,19 +99,20 @@ Command: `bun run eval:analytics` → `eval/analytics-results.json`.
 
 | Check | Result |
 | --- | --- |
-| Synthetic history | 271 submissions, 543 findings, 479 decisions, 21 rules, 90 days |
+| Synthetic history | 283 submissions, 565 findings, 506 decisions, 21 rules, 90 days |
 | Stored aggregates vs independent recomputation | 21 rules × 8 fields, **0 mismatches** |
 | Recompute twice | **idempotent: true** |
-| Rules with decisions / enough data | 21 / 17 (minimum 20 decisions) |
-| Top drifting channel | `landing`, +0.40 findings per day (0.82 → 1.22), 92 findings |
-| Suggested rewordings | 2 (R-TERM-03, R-VIS-02), all citing decision records |
+| Rules with decisions / enough data | 21 / 18 (minimum 20 decisions) |
+| Top drifting channel | `email`, +0.60 findings per day (1.04 → 1.64), 121 findings |
+| Suggested rewordings | **3** (R-TONE-02, R-TERM-03, R-VIS-02), each citing 8 real decisions |
 | Method | deterministic template path |
 | Overall | **PASS** |
 
 Reading: the aggregate table is derived from raw rows and can be recomputed
-exactly. The requirement asked for three suggested rewordings; two cleared the
-evidence threshold in this dataset. That is a gap, not a rounding: adding a third
-by lowering the threshold would manufacture a recommendation.
+exactly. The three seeded contested rules each clear both the disagreement count
+and the override-rate threshold without changing either threshold. The check
+fails if any evidence id is not a real decision, or if fewer than three
+suggestions are produced.
 
 ## 4. Deep lane from saved live runs
 

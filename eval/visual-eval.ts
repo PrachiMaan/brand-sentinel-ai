@@ -109,8 +109,8 @@ for (const deck of fixtures.decks) {
 }
 
 // Box accuracy is asserted for the checks whose evidence is a located mark or
-// colour region. Typography and density are page-level checks; their IoU is
-// reported but not a pass condition.
+// colour region. Typography is a page-level check; its IoU is reported but not a
+// pass condition.
 const BOX_RULES = ["VIS-LOGO-MARGIN", "VIS-LOGO-CLEARSPACE", "VIS-PALETTE", "VIS-LOGO-PRESENT"];
 
 const expectations = [
@@ -133,6 +133,12 @@ const expectations = [
   {
     check: "No unexpected findings on the violations deck pages",
     pass: (decks.find((deck) => deck.deckId === "violations")?.unexpected.length ?? 1) === 0,
+  },
+  {
+    check: "Density points at the dense region (IoU >= 0.70)",
+    pass: (decks.find((deck) => deck.deckId === "violations")?.violations ?? [])
+      .filter((violation) => violation.ruleId === "VIS-DENSITY")
+      .every((violation) => violation.detected && violation.iou >= 0.7),
   },
 ];
 

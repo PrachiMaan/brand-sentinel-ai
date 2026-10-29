@@ -2,6 +2,29 @@
 
 Newest first. Dates are the day the work landed in the workspace.
 
+## 29 October 2026 — closing pass
+
+**Proven live**
+
+- Review API end to end with keys created through the app: submit, same-key
+  replay, 409 on a conflicting body, 403 for a creator key approving, findings,
+  decisions, approval, receipt manifest, and 429 after the rate limit.
+- `scripts/api-demo.ts` added; 12/12 checks pass against the deployed API.
+- Webhook delivery to an external echo (200) and a failure endpoint (500, retry
+  scheduled), plus a local-receiver test through the real delivery handler for
+  signature, retry schedule and dead-letter.
+
+**Changed**
+
+- Three synthetic rules are seeded as genuinely contested with distinct batch
+  seeds, so exactly three suggestions are produced, each citing eight real
+  decision ids.
+- `seedHistory` now accepts every 30-day batch instead of stopping after the
+  first; `removeSynthetic` removes one batch per call to stay inside the Convex
+  read limit, and the UI removes all three.
+- Density findings report the merged dense region, and the fixture ground truth
+  comes from declared block geometry. IoU 0.862; visual eval 5/5, mean 0.918.
+
 ## 29 October 2026 — audit and polish pass
 
 No new features. Correctness, verification and documentation.

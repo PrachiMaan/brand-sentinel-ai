@@ -20,13 +20,17 @@ import {
   type RawFinding,
   type RawSubmission,
 } from "../src/convex/lib/analytics";
-import { HISTORY_DAYS, planHistory } from "../src/convex/lib/history";
+import { HISTORY_BATCHES, HISTORY_DAYS, planHistoryBatch } from "../src/convex/lib/history";
 import { RULES } from "../src/convex/lib/lumora";
 
 const NOW = Date.parse("2026-10-24T09:30:00.000Z");
 const DAY = 86_400_000;
 
-const planned = planHistory({ fromDay: 0, toDay: HISTORY_DAYS, nowMs: NOW });
+// Compose the same three seeded batches the app loads, so this check measures
+// the history a reviewer actually sees.
+const planned = Array.from({ length: HISTORY_BATCHES }, (_, batch) =>
+  planHistoryBatch({ batch, nowMs: NOW }),
+).flat();
 
 const submissions: RawSubmission[] = planned.map((s, i) => ({
   id: `s${i}`,
@@ -227,10 +231,26 @@ const suggestions = RULES.map((rule) =>
   }),
 ).filter((s): s is NonNullable<typeof s> => Boolean(s));
 
+const decisionIds = new Set(decisions.map((d) => d.findingId));
+const decisionsById = new Map(decisions.map((d) => [d.findingId, d]));
 for (const suggestion of suggestions) {
   if (suggestion.evidenceDecisionIds.length < 2) {
     failures.push(`${suggestion.ruleId}: suggestion cites fewer than two decisions`);
   }
+  for (const id of suggestion.evidenceDecisionIds) {
+    if (!decisionIds.has(id)) {
+      failures.push(`${suggestion.ruleId}: evidence id ${id} is not a real decision`);
+    }
+  }
+  if (!suggestion.evidenceDecisionIds.some((id) => decisionsById.get(id)?.decision !== "accept")) {
+    failures.push(`${suggestion.ruleId}: evidence cites no disagreement`);
+  }
+}
+
+// Three rules are seeded as genuinely contested; the check fails if the seeded
+// history can no longer support three evidenced proposals.
+if (suggestions.length < 3) {
+  failures.push(`only ${suggestions.length} suggestions cleared the evidence threshold, expected 3`);
 }
 
 const rulesWithDecisions = summaries.filter((s) => s.decisions > 0).length;
@@ -267,7 +287,16 @@ const report = {
     ruleIds: suggestions.map((s) => s.ruleId),
     methods: Array.from(new Set(suggestions.map((s) => s.method))),
     allCiteEvidence: suggestions.every((s) => s.evidenceDecisionIds.length >= 2),
+    evidence: suggestions.map((s) => ({
+      ruleId: s.ruleId,
+      cited: s.evidenceDecisionIds.length,
+      realDecisions: s.evidenceDecisionIds.filter((id) => decisionIds.has(id)).length,
+      disagreements: s.evidenceDecisionIds.filter(
+        (id) => decisionsById.get(id)?.decision !== "accept",
+      ).length,
+    })),
   },
+  synthetic: true,
   failures,
   passed: failures.length === 0,
 };
@@ -280,7 +309,16 @@ console.log(`  submissions ${report.input.plannedSubmissions} · findings ${repo
 console.log(`  rules compared ${report.storedVsRecomputed.rulesCompared} × ${report.storedVsRecomputed.fieldsPerRule} fields`);
 console.log(`  idempotent: ${idempotent}`);
 console.log(`  top drifting channel: ${report.drift.topChannel ?? "none"}`);
-console.log(`  suggestions: ${suggestions.length} (${suggestions.map((s) => s.ruleId).join(", ") || "none"})`);
+console.log(
+  `  suggestions: ${suggestions.length} (${suggestions
+    .map(
+      (s) =>
+        `${s.ruleId} · ${s.evidenceDecisionIds.length} cited · ${s.evidenceDecisionIds.filter(
+          (id) => decisionsById.get(id)?.decision !== "accept",
+        ).length} disagreements`,
+    )
+    .join("; ") || "none"})`,
+);
 if (failures.length) {
   console.error(`FAILURES (${failures.length}):`);
   for (const f of failures) console.error(`  - ${f}`);

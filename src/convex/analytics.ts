@@ -13,7 +13,7 @@ import {
   wilsonInterval,
 } from "./lib/analytics";
 import type { DecisionKind, HealthRow, RawDecision } from "./lib/analytics";
-import { BATCH_DAYS, HISTORY_BATCHES, planHistory } from "./lib/history";
+import { BATCH_DAYS, HISTORY_BATCHES, planHistoryBatch } from "./lib/history";
 import { canonicalJson, sha256Hex } from "./lib/sha256";
 
 const DAY = 86_400_000;
@@ -374,20 +374,22 @@ export const seedHistory = mutation({
       throw new Error("Unknown history batch.");
     }
     const now = Date.now();
+    const batchTo = now - args.batch * BATCH_DAYS * DAY;
+    const batchFrom = batchTo - BATCH_DAYS * DAY;
     const existing = await ctx.db
       .query("submissions")
       .withIndex("by_workspace", (q) => q.eq("workspaceId", session.workspace._id))
       .collect();
-    const synthetic = existing.filter((s) => s.synthetic);
+    // Only this batch's window matters: loading batch 1 must not be blocked by
+    // batch 0 already being present, and a batch must not be duplicated.
+    const synthetic = existing.filter(
+      (s) => s.synthetic && s.createdAt >= batchFrom && s.createdAt < batchTo,
+    );
     if (synthetic.length > 0) {
       return { created: 0, alreadyPresent: synthetic.length };
     }
 
-    const plans = planHistory({
-      fromDay: args.batch * BATCH_DAYS,
-      toDay: (args.batch + 1) * BATCH_DAYS,
-      nowMs: now,
-    });
+    const plans = planHistoryBatch({ batch: args.batch, nowMs: now });
     let findings = 0;
     let decisions = 0;
 
@@ -514,15 +516,26 @@ export const seedHistory = mutation({
 });
 
 export const removeSynthetic = mutation({
-  args: {},
-  handler: async (ctx) => {
+  args: { batch: v.optional(v.number()) },
+  handler: async (ctx, args) => {
     const session = await requireRole(ctx, ["admin"]);
     const ws = session.workspace._id;
+    const batch = args.batch ?? 0;
+    if (batch < 0 || batch >= HISTORY_BATCHES) {
+      throw new Error("Unknown history batch.");
+    }
+    // One batch per call: deleting a full 90-day history in one mutation
+    // exceeds Convex's per-execution read limit.
+    const now = Date.now();
+    const batchTo = now - batch * BATCH_DAYS * DAY;
+    const batchFrom = batchTo - BATCH_DAYS * DAY;
     const submissions = await ctx.db
       .query("submissions")
       .withIndex("by_workspace", (q) => q.eq("workspaceId", ws))
       .collect();
-    const synthetic = submissions.filter((s) => s.synthetic);
+    const synthetic = submissions.filter(
+      (s) => s.synthetic && s.createdAt >= batchFrom && s.createdAt < batchTo,
+    );
     let removed = 0;
     for (const submission of synthetic) {
       const findings = await ctx.db
@@ -552,12 +565,22 @@ export const removeSynthetic = mutation({
       .query("ruleOverrides")
       .withIndex("by_workspace", (q) => q.eq("workspaceId", ws))
       .collect();
-    for (const row of overrides.filter((r) => r.synthetic)) await ctx.db.delete(row._id);
+    for (const row of overrides.filter(
+      (r) => r.synthetic && r.createdAt >= batchFrom && r.createdAt < batchTo,
+    )) {
+      await ctx.db.delete(row._id);
+    }
     const health = await ctx.db
       .query("ruleHealth")
       .withIndex("by_workspace", (q) => q.eq("workspaceId", ws))
       .collect();
-    for (const row of health.filter((r) => r.synthetic)) await ctx.db.delete(row._id);
+    const fromDay = dayKey(batchFrom);
+    const toDay = dayKey(batchTo);
+    for (const row of health.filter(
+      (r) => r.synthetic && r.day >= fromDay && r.day < toDay,
+    )) {
+      await ctx.db.delete(row._id);
+    }
 
     await appendAudit(ctx, {
       workspaceId: ws,
@@ -567,9 +590,9 @@ export const removeSynthetic = mutation({
       action: "analytics.synthetic_history_removed",
       entityType: "workspace",
       entityId: ws,
-      payload: { submissions: removed },
+      payload: { submissions: removed, batch },
     });
-    return { removed };
+    return { removed, batch };
   },
 });
 

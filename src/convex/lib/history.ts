@@ -100,7 +100,20 @@ const REASONS: Record<string, string[]> = {
   ],
 };
 
-const AMBIGUOUS = new Set(["R-TONE-02", "R-VIS-02", "R-CHAN-01", "R-TERM-03"]);
+const AMBIGUOUS = new Set(["R-TONE-02", "R-VIS-02", "R-TERM-03"]);
+
+/**
+ * Three rules are seeded as genuinely contested: they draw enough decisions
+ * and enough edit/reject disagreement to clear the suggestion thresholds on
+ * their own evidence. The rates are properties of the synthetic scenario, not
+ * of a threshold being lowered. R-CHAN-01 is deliberately left below the
+ * disagreement threshold so the page can show a rule that is not actionable yet.
+ */
+const CONTESTED: Record<string, number> = {
+  "R-TONE-02": 0.68,
+  "R-TERM-03": 0.82,
+  "R-VIS-02": 0.6,
+};
 
 const TEAM_CHANNEL: { team: string; channel: string }[] = [
   { team: "Social", channel: "instagram" },
@@ -123,8 +136,23 @@ const TITLES = [
 const DAY = 86_400_000;
 export const HISTORY_DAYS = 90;
 export const BATCH_DAYS = 30;
+export const DEFAULT_SEED = 20_261_025;
 
 export const HISTORY_BATCHES = Math.ceil(HISTORY_DAYS / BATCH_DAYS);
+
+/**
+ * One 30-day block. Each batch draws from its own stream so three batches are
+ * three different slices of a brand's history, not the same month repeated.
+ * The analytics check composes the same three batches, so app and eval agree.
+ */
+export function planHistoryBatch(args: { batch: number; nowMs: number }): PlannedSubmission[] {
+  return planHistory({
+    fromDay: args.batch * BATCH_DAYS,
+    toDay: (args.batch + 1) * BATCH_DAYS,
+    nowMs: args.nowMs,
+    seed: DEFAULT_SEED + args.batch * 7919,
+  });
+}
 
 /** Plans `[fromDay, toDay)` counted backwards from today. Day 0 is yesterday. */
 export function planHistory(args: {
@@ -133,7 +161,7 @@ export function planHistory(args: {
   nowMs: number;
   seed?: number;
 }): PlannedSubmission[] {
-  const random = mulberry32(args.seed ?? 20_261_025);
+  const random = mulberry32(args.seed ?? DEFAULT_SEED);
   const out: PlannedSubmission[] = [];
   const rules = RULES;
 
@@ -155,7 +183,7 @@ export function planHistory(args: {
         const atMs = createdAt + Math.floor(random() * 6 * 3_600_000);
         const decided = random() > 0.12;
         const decisionRoll = random();
-        const overrideChance = ambiguous ? 0.5 : driftRule ? 0.42 : 0.14;
+        const overrideChance = CONTESTED[rule.ruleId] ?? (ambiguous ? 0.5 : driftRule ? 0.42 : 0.14);
         const contested = decided && decisionRoll < overrideChance;
         const kind = contested ? (random() < 0.58 ? "edit" : "reject") : "accept";
         const reasons = REASONS[rule.ruleId] ?? ["Reviewer noted an exception."];

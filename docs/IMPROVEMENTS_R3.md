@@ -4,152 +4,149 @@ Three improvements were committed to for Round 3. This file records what was
 promised, what exists, what was measured, and where it falls short. No other new
 headline features were added.
 
-Measurements are from 29 October 2026, workspace HEAD `2dc752b` plus the
-uncommitted fixes in `docs/AUDIT.md`.
+Measurements from 29 October 2026, workspace HEAD `2dc752b` plus the uncommitted
+fixes in `docs/AUDIT.md`.
 
 ---
 
 ## 1. Visual Consistency Engine v2
 
 **Promised.** Logo clear-space and placement, palette distance, typography and
-layout checks on deck and PDF pages, with visual overlays; every finding needs a
-measured value, a page number and a box, or it is dropped.
+layout checks on deck and PDF pages, with overlays; every finding needs a measured
+value, a page number and a box, or it is dropped.
 
-**Delivered.** A deterministic page analyser in `src/convex/lib/visual.ts` that
-runs on rasterised pages and extracted text items:
+**Delivered.** A deterministic page analyser (`src/convex/lib/visual.ts`) over
+rasterised pages and extracted text:
 
-| Check | What it measures | Rule |
-| --- | --- | --- |
-| Logo present | normalised logo template correlation across the page | VIS-LOGO-PRESENT |
-| Logo margin | distance from the page edge as a share of page width | VIS-LOGO-MARGIN |
-| Logo clear space | nearest text/ink distance in multiples of logo height | VIS-LOGO-CLEARSPACE |
-| Palette | share of page pixels far from every brand colour in CIELAB (ΔE) | VIS-PALETTE |
-| Type family | share and count of text items set in a serif face | VIS-TYPE-FAMILY |
-| Type size | median body size in points, lower quartile | VIS-TYPE-SIZE |
-| Density | share of the page covered by ink | VIS-DENSITY |
+| Check | What it measures | Rule | Box |
+| --- | --- | --- | --- |
+| Logo present | normalised template correlation | VIS-LOGO-PRESENT | whole mark |
+| Logo margin | distance to page edge as a share of width | VIS-LOGO-MARGIN | logo |
+| Logo clear space | nearest intrusion in multiples of logo height | VIS-LOGO-CLEARSPACE | logo + intruding block |
+| Palette | page pixels far from brand colours in CIELAB | VIS-PALETTE | offending region |
+| Type family | serif share of text items | VIS-TYPE-FAMILY | affected text band |
+| Type size | median and lower-quartile body size | VIS-TYPE-SIZE | text band |
+| Density | share of page covered by ink | VIS-DENSITY | dense region |
 
-Pages are rendered client-side with pdf.js (`src/lib/pdf.ts`), uploaded as page
-images with their text items, and analysed server-side. Overlays use the same
-normalised boxes the verifier checks. A finding without a page, an in-range box
-and a measured value is dropped by `verifyVisualFields`.
+The density box is the union of every grid cell within five points of the densest
+cell, not an arbitrary single cell. On a page whose content fills two bands, that
+is the region a designer has to open up.
 
-**Measured.**
+**Measured** (`bun run eval:visual`):
 
 | Metric | Result |
 | --- | --- |
 | Injected violations detected | 7 / 7 |
-| Box-based violations with IoU ≥ 0.70 | 4 / 4 (0.91, 0.95, 1.00, 1.00) |
-| Mean IoU across all seven | 0.795 |
+| Violations with IoU ≥ 0.70 | 7 / 7 |
+| Mean IoU | 0.918 |
+| Density IoU | 0.862 |
+| Logo margin / clear space / palette | 0.91 / 0.946 / 0.998 |
+| Type family / type size | 0.709 / 1.000 |
 | Findings on the clean 10-page deck | 0 |
 | Unexpected findings on the violations deck | 0 |
-| Runtime | 54.4 ms/page (violations), 73.2 ms/page (clean) |
+| Runtime | 54.5 ms/page (violations), 72.5 ms/page (clean) |
+| Acceptance checks | 5 / 5 |
 | Unit tests | 8 pass |
-
-Acceptance criterion met for logo, clear-space and palette. Typography and
-density are detected and boxed but are page-level checks, not box-accuracy
-checks, and are reported as such.
 
 **Not delivered / not proven.**
 
 - No real Keynote, PowerPoint or Google Slides export was tested; only generated
-  fixture decks. This is recorded in `docs/KNOWN_LIMITATIONS.md`.
+  fixture decks. Recorded in `docs/KNOWN_LIMITATIONS.md`.
 - The page viewer and overlay interactions were not clicked in a browser here.
-- Logos are matched with a generated template, not a learned detector. A logo
-  with heavy distortion or a different lockup may be reported missing.
+- Logos are matched with a generated template, not a learned detector.
+- Density is a page-level measurement; its box points at the area to fix, not at
+  a discrete object.
 
 ## 2. Brand Drift and Rule Health
 
 **Promised.** A 90-day history, per-rule override rate with a confidence
-interval, the top drifting channel with numbers, suggested rewordings that open
-the decisions behind them, an idempotent recompute that an independent script can
-reproduce, and removable synthetic data that leaves a valid audit chain.
+interval, the top drifting channel with numbers, three suggested rewordings that
+open the decisions behind them, an idempotent recompute that an independent script
+can reproduce, and removable synthetic data that leaves a valid audit chain.
 
 **Delivered.**
 
-- `src/convex/lib/history.ts` plans a deterministic 90-day synthetic history from
-  a fixed seed and clock: 271 submissions, 543 findings, 479 decisions across 21
+- `src/convex/lib/history.ts` plans three deterministic 30-day batches, each from
+  its own seed, for 283 submissions, 565 findings and 506 decisions across 21
   rules and five channels. Every row is marked synthetic.
-- `src/convex/analytics.ts` aggregates decisions and findings into `ruleHealth`
-  and `ruleSuggestions`, with a Wilson score interval and a minimum sample of 20
-  decisions before a rule is called judgeable.
-- Drift compares findings per day in the first and last 30-day windows per
-  channel, using actual counts.
+- Three rules are seeded as genuinely contested (`R-TONE-02`, `R-TERM-03`,
+  `R-VIS-02`) with enough decided findings and enough edit/reject disagreement to
+  clear the evidence threshold. `R-CHAN-01` is deliberately left below it.
+- `src/convex/analytics.ts` aggregates with a Wilson interval and a 20-decision
+  sample gate; suggestions require 12 disagreements and a 25% override rate, and
+  cite the real decision ids.
 - `src/pages/RuleHealth.tsx` shows override rate, interval, sample size, drift by
-  channel, and suggestions that link to decision records. The synthetic label is
-  visible, and the admin can remove synthetic rows.
-- A daily cron recomputes recent aggregates at 02:30 UTC, and admins can
-  recompute on demand.
+  channel, and suggestions that trace to decision records. It labels the data
+  synthetic at page level, per rule row, and on each suggestion.
+- Removal is batched per 30 days so a full history stays inside Convex’s read
+  limit; the UI removes all three batches.
 
-**Measured.**
+**Measured** (`bun run eval:analytics`):
 
 | Metric | Result |
 | --- | --- |
-| Stored vs recomputed fields | 21 rules × 8 fields, 0 mismatches |
+| Submissions / findings / decisions | 283 / 565 / 506 |
+| Stored vs recomputed | 21 rules × 8 fields, 0 mismatches |
 | Second recompute | identical (`idempotent: true`) |
-| Rules judgeable (≥ 20 decisions) | 17 / 21 |
-| Top drifting channel | `landing`, +0.40 findings/day (0.82 → 1.22), 92 findings |
-| Suggestions produced | 2 (R-TERM-03, R-VIS-02), all citing decision records |
+| Rules judgeable (≥ 20 decisions) | 18 / 21 |
+| Top drifting channel | `email`, 1.04 → 1.64 findings/day, +0.60 |
+| Suggestions produced | **3**: R-TONE-02, R-TERM-03, R-VIS-02 |
+| Evidence per suggestion | 8 decisions, all real, all edit/reject, all with reasons |
 | Suggestion method | deterministic template |
-| Unit tests | 10 pass |
+| Live removal → reseed → chain verify | `ok: true`, 69 entries |
 
-**Shortfall.** The plan said three suggested rewordings. Two rules cleared the
-evidence threshold in this dataset. A third was not manufactured by loosening the
-threshold; the page shows what exists.
-
-**Not proven.** The synthetic-data removal path was not followed by a chain
-re-verification in this pass. The cron has not been observed firing in
-production. Charts were not visually checked.
+**Not proven.** The daily cron has not been observed firing in production, and
+the charts were not visually inspected at different widths.
 
 ## 3. Integration path: Review API, signed webhooks, Google Docs sidebar
 
-**Promised.** Versioned HTTP API with scoped keys, idempotent submission,
-conflict detection, rate limits, an OpenAPI contract that matches behaviour,
-signed webhook delivery with retries and a dead-letter view, an SSRF guard, an API
-demo script, and a Google Docs sidebar that uses the same endpoints.
+**Promised.** Versioned HTTP API with scoped keys, idempotent submission, conflict
+detection, rate limits, an OpenAPI contract that matches behaviour, signed webhook
+delivery with retries and a dead-letter view, an SSRF guard, an API demo script,
+and a Google Docs sidebar that uses the same endpoints.
 
-**Delivered.**
+**Delivered and verified live.** Keys were created through the app’s own
+`apiAdminActions.createKey` action (admin session), not inserted by hand.
 
-| Piece | Where | Notes |
-| --- | --- | --- |
-| Versioned API | `src/convex/httpApi.ts` | `POST /api/v1/submissions`, `GET /api/v1/submissions/{id}`, `GET …/findings`, `POST …/decision`, `GET /api/v1/openapi.json` |
-| Scoped keys | `src/convex/api.ts`, `src/pages/ApiAccess.tsx` | key shown once, stored as SHA-256, scopes creator / reviewer / approver, revocable |
-| Idempotency | `idempotencyKeys` table | required `Idempotency-Key`; same key + same body returns the first response; same key + different body returns 409 |
-| Rate limits | `apiKeys` counters | per-key window, 429 with `retry-after` |
-| Error shape | one helper | `{ error: { code, message }, requestId }`, stable status mapping |
-| Webhooks | `src/convex/webhookDeliver.ts`, `lib/webhooks.ts` | HMAC-SHA256 over `timestamp.body`, `X-BrandSentinel-Signature: t=…,v1=…`, retries at 1 m, 5 m, 30 m, 2 h, 6 h, then dead letter |
-| SSRF guard | `lib/webhooks.ts` | rejects private, loopback and link-local hosts, credentials in URL, non-https outside localhost |
-| Delivery log | `webhookDeliveries` | every attempt recorded with status, response code and error |
-| Google Docs | `integrations/google-docs/` | Apps Script sidebar with settings, review, highlight, decisions and approval; install guide included |
+`bun run scripts/api-demo.ts` against the deployed API:
 
-**Measured.**
+```
+PASS  OpenAPI served — HTTP 200, 5 paths
+PASS  Submit — HTTP 202, id mn7e51mfap5exs9kfk6m1vs77d8h63fw
+PASS  Same-key replay returns the same submission — HTTP 202, same id
+PASS  Conflicting body gives 409 — HTTP 409, code conflict
+PASS  Creator-scope key cannot approve — HTTP 403, code forbidden
+PASS  Review completes — status findings_ready
+PASS  Findings returned — 10 findings, 10 pending
+PASS  Pending findings decided — 10 decisions recorded
+PASS  Approver key approves — HTTP 200, status approved
+PASS  Status endpoint confirms approval — status approved, version 1
+PASS  Receipt manifest complete — 10/10 decisions, version 1, source live
+PASS  Rate limit returns 429 — HTTP 429 after 59 requests, retry-after 40s
+
+12/12 checks passed
+```
+
+Webhooks, live and local:
 
 | Check | Result |
 | --- | --- |
-| OpenAPI served | `GET /api/v1/openapi.json` → 200, 5 paths |
-| Unauthenticated call | 401 with the documented error shape |
-| HMAC and header format | unit test matches Node's HMAC-SHA256 byte for byte |
-| Constant-time compare | unit test |
-| Backoff schedule | unit test: 1 m, 5 m, 30 m, 2 h, 6 h, stop |
-| SSRF refusals | unit tests for private, loopback, link-local, bad scheme |
-| Webhook unit tests | 9 pass |
+| Live POST to `https://httpbin.org/post` | delivered, HTTP 200 |
+| Live POST to `https://httpbin.org/status/500` | failed, HTTP 500, retry scheduled |
+| Local receiver through the real `deliver` handler | signature matched the documented `t=…,v1=…` scheme, body and headers correct |
+| Retry scheduling through the real `recordAttempt` | attempt 1 retries in ~60 s; attempt 6 dead-letters with no retry |
+| Success on a retry | marked delivered, no further scheduling |
+| Webhook delivery tests | **6 pass** |
 
-**Not proven — this is the weakest area of the three.**
+**Not delivered / not proven.**
 
-- No live API key was created in this pass, so submit → findings → decision via
-  curl, idempotent replay, 409, 403, 429 and contract tests against real responses
-  were **not run**. The endpoints and the OpenAPI document were written together
-  in one file to keep them aligned, but alignment is asserted by construction,
-  not by a contract test.
-- No webhook was delivered to a real receiver. Signing and scheduling are unit
-  tested; delivery, retry against a live endpoint and dead-lettering were not
-  observed.
-- The Google Docs sidebar has never been installed in Google Workspace. Its
-  Apps Script code was reviewed, not executed. Apps Script quotas and the
-  highlight behaviour are unverified.
-- `scripts/api-demo.ts`, which the plan asked for, does not exist. Creating it
-  without a key would produce an unrunnable script presented as working, so it was
-  left out and recorded here.
-
-**What a reviewer can see without a key.** The API reference page, the key
-management UI, the OpenAPI document and the documented signing algorithm. Nothing
-in the UI claims a delivery or a call that did not happen.
+- The external echo service returned 200 but does not inspect signatures, so
+  signature validation is proven locally, not by the remote receiver.
+- Live dead-lettering would take about 9.5 hours of backoff. The transition is
+  proven through the real mutation with an in-memory database.
+- **The Google Docs sidebar has never been installed** in Google Workspace. Its
+  Apps Script code was reviewed, not executed. Quotas and highlight behaviour are
+  unverified.
+- The Review Receipt PDF has no API endpoint; the script confirms the receipt
+  manifest (status, version, decisions, counts, source). The PDF itself is a
+  browser-side document.

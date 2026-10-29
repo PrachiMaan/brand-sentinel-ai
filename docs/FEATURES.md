@@ -30,9 +30,9 @@ missing.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Logo presence, margin, clear space | Tested | Eval: IoU 0.91 / 0.95 / 1.00 |
-| Palette distance per page | Tested | CIELAB ΔE, eval IoU 1.00 |
+| Palette distance per page | Tested | CIELAB ΔE, eval IoU 0.998 |
 | Typography family and body size | Tested | Page-level measures; serif share and median point size |
-| Ink density | Tested | Whole-page measurement, no box |
+| Ink density | Tested | Merged dense region, IoU 0.862 |
 | Page viewer with box overlays | Built | Two-way selection between boxes and findings |
 | Real slide-export support | Not proven | Only generated fixture decks were tested |
 
@@ -43,24 +43,24 @@ missing.
 | 90-day synthetic history | Tested | 271 submissions, 543 findings, 479 decisions |
 | Override rate with confidence interval | Tested | Wilson interval, 20-decision sample gate |
 | Drift by channel | Tested | Top channel `landing`, +0.40 findings/day |
-| Suggested rewordings citing decisions | Partial | 2 suggestions, not the 3 planned |
+| Suggested rewordings citing decisions | Tested | 3 suggestions (R-TONE-02, R-TERM-03, R-VIS-02), 8 real decisions each |
 | Idempotent recompute | Tested | 0 mismatches against an independent recomputation |
-| Remove synthetic data | Partial | Path exists; chain not re-verified afterwards |
+| Remove synthetic data | Tested | 3 batches removed, reseeded, chain verified (69 entries) |
 | Scheduled daily recompute | Built | Cron registered; not observed in production |
 
 ## Round 3: integration
 
 | Feature | Status | Notes |
 | --- | --- | --- |
-| Versioned HTTP API | Tested (surface) | OpenAPI served with 5 paths; unauthenticated 401 verified |
-| Scoped API keys, shown once, hashed | Built | No key created in this pass |
-| Idempotency and 409 on body conflict | Built | Not exercised live |
-| Rate limiting with 429 | Built | Not exercised live |
-| Signed webhooks and retry schedule | Partial | 9 unit tests; no live delivery |
+| Versioned HTTP API | Tested (live) | OpenAPI 200; submit, status, findings, decision, approve exercised |
+| Scoped API keys, shown once, hashed | Tested (live) | Keys created through the app action; 403 for a creator key approving |
+| Idempotency and 409 on body conflict | Tested (live) | Same-key replay returned the same id; conflicting body returned 409 |
+| Rate limiting with 429 | Tested (live) | 429 after 59 requests with `retry-after` |
+| Signed webhooks and retry schedule | Tested (live + local) | External 200 and 500; local receiver verified the signature; retry and dead letter through the real mutation |
 | Dead-letter view | Built | `webhookDeliveries` records every attempt |
 | SSRF guard | Tested | Private, loopback, link-local and bad schemes rejected |
 | Google Docs sidebar | Built | Never installed in Google Workspace |
-| API demo script | Missing | Not written; no key to run it |
+| API demo script | Tested | `scripts/api-demo.ts`, 12/12 checks live |
 
 ## Reliability and transparency
 
@@ -79,7 +79,7 @@ missing.
 
 | Feature | Status | Notes |
 | --- | --- | --- |
-| Seeded Lumora pack | Tested (data) | 14 rules, 6 claims, glossary, palette, voice |
+| Seeded Lumora pack | Tested (data) | 21 rules (14 copy + 7 visual), 6 claims, glossary, palette, voice |
 | Rulebook viewer | Built | Rules grouped by category with source excerpts |
 | Brand Pack Compiler (PDF/DOCX/CSV → typed rules) | Built | Admin review and publish flow; not run in this pass |
 | Rule health page | Tested (engine) | Numbers computed, not hard-coded |
