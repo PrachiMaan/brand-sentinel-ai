@@ -77,7 +77,7 @@ export function userPrompt(reviewer: ReviewerId, context: ReviewContext): string
     extras.push(
       "Claim Ledger. Use these ids. Status is authoritative: a claim marked expired cannot be used, even if the wording is close.\n" +
         claimsBlock(context.claims),
-      'For each claim-bearing sentence return claim_status (Supported, Unsupported, Expired or Contradicts) and, when it maps to a ledger row, claim_id. For Supported claims propose the nearest approved wording in suggested_fix. For Unsupported claims propose neutral copy that makes no performance claim.',
+      'For each claim-bearing sentence return claim_status (Supported, Unsupported, Expired or Contradicts) and, when it maps to a ledger row, claim_id. Only report a finding when the status is Unsupported, Expired or Contradicts: a sentence that matches an approved ledger entry in wording or in substance is Supported and produces no finding. For Unsupported claims propose neutral copy that makes no performance claim.',
     );
   }
   if (reviewer === "visual") {
@@ -85,7 +85,7 @@ export function userPrompt(reviewer: ReviewerId, context: ReviewContext): string
       "Approved palette:\n" +
         PALETTE.map((p) => `- ${p.name} ${p.hex} (${p.use})`).join("\n"),
       `Measured image analysis supplied with the submission: ${context.imageNote || "no image attached"}.`,
-      "You cannot see the image directly, so only report visual issues that the supplied measurements, alt text or copy support. Do not speculate about composition.",
+      "You cannot see the image directly, so only report visual issues that the supplied measurements, design swatch or palette support. Text, wording and claim accuracy are not visual issues and belong to other reviewers.",
     );
   }
   if (reviewer === "tone") {
@@ -93,6 +93,7 @@ export function userPrompt(reviewer: ReviewerId, context: ReviewContext): string
       `Brand voice descriptors: ${context.voice.descriptors.join(", ")}.`,
       `Voice sounds like:\n${context.voice.sounds.map((s) => `- ${s}`).join("\n")}\nVoice avoids:\n${context.voice.avoids.map((s) => `- ${s}`).join("\n")}`,
       `Reference sentence: "${context.voice.sample}"`,
+      "Review voice only. Numbers, evidence and claim accuracy belong to the claims reviewer; do not restate them as tone findings.",
     );
   }
 
@@ -107,8 +108,9 @@ export function userPrompt(reviewer: ReviewerId, context: ReviewContext): string
     ...extras,
     "",
     "Return JSON only, exactly this shape:",
-    `{"findings":[{"severity":"critical|high|medium|low","confidence":0.0,"span_text":"exact copy from content","rule_id":"R-...","guideline_excerpt":"exact copy from the guideline quote above","why_it_matters":"one or two sentences, concrete","suggested_fix":"minimal edit that preserves intent"${reviewer === "claims" ? ',"claim_status":"Supported|Unsupported|Expired|Contradicts","claim_id":"C-00X"' : ""}}]}`,
+    `{"findings":[{"severity":"critical|high|medium|low","confidence":0.85,"span_text":"exact copy from content","rule_id":"R-...","guideline_excerpt":"exact copy from the guideline quote above","why_it_matters":"one or two sentences, concrete","suggested_fix":"minimal edit that preserves intent"${reviewer === "claims" ? ',"claim_status":"Supported|Unsupported|Expired|Contradicts","claim_id":"C-00X"' : ""}}]}`,
     "Rules for the JSON:",
+    "- confidence is your own 0 to 1 estimate that the finding is correct and properly evidenced. Never return 0 for a finding you choose to report.",
     "- span_text must be copied verbatim from the content below, including punctuation. Keep it under 400 characters and quote one contiguous passage.",
     "- guideline_excerpt must be copied verbatim from the rule's Guideline text above.",
     "- rule_id must be one of the ids listed above.",

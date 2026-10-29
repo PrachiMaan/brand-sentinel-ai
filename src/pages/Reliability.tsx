@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { dateTime } from "@/lib/format";
-import { useAction, useMutation, useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { CheckCircle2, Loader2, Radio, Save, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -217,12 +217,12 @@ export default function Reliability() {
             {[
               [
                 "Circuit breaker",
-                status && (status.openedUntil ?? 0) > Date.now()
+                status?.breakerOpen
                   ? "Open"
                   : status?.lastSuccessAt
                     ? "Closed"
                     : "Never succeeded",
-                status && (status.openedUntil ?? 0) > Date.now()
+                status?.breakerOpen
                   ? `pauses calls until ${dateTime(status.openedUntil ?? 0)}`
                   : `${status?.consecutiveFailures ?? 0} consecutive failure(s)`,
               ],

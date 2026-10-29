@@ -1,7 +1,6 @@
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -83,16 +82,23 @@ export default function Rulebook() {
   const activeJob = jobs?.find((job) => job._id === jobId) ?? newestJob;
 
   useEffect(() => {
-    if (!activeJob?.proposal) return;
-    try {
-      const parsed = JSON.parse(activeJob.proposal) as Proposal;
-      setProposalMeta(parsed);
-      setDrafts(parsed.rules ?? []);
-      setCompileError(activeJob.error ?? null);
-      if (!jobId) setJobId(activeJob._id);
-    } catch {
-      setCompileError("The stored proposal could not be parsed.");
-    }
+    if (!activeJob?.proposal) return undefined;
+    const job = activeJob;
+    const proposal = activeJob.proposal;
+    // Deferred one tick: hydrating the editor from the stored job must not
+    // trigger a cascading render inside the same commit.
+    const timer = setTimeout(() => {
+      try {
+        const parsed = JSON.parse(proposal) as Proposal;
+        setProposalMeta(parsed);
+        setDrafts(parsed.rules ?? []);
+        setCompileError(job.error ?? null);
+        if (!jobId) setJobId(job._id);
+      } catch {
+        setCompileError("The stored proposal could not be parsed.");
+      }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [activeJob?.proposal, activeJob?._id]);
 
   const extract = async (file: File) => {

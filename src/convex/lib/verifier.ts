@@ -14,6 +14,7 @@ export type DroppedFinding = {
     | "unknown_rule"
     | "excerpt_not_in_rulebook"
     | "unknown_claim"
+    | "approved_copy"
     | "empty_finding";
   detail: string;
 };
@@ -94,7 +95,7 @@ export function verifyFindings(args: {
     if (reason === "span_not_found") droppedSpan++;
     else if (reason === "unknown_rule") droppedRule++;
     else if (reason === "excerpt_not_in_rulebook") droppedExcerpt++;
-    else if (reason === "unknown_claim") droppedClaim++;
+    else if (reason === "unknown_claim" || reason === "approved_copy") droppedClaim++;
     droppedLog.push({
       reviewer: f.reviewer,
       ruleId: f.rule_id,
@@ -130,6 +131,27 @@ export function verifyFindings(args: {
         f,
         "excerpt_not_in_rulebook",
         `"${f.guideline_excerpt.slice(0, 80)}" is not a quote from the rulebook.`,
+      );
+      continue;
+    }
+
+    // The Claim Ledger is authoritative. If the quoted span is an approved
+    // claim (or contains one), no reviewer may report it: the copy has already
+    // been cleared by scientific affairs. Expired and expiring claims are not
+    // protected here, so a real expiry violation still surfaces.
+    const span = normalise(f.span_text);
+    const approved = input.claims.find((claim) => {
+      if (claim.status === "expired") return false;
+      const approvedText = normalise(claim.approvedWording ?? "");
+      const claimText = normalise(claim.text);
+      const candidates = [approvedText, claimText].filter((text) => text.length >= 20);
+      return candidates.some((text) => span === text || span.includes(text) || text.includes(span));
+    });
+    if (approved && f.claim_status !== "Expired") {
+      drop(
+        f,
+        "approved_copy",
+        `The quoted span is approved copy from ${approved.claimId}, which is not expired.`,
       );
       continue;
     }

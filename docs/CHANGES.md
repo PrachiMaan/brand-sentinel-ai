@@ -1,7 +1,10 @@
 # What changed from the Round 1 plan, and why
 
-This is the honest change log. Every item below is a real difference between the
-Round 1 deck and the Round 2 build.
+This file covers the **Round 2** build. Round 3 additions and the later audit
+pass are recorded in `docs/CHANGELOG.md`.
+
+Every item below is a real difference between the Round 1 deck and the Round 2
+build.
 
 ## Stack substitutions (forced by the build environment, not preference)
 
@@ -82,11 +85,13 @@ runner now imports `runPipeline` directly in Bun. It runs the exact production
 module, needs no server, and is easier to reproduce. The Convex HTTP route was
 removed.
 
-## Deliberate non-goals that stayed non-goals
+## Deliberate non-goals at Round 2
 
 No Brand Drift dashboard, no Visual Consistency Engine v2, no Review API/webhooks,
-no Google Docs sidebar, no video, no auto-publish, no fine-tuning. The UI does not
-show these as working.
+no Google Docs sidebar, no video, no auto-publish, no fine-tuning. The Round 2 UI
+did not show these as working. The Brand Drift dashboard, Visual Consistency
+Engine, Review API/webhooks and Google Docs sidebar were subsequently built in
+Round 3; see `docs/CHANGELOG.md` and `docs/IMPROVEMENTS_R3.md`.
 
 ## What this means for judging
 

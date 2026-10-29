@@ -53,7 +53,9 @@ for (const deck of fixtures.decks) {
     const png = decodePng(readFileSync(page.png));
     pages.push({ page: page.page, image: png, text: page.textItems });
   }
+  const analysisStart = performance.now();
   const result = analyseDeck({ pages, rules: visualRules, palette });
+  const analysisMs = performance.now() - analysisStart;
   const violations = deck.groundTruth.violations.map((truth) => {
     const match = result.findings
       .filter((finding) => finding.ruleId === truth.ruleId && finding.page === truth.page)
@@ -95,6 +97,8 @@ for (const deck of fixtures.decks) {
             (violations.reduce((sum, v) => sum + v.iou, 0) / violations.length) * 1000,
           ) / 1000
         : 0,
+    analysisMs: Math.round(analysisMs * 100) / 100,
+    msPerPage: Math.round((analysisMs / pages.length) * 100) / 100,
     violations,
     unexpected: unexpected.map((finding) => ({
       ruleId: finding.ruleId,
@@ -155,7 +159,7 @@ const lines = [
         deck.findings,
       ).padStart(2)}  expected ${String(deck.expected).padStart(2)}  detected ${String(
         deck.detected,
-      ).padStart(2)}  IoU>=0.7 ${String(deck.detectedWithIou).padStart(2)}  meanIoU ${deck.meanIou}`,
+      ).padStart(2)}  IoU>=0.7 ${String(deck.detectedWithIou).padStart(2)}  meanIoU ${deck.meanIou}  ${deck.msPerPage} ms/page`,
   ),
   "",
   "Per violation",

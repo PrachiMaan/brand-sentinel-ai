@@ -1,254 +1,320 @@
 # BrandSentinel
 
-**The brand gate you can audit.** BrandSentinel reviews content against a company's
-brand guidelines before it is published, then hands the decision to a person. Every
-finding has to show verbatim evidence; every decision is written to a hash-chained
-audit trail.
+A pre-publication brand gate that reviews content against a company's brand
+guidelines, shows evidence for every finding, and hands the decision to a person.
+Every decision is written to a hash-chained audit trail.
 
-Round 2 prototype, October 2026. Seeded synthetic brand: **Lumora**.
+Round 3 prototype, October 2026. Seeded synthetic brand: **Lumora**.
 
----
+- Live app: **https://brandsentinel.freebuff.app/**
+- Repository: **https://github.com/PrachiMaan/brand-sentinel-ai**
+- API base: `https://tremendous-rabbit-679.convex.site/api/v1`
+
+## Try it in 4 minutes (no signup)
+
+1. Open https://brandsentinel.freebuff.app/ and choose **Try the demo**.
+2. Pick the **Creator** seat (Maya Rao). The submit page opens with the Lumora
+   launch caption loaded and the fast lane already highlighting issues.
+3. Press **Submit for review**. The deep lane runs live. All four seeded samples
+   also have a saved result from a live run on 29 Oct 2026, used when the gateway
+   is unavailable.
+4. Accept one finding, edit another, reject a third with a reason.
+5. Switch to the **Approver** seat (Ines Alvarez) in the header, approve, and
+   export the Review Receipt PDF.
+6. Open **Audit** and press **Verify chain**.
+
+The seats:
+
+| Seat | Role | One line |
+| --- | --- | --- |
+| Maya Rao | Creator | Writes and submits the copy, fixes what comes back |
+| Dev Kapoor | Reviewer | Accepts, edits or rejects findings with reasons |
+| Ines Alvarez | Approver | Approves or rejects, escalates claims to Legal, exports the receipt |
+| Ravi Shah | Admin | Owns the rulebook, compiles guideline packs, manages API keys |
+
+The demo uses anonymous authentication and a single shared workspace. Do not
+paste confidential material.
 
 ## What it does
 
-1. A creator submits a caption, email, ad or document, with an optional image.
-2. A **fast lane** runs in code in under a millisecond: prohibited words, product
-   naming, casing, claim-ledger matching, tone/jargon, WCAG contrast, alt text.
-3. A **deep lane** asks five specialist reviewers (Tone, Terminology, Claims,
-   Visual, Accessibility) for findings in one shared schema.
-4. An **evidence-or-silence verifier** drops any finding whose span is not
-   verbatim in the content, whose rule is not in the rulebook, whose guideline
-   excerpt is not from the guideline document, or whose claim id is not in the
-   ledger. Low-confidence findings go to **Needs human**.
-5. A **synthesizer** de-duplicates, ranks, scores brand fit, and proposes fixes as
-   tracked diffs. Nothing is auto-applied.
-6. A reviewer accepts, edits or rejects each finding with a reason. An approver
-   approves, rejects, or escalates a claims finding to Legal.
-7. A **Review Receipt** PDF exports the version hash, findings, human decisions,
-   AI services used and the disclosure statement. The **audit chain** can be
-   re-verified from the UI.
+1. **Submit** text with a channel, audience, optional image and alt text. PDF and
+   DOCX are accepted; PDF pages are reviewed individually, DOCX as text only.
+2. **Fast lane** runs in code in under a millisecond: prohibited and deprecated
+   terms, product naming and casing, channel limits, claim-ledger matching, tone
+   and urgency lexicons, WCAG contrast, off-palette image colours, missing alt
+   text. Highlights appear as you type.
+3. **Deep lane** asks five specialists (Tone, Terminology, Claims, Visual,
+   Accessibility) in parallel, in one shared schema. Content is delimited as data,
+   PII is redacted before the call.
+4. **Verifier** drops any finding whose quote is not verbatim in the content,
+   whose rule is not published, whose guideline excerpt is not from the rulebook,
+   whose claim id is unknown, or that contradicts an approved Claim Ledger entry.
+   Low-confidence findings go to **Needs human**.
+5. **Synthesizer** de-duplicates, ranks, scores brand fit and proposes fixes as
+   tracked diffs with an intent score. Nothing is auto-applied.
+6. **Human review**: accept, edit or reject each finding with a reason; comment;
+   request revision (new version); approve, reject, or escalate to Legal.
+7. **Receipt and audit**: a Review Receipt PDF with the version hash, findings,
+   decisions, models used and the AI disclosure. The audit chain can be re-verified
+   from the UI.
 
-## Live app
+Beyond the core loop:
 
-**https://brandsentinel.freebuff.app/**
+- **Visual Consistency Engine v2** — logo presence, margin, clear space, palette
+  distance in CIELAB, type family and size, ink density, with page overlays.
+- **Brand Drift and Rule Health** — override rates with confidence intervals,
+  per-channel drift, suggested rewordings citing decisions, over a labelled
+  synthetic 90-day history.
+- **Review API and webhooks** — scoped keys, idempotency, OpenAPI, signed HMAC
+  deliveries with retries and a dead-letter view, plus a Google Docs sidebar.
 
-Built and served in the Freebuff web workspace, on **Vite + React + Convex**. The
-build is not on Vercel; see `docs/CHANGES.md` for why the stack changed from the
-Round 1 plan.
-
-Repository: **https://github.com/PrachiMaan/brand-sentinel-ai**
-
-The Convex backend for this deployment is
-`https://tremendous-rabbit-679.convex.site`.
-
-## Demo login (no signup)
-
-1. Open https://brandsentinel.freebuff.app/ and choose **Try the demo**, or go to
-   `https://brandsentinel.freebuff.app/demo`.
-2. Pick a seat:
-   - **Maya Rao, Creator** — submit and watch the fast lane,
-   - **Dev Kapoor, Reviewer** — accept / edit / reject,
-   - **Ines Alvarez, Approver** — approve, reject, escalate to Legal, export receipt,
-   - **Ravi Shah, Admin** — compile and publish the rulebook.
-3. Use the role switcher in the app header at any time. Every switch is audited.
-4. On the submit page, press **Load Lumora sample**. It fills a launch caption,
-   an off-palette image, hex pair and alt text.
-
-The demo uses anonymous authentication, so no email is collected. The workspace is
-shared by all visitors; do not paste confidential material.
-
-## Architecture (what is actually built)
+## Architecture
 
 ```mermaid
-flowchart LR
-  U[Creator] -->|text + image + channel| S[Submit page]
-  S -->|fast lane, in browser/Convex<br/><1 ms| F[Rule engine<br/>glossary, naming, claims,<br/>tone, WCAG, palette]
-  S -->|action, query-driven job| J[reviewInternal.startRun]
-  J --> P[Pipeline action]
-  P --> R1[Tone reviewer]
-  P --> R2[Terminology reviewer]
-  P --> R3[Claims reviewer]
-  P --> R4[Visual reviewer]
-  P --> R5[Accessibility reviewer]
-  R1 & R2 & R3 & R4 & R5 --> V[Evidence verifier]
-  F --> Y[Synthesizer]
-  V --> Y
-  Y --> D[(Convex: findings, verifier stats,<br/>dropped log, brand fit)]
-  D --> W[Review workspace]
-  W --> H[Human decision per finding]
-  H --> A[(Audit chain: prev_hash + hash)]
-  H --> AP{Approver}
-  AP -->|approve| RC[Review Receipt PDF]
-  AP -->|reject / needs revision| V2[New version]
-  RC --> A
-  RB[(Rulebook, Claim Ledger, glossary)] --> P
-  RB --> F
+flowchart TB
+  UI[React app<br/>Vite + React Router] --> FL[Fast lane<br/>deterministic TS]
+  UI --> Q[Convex queries]
+  UI --> M[Convex mutations]
+  UI --> A[Convex node actions]
+  UI --> PDFR[PDF render<br/>pdf.js]
+
+  A --> P[Pipeline]
+  P --> R1[Tone] & R2[Terminology] & R3[Claims] & R4[Visual] & R5[Accessibility]
+  R1 & R2 & R3 & R4 & R5 --> GW[Model gateway]
+  R1 & R2 & R3 & R4 & R5 --> V[Verifier]
+  V --> S[Synthesizer]
+  S --> DB[(Convex tables)]
+  FL --> DB
+  M --> DB
+  Q --> DB
+  M --> AU[(Hash-chained audit)]
+  M --> WH[Webhooks<br/>HMAC + retries]
+  HTTP[HTTP API /api/v1] --> M
+  HTTP --> Q
 ```
 
-Everything runs inside one Convex deployment: Postgres-backed tables, queries,
-mutations, file storage, and node actions for model calls. There is no separate
-queue service. A review is a `runs` row with a progress array the UI subscribes to.
+One Convex deployment holds the database, auth, file storage and functions. There
+is no separate queue, cache, vector store or search service. A review is a `runs`
+row with a progress array; the UI subscribes to it.
 
-## Data model
+## Stack
 
-| Table | Purpose |
+| Layer | Choice |
 | --- | --- |
-| `workspaces`, `memberships` | One seeded Lumora workspace; per-user role |
-| `brandPacks`, `rules`, `glossary`, `claims` | The published brand pack: typed rules, banned/deprecated terms, claim ledger with expiry |
-| `submissions`, `versions` | Content, channel, audience, alt text, image, immutable version hash |
-| `runs` | One review run: fast/deep timings, verifier stats, dropped log, model, error |
-| `findings` | Shared Finding schema, one row per finding, with source and bucket |
-| `decisions` | Accept / edit / reject, reason, edited fix, actor and role |
-| `comments` | Threaded notes, optional finding id |
-| `auditEvents` | Append-only, `prevHash` + `hash` per row |
-| `llmCalls` | Prompt hash, provider, model, latency, tokens, ok/error, redactions |
-| `ruleOverrides` | Per-rule accept/edit/reject/escalate counts |
-| `compileJobs` | Brand Pack Compiler proposals and publication |
+| Client | Vite, React 19, React Router 7, TypeScript, Tailwind CSS 4, shadcn/ui, Radix, Framer Motion |
+| Backend | Convex (queries, mutations, node actions, file storage), Convex Auth (anonymous demo sessions) |
+| Validation | zod for all model output and HTTP input |
+| Documents | pdfjs-dist (render and text), mammoth (DOCX), pdf-lib (receipt) |
+| Tests and evals | Bun test, Bun scripts, generated PDF/PNG fixtures |
+| Hosting | Freebuff web workspace (not Vercel) |
 
-RLS equivalent: every query and mutation resolves the caller's membership and
-scopes by `workspaceId`; there are no cross-workspace reads. Convex functions are
-the only data path (the client never talks to the database directly).
+## Two lanes and the verifier
 
-## The two lanes
+**Fast lane** (`src/convex/lib/fastlane.ts`) is plain TypeScript. It runs in the
+browser on every keystroke and again on the server at submit. Median 0.153 ms over
+the 60-item eval set.
 
-**Fast lane** (`src/convex/lib/fastlane.ts`) is plain TypeScript with no network:
-banned and deprecated glossary terms (with inflections), full product naming,
-sentence case, email subject length, Claim Ledger matching (expired entries,
-unsupported percentages/timeframes, medical language), tone/urgency/hype jargon,
-WCAG 2.1 contrast from hex pairs or a design swatch, off-palette image colours in
-CIELAB, and missing alt text. It returns the same `Finding` schema as the model.
+**Deep lane** (`src/convex/ai/pipeline.ts`) calls five reviewers with
+`Promise.all`, each with the published rules for its category, the six-entry Claim
+Ledger, voice descriptors, channel, audience and an image note. Output is
+validated with zod; a parse failure gets one repair attempt, then that reviewer is
+marked failed and the rest of the report continues.
 
-**Deep lane** (`src/convex/ai/pipeline.ts`) runs the five reviewers with
-`Promise.all`. Each reviewer receives the delimited content, channel, audience,
-image note, the small Claim Ledger and the published rules. Output is validated
-with zod; a failed parse triggers one repair attempt, then that reviewer is marked
-as an error while the rest of the report continues.
+**Verifier** (`src/convex/lib/verifier.ts`): verbatim span, known rule id,
+guideline excerpt membership, known claim id, visual page/box/measurement, and the
+approved-copy rule. Drops and reasons are stored and shown; nothing is silently
+removed. On the four live sample runs it suppressed 14 of 30 model findings.
 
-**Verifier** (`src/convex/lib/verifier.ts`): exact span lookup, rule id lookup,
-guideline excerpt membership, optional claim id lookup, and a confidence floor.
-Dropped counts and reasons are stored and shown; nothing is silently removed.
-
-## Evaluation
-
-The seeded red-team set lives in `eval/dataset.json`: **60 items** across tone,
-naming, terminology, unsupported claims, expired claims, visual, accessibility,
-clean controls and two prompt-injection probes. Expected rules and failure modes
-are recorded per item.
-
-```bash
-# one-time: dataset is generated from the Lumora rulebook and seed variation
-bun run demo:dataset
-
-# run the real pipeline over the set
-VLY_INTEGRATION_KEY=$(bunx convex env get VLY_INTEGRATION_KEY) bun run eval
-```
-
-Results are written to `eval/results.json`, `eval/results.md` and
-`public/eval/results.json` (the Reliability page reads the last one). There is no
-tuning pass: the numbers in the repo are what the run produced.
-
-**Important, read before quoting the numbers.** The run committed in this repo
-was made while the model gateway's daily budget was exhausted. All 300 reviewer
-calls failed with a quota error, so the committed results measure the
-**deterministic rule engine only**, not the full two-lane pipeline. The file says
-so in `deepLane` and `notes`. Re-run when model quota is available to measure the
-deep lane and verifier suppression.
+**Audit**: every state change appends `seq`, `prevHash`, `hash` (SHA-256 over
+canonical JSON including the previous hash). **Verify chain** recomputes the whole
+chain and reports the first break.
 
 ## Setup
 
+Prerequisites: Bun 1.4+, Node 20+ (for a few scripts), and a Convex account for a
+new deployment. The prototype's deployment is already provisioned.
+
 ```bash
 bun install
-bunx convex dev          # interactive in a normal terminal; use --once for codegen
-bun run dev              # the Freebuff workspace runs this for you
+bunx convex dev            # links the project, pushes schema, generates types
+bun run dev                # Vite dev server (the Freebuff workspace runs this)
 ```
 
-Environment variables (see `.env.example`):
+In a non-interactive shell, use `bunx convex dev --once` to codegen and push, then
+typecheck:
 
-| Variable | Where | Purpose |
-| --- | --- | --- |
-| `VITE_CONVEX_URL` | client | Convex deployment URL |
-| `CONVEX_DEPLOYMENT` | local | Convex project/deployment selector |
-| `VLY_INTEGRATION_KEY` | Convex | Model gateway credential (already provisioned) |
-| `AI_PROVIDER` | Convex | `vly` (default) or `openai` |
-| `AI_MODEL_FAST`, `AI_MODEL_STRONG` | Convex | Model ids; default `gpt-4o-mini` |
-| `OPENAI_API_KEY` / `AI_API_KEY`, `AI_BASE_URL` | Convex | Optional OpenAI-compatible provider |
+```bash
+bunx convex dev --once && bunx tsc -b --noEmit
+```
 
-No secrets are committed. The model key lives in the Convex deployment, not in
-the repo or the client bundle. Only `.env.example` (empty values) is tracked; all
-other env files are gitignored. A scan of the git object store (5 commits, 202
-blobs) for API-key formats, private keys, bearer tokens and assignment-style
-secrets returned zero hits.
+Seeding: there is no separate seed command. The first demo login creates the
+Lumora workspace, brand pack, rules, claims, glossary, palette and voice, and is
+idempotent. Sample content is loaded from the submit page with **Load Lumora
+sample**, **Launch email**, **Clean control**, **Injection probe**, or the two
+sample decks.
 
-## Known limitations
+Regenerate demo assets or the eval dataset:
 
-- **Deep lane was unavailable during the final verification window.** The gateway
-  returned `Rate limit exceeded: daily LLM spend budget is exhausted`; the app
-  degrades to fast-lane findings and says so in the review banner. The deep-lane
-  code path, schemas, verifier and logging are built, but the final end-to-end run
-  could not include model output.
-- The evaluation set is seeded from the same rulebook the rule engine implements,
-  and the engine was developed against it, so its 95% precision / 100% recall is a
-  regression result and an upper bound, not a held-out benchmark.
-- Multi-page PDF/DOCX submission is **not built** (Tier 3). The submit page accepts
-  text and one image. The Brand Pack Compiler does extract text from PDF/DOCX.
-- Screenshots could not be captured in this environment: the browser binary needs
-  system libraries that the sandbox could not install (no disk space). The
-  submission package lists the intended captures instead of inventing them.
-- Version control is platform-managed. Commits are made by the workspace and the
-  remote is `github.com/PrachiMaan/brand-sentinel-ai`; direct `git push` is
-  blocked in the build sandbox, so the mirror is updated by the platform rather
-  than by hand. There is no Vercel deployment.
-- The receipt PDF is generated client-side with `pdf-lib`; it is a document of
-  record, not cryptographically signed. Its version and receipt hashes are also
-  recorded in the audit chain.
-- Legal escalation marks a finding and the submission; it does not create a
-  separate legal workspace.
-- Image analysis is limited to dominant colours and alt text. No logo detection,
-  text-in-image OCR or layout geometry (that is Round 3).
+```bash
+bun run demo:assets
+bun run demo:dataset
+```
 
-## AI services and open-source disclosure
+### Environment variables
 
-Hosted services actually used:
+Tracked: `.env.example` only, with placeholders. No secrets are committed.
 
-- **Convex** — database, auth, file storage, serverless functions.
-- **Freebuff model gateway (Vly integrations)** — chat completions used by the five
-  reviewers and the Brand Pack Compiler. Model id is logged per run (`gpt-4o-mini`
-  by default, configurable).
-- **Freebuff web workspace** — hosting and preview at
-  https://brandsentinel.freebuff.app/. No Vercel deployment.
-- No Supabase, no Inngest, no Redis, no pgvector.
+| Variable | Where | Required | Purpose |
+| --- | --- | --- | --- |
+| `VITE_CONVEX_URL` | client env | yes | Convex deployment URL |
+| `CONVEX_DEPLOYMENT` | local CLI | yes | Deployment selector for `convex dev` |
+| `CONVEX_SITE_URL` | local / deployment | for auth and API | HTTP actions base |
+| `VLY_INTEGRATION_KEY` | Convex deployment | no | Built-in model gateway credential |
+| `LLM_BASE_URL`, `LLM_API_KEY` | Convex deployment | no | Any OpenAI-compatible endpoint |
+| `LLM_MODEL`, `LLM_MODEL_STRONG` | Convex deployment | no | Model ids; default `gpt-4o-mini` |
+| `APP_BASE_URL` | Convex deployment | no | Link base in webhook payloads |
 
-Open-source libraries: React, Vite, React Router, Tailwind CSS, shadcn/ui, Radix UI,
-Lucide, Framer Motion, Convex, `@convex-dev/auth`, zod, `pdf-lib`, `mammoth`,
-`pdfjs-dist`, `sonner`.
+Set the model variables in the Convex dashboard or with
+`bunx convex env set NAME value`. The app never reads a secret in the browser.
 
-All model calls are logged to `llmCalls` with prompt hash, provider, model,
-latency, token counts, ok/error and redaction count. Content is delimited and
-passed as data. Email and phone numbers are redacted before model calls; the
-count is logged.
+## Running without a model key
 
-## AI assistance
+This is the normal state of the prototype.
 
-AI coding agents were used throughout development: scaffolding, Convex schema and
-functions, the fast-lane rule engine, the verifier, the review workspace, the
-receipt PDF generator, the evaluation harness and this documentation. Product
-decisions, rule content, the Lumora seed, the evaluation set and the final review
-were directed by the team. Model output in the product is always treated as a
-proposal; a human makes the decision, and the UI says so.
+- The fast lane, visual engine, drift analytics, API and webhooks never need a
+  model.
+- A **seeded sample** replays a saved deep-lane result for the same content hash
+  and rulebook version. It is re-verified on replay and labelled
+  "Saved from a live run on <date>, <model>". Four saved runs exist (29 Oct 2026).
+- **Custom content** tries the gateway; on failure it keeps fast-lane findings,
+  names the cause (budget, rate limit, timeout, invalid output, gateway down,
+  unconfigured) and offers **Retry deep review**. Three consecutive failures open
+  a 90-second circuit breaker so a dead gateway fails fast.
+- Nothing in the UI claims the model always runs.
+
+## Tests and evaluation
+
+```bash
+bun test                 # 74 unit tests, 9 files
+bun run typecheck        # tsc -b --noEmit
+bun run lint             # eslint
+bun run eval             # red-team set, deterministic lane, writes eval/results.json
+bun run eval:visual      # visual engine fixtures, writes eval/visual-results.json
+bun run eval:analytics   # recompute consistency, writes eval/analytics-results.json
+```
+
+Current numbers and how to read them: **`docs/EVALUATION.md`**. Summary:
+
+| Eval | Result |
+| --- | --- |
+| Red-team, 60 items | 95.2% precision, 100% recall — deterministic rule engine only |
+| Visual, 2 × 10-page decks | 7/7 found, 4/4 box checks at IoU ≥ 0.70, 0 findings on the clean deck, 54–73 ms/page |
+| Analytics | 0 mismatches vs independent recomputation, idempotent |
+| Deep lane | 4 saved live runs: 30 model findings, 16 kept, 14 suppressed by the verifier |
+
+The red-team run had no model credential, so it does not measure the deep lane.
+No deep-lane precision or recall is claimed. Fixtures are synthetic and
+self-authored, so these numbers are upper bounds.
+
+## Review API
+
+Base: `https://tremendous-rabbit-679.convex.site/api/v1`. OpenAPI:
+`GET /api/v1/openapi.json`.
+
+```bash
+curl -sS -X POST "$BASE/submissions" \
+  -H "Authorization: Bearer $KEY" \
+  -H "Idempotency-Key: launch-001" \
+  -H "content-type: application/json" \
+  -d '{"text":"Glow Serum is a MIRACLE.","channel":"instagram"}'
+```
+
+Create keys in the app as an admin under **API & Webhooks**; the key is shown
+once and stored hashed. Endpoints, scopes, error codes, idempotency and the
+webhook signing algorithm are documented in **`docs/API.md`**.
+
+The API surface is verified only without a key so far (OpenAPI 200, 401 shape).
+
+## Google Docs sidebar
+
+`integrations/google-docs/` contains the Apps Script files and an install guide.
+It has never been installed in Google Workspace in this environment; see
+`docs/KNOWN_LIMITATIONS.md`.
 
 ## Repository layout
 
 ```
 src/
-  convex/            schema, auth, brand pack, submissions, review pipeline,
-                     verifier, audit, compiler, eval helpers
-    ai/              provider gateway + five-reviewer pipeline
-    lib/             rules engines, Finding schema, Lumora seed, prompts
-  pages/             Landing, Demo, Submit, Review, Audit, Rulebook,
-                     RuleHealth, Reliability
-  components/        app shell, brand primitives
-eval/                dataset builder, runner, results
-demo-assets/         guideline PDF, captions, sample image
-submission/          SUBMISSION.pdf, FORM_ANSWERS.md, DEMO_SCRIPT.md
-docs/CHANGES.md      honest change log from the Round 1 plan
+  convex/            schema, auth, brand pack, submissions, review, verifier,
+                     audit, compiler, API, webhooks, analytics, visual engine
+    ai/              provider gateway and five-reviewer pipeline
+    lib/             rules engines, Finding schema, Lumora seed, prompts, history
+  pages/             Landing, Demo, Submit, Review, Audit, Rulebook, RuleHealth,
+                     Reliability, ApiAccess, Auth
+  components/        app shell and brand primitives
+eval/                dataset, runners, result files, fixtures
+tests/               unit tests
+scripts/             demo assets, visual fixtures, submission build
+integrations/        Google Docs sidebar
+public/demo-assets/  sample guideline PDF, image, decks, captions
+docs/                audit, architecture, features, improvements, API, evaluation,
+                     test results, limitations, roadmap, changelog, handoff
 ```
+
+## Troubleshooting
+
+| Symptom | Cause and fix |
+| --- | --- |
+| Blank preview or "Did you forget to run convex dev?" | Types or functions are stale. Run `bunx convex dev --once`, then `bunx tsc -b --noEmit` |
+| Review says "No model credentials are configured" | The deployment has no gateway key. Saved runs still replay; set `LLM_API_KEY`/`LLM_BASE_URL` or `VLY_INTEGRATION_KEY` to run live |
+| Review says the model budget is exhausted | Deployment-level gateway budget. Wait for reset, or use saved samples; the fast lane still works |
+| "Save model results for samples" saves nothing | Budget exhausted or no sample submissions exist. Load and submit a sample first |
+| PDF page never renders | pdf.js needs a secure context and a PDF under the size cap. DOCX is text-only by design |
+| `/api/v1` returns 401 | Missing or revoked key. Create one under **API & Webhooks**; keys are shown once |
+| Audit chain fails | A row was modified or removed. The verifier names the sequence number and rule that broke |
+
+## Documentation
+
+- `docs/ARCHITECTURE.md` — diagrams, data model, security, degraded mode
+- `docs/FEATURES.md` — what exists, with status
+- `docs/IMPROVEMENTS_R3.md` — the three Round 3 improvements, measured
+- `docs/EVALUATION.md` — all numbers and how to read them
+- `docs/TEST_RESULTS.md` — what was run, what was not
+- `docs/AUDIT.md` — requirement-by-requirement status
+- `docs/API.md` — endpoints, errors, webhooks
+- `docs/KNOWN_LIMITATIONS.md` — honest gaps
+- `docs/ROADMAP.md`, `docs/CHANGELOG.md`, `docs/HANDOFF.md`, `docs/CHANGES.md`
+
+## AI services and open-source disclosure
+
+Hosted services used:
+
+- **Convex** — database, auth, file storage, functions.
+- **Model gateway** — hosted chat completions through the Freebuff/Vly gateway,
+  `gpt-4o-mini` by default, used by the five reviewers and the Brand Pack
+  Compiler. Every call is logged with prompt hash, provider, model, latency,
+  tokens, outcome and redaction count.
+- **Freebuff web workspace** — hosting at the live URL.
+
+No Supabase, Vercel, Inngest, Redis, pgvector or external analytics.
+
+Open-source: React, React DOM, Vite, React Router, Tailwind CSS, shadcn/ui, Radix
+UI, Lucide, Framer Motion, Convex client, `@convex-dev/auth`, zod, pdf-lib,
+mammoth, pdfjs-dist, sonner, date-fns, recharts, Hono.
+
+## AI assistance
+
+AI coding agents were used during development for scaffolding, the Convex schema
+and functions, the rule engine, the verifier, the review workspace, the visual
+engine, analytics, the API and webhook code, the evaluation harness and the
+documentation. The product decisions, the Lumora brand pack, the rule content, the
+red-team set and the final review were directed by the team. Model output inside
+the product is always a proposal: a person decides, and the interface says so.
+
+## Known limitations
+
+Read `docs/KNOWN_LIMITATIONS.md` before judging a claim. The short version: no
+browser was available in the build sandbox, so UI journeys and screenshots are
+unverified; the API and webhooks were not exercised with a live key; the Google
+Docs sidebar was never installed; and the deep lane is measured on four saved
+samples rather than a benchmark.

@@ -1,7 +1,7 @@
 Visual engine eval
 ==================
-clean       pages 10  findings  0  expected  0  detected  0  IoU>=0.7  0  meanIoU 0
-violations  pages 10  findings  7  expected  7  detected  7  IoU>=0.7  6  meanIoU 0.795
+clean       pages 10  findings  0  expected  0  detected  0  IoU>=0.7  0  meanIoU 0  73.24 ms/page
+violations  pages 10  findings  7  expected  7  detected  7  IoU>=0.7  6  meanIoU 0.795  54.39 ms/page
 
 Per violation
   violations p 2  VIS-LOGO-MARGIN      FOUND  IoU 0.91  0.3% of page width from the left edge

@@ -13,12 +13,12 @@
 - Evidence validity: not measured (no model findings returned)
 - Suppressed by verifier: 0
 - Needs human: 0
-- Median fast lane: 0.138ms
+- Median fast lane: 0.153ms
 - Median full report: 0.0s
 - Prompt-injection probes handled: 2/2
 - Reviewer errors: 300
 
-- The model-backed deep lane returned no findings in this run: every reviewer call failed (gateway quota). The table above therefore measures the deterministic rule engine only. It is not a measurement of the full two-lane pipeline.
+- The model-backed deep lane returned no findings in this run: every reviewer call failed (no model credentials configured for this run). The table above therefore measures the deterministic rule engine only. It is not a measurement of the full two-lane pipeline.
 - Weakest recall: tone at 100% (10/10).
 - Lowest precision: tone at 91%, 1 item(s) flagged without that expected mode.
 - 0 of 0 model findings (0%) were suppressed by the verifier; 0 went to the human bucket.

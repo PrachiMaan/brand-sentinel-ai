@@ -110,8 +110,12 @@ export default function Review() {
     if (!data || autoStarted.current) return;
     if (isNew && data.submission.status === "draft" && !data.run) {
       autoStarted.current = true;
-      void startReview({ silent: false });
+      // Deferred one tick so the first paint is not interrupted by the run's
+      // own state updates.
+      const timer = setTimeout(() => void startReview({ silent: false }), 0);
+      return () => clearTimeout(timer);
     }
+    return undefined;
   }, [data, isNew]);
 
   const findings = data?.findings ?? [];

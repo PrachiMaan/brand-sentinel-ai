@@ -83,6 +83,37 @@ describe("evidence-or-silence verifier", () => {
     expect(findings[0].bucket).toBe("needs_human");
   });
 
+  it("suppresses a finding whose quote is approved ledger copy", () => {
+    const approved = "94% of participants reported smoother-looking skin after 8 weeks.";
+    const { findings, stats, droppedLog } = verifyFindings({
+      raw: [
+        {
+          ...modelFinding({ span_text: approved, claim_status: "Unsupported", claim_id: "C-002" }),
+          reviewer: "claims",
+        },
+      ],
+      input: { ...input, runText: `Intro line. ${approved} Closing line.` },
+    });
+    expect(findings).toHaveLength(0);
+    expect(stats.droppedClaim).toBe(1);
+    expect(droppedLog[0].reason).toBe("approved_copy");
+  });
+
+  it("keeps an expired claim even though the wording was once approved", () => {
+    const expired = "Reduces the appearance of fine lines in 7 days";
+    const { findings } = verifyFindings({
+      raw: [
+        {
+          ...modelFinding({ span_text: expired, claim_status: "Expired", claim_id: "C-003" }),
+          reviewer: "claims",
+        },
+      ],
+      input: { ...input, runText: `New copy: ${expired}.` },
+    });
+    expect(findings).toHaveLength(1);
+    expect(findings[0].claimStatus).toBe("Expired");
+  });
+
   it("drops a claim finding that cites a claim outside the ledger", () => {
     const { stats, droppedLog } = verifyFindings({
       raw: [

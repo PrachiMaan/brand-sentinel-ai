@@ -1,7 +1,8 @@
 {
-  "name": "vite-template",
+  "name": "brandsentinel",
+  "description": "AI-assisted brand governance gate with evidence-backed findings, human approval and a hash-chained audit trail.",
   "private": true,
-  "version": "0.0.0",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

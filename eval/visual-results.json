@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T21:20:00.775Z",
+  "generatedAt": "2026-10-29T19:03:56.307Z",
   "engine": "deterministic (lib/visual.ts)",
   "raster": "Pages decoded from the fixture PNGs generated from the same geometry as the PDFs; no canvas backend in this environment.",
   "decks": [
@@ -12,6 +12,8 @@
       "detected": 0,
       "detectedWithIou": 0,
       "meanIou": 0,
+      "analysisMs": 732.36,
+      "msPerPage": 73.24,
       "violations": [],
       "unexpected": []
     },
@@ -24,6 +26,8 @@
       "detected": 7,
       "detectedWithIou": 6,
       "meanIou": 0.795,
+      "analysisMs": 543.94,
+      "msPerPage": 54.39,
       "violations": [
         {
           "ruleId": "VIS-LOGO-MARGIN",

@@ -137,6 +137,7 @@ export const modelStatus = query({
     const today = calls.filter((c) => c.createdAt >= since);
     return {
       role: session.membership.role,
+      breakerOpen: (state?.openedUntil ?? 0) > Date.now(),
       consecutiveFailures: state?.consecutiveFailures ?? 0,
       openedUntil: state?.openedUntil ?? null,
       lastSuccessAt: state?.lastSuccessAt ?? null,

@@ -50,6 +50,12 @@ export default function Submit() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(SAMPLE_IMAGE);
   const [palette, setPalette] = useState<{ hex: string; share: number }[]>([]);
+  // Set only while the form holds seeded Lumora sample content unchanged.
+  // A saved deep-lane result is keyed on that sample id, so editing any field
+  // that feeds the content hash clears it and the submission runs live.
+  const [sampleId, setSampleId] = useState<string | null>(
+    SAMPLE_CAPTIONS[0]?.id ?? null,
+  );
   const [submitting, setSubmitting] = useState(false);
   const [team, setTeam] = useState<string>("Social");
   const [deckName, setDeckName] = useState<string | null>(null);
@@ -81,15 +87,17 @@ export default function Submit() {
     });
   }, [text, channel, altText, imagePreview, textHex, bgHex, rules, claims, glossary]);
 
-  const paletteIssues: Finding[] = useMemo(() => {
-    if (!rulebook?.pack || !imagePreview || !palette.length) return [];
-    return paletteFindings({
-      dominant: palette,
-      palette: rulebook.pack.palette,
-      rules,
-      text,
-    });
-  }, [rulebook?.pack, imagePreview, palette, rules, text]);
+  // Cheap enough to compute inline; the compiler cannot preserve a memo whose
+  // inputs are derived from a live query.
+  const paletteIssues: Finding[] =
+    rulebook?.pack && imagePreview && palette.length
+      ? paletteFindings({
+          dominant: palette,
+          palette: rulebook.pack.palette,
+          rules,
+          text,
+        })
+      : [];
 
   const findings = useMemo(
     () => [...(analysis?.findings ?? []), ...paletteIssues],
@@ -121,6 +129,7 @@ export default function Submit() {
       return;
     }
     setImageFile(file);
+    setSampleId(null);
     const url = URL.createObjectURL(file);
     setImagePreview(url);
     analyse(url);
@@ -134,6 +143,7 @@ export default function Submit() {
     setAudience(sample.audience);
     setText(sample.text);
     setAltText(sample.altText);
+    setSampleId(sample.id);
     setImageFile(null);
     setImagePreview(sample.id === "email" || sample.id === "clean-control" ? null : SAMPLE_IMAGE);
     setTextHex(sample.id === "launch-caption" ? "#FF2E93" : "#1F1D1A");
@@ -145,6 +155,7 @@ export default function Submit() {
 
   const readDeck = async (file: File) => {
     if (deckBusy) return;
+    setSampleId(null);
     setDeckBusy(true);
     setCancelDeck(false);
     setDeckName(file.name);
@@ -340,6 +351,7 @@ export default function Submit() {
         imageStorageId: storageId,
         imageName,
         imagePalette: palette.length ? JSON.stringify(palette) : undefined,
+        sampleId: sampleId ?? undefined,
         team,
       });
       toast("Submitted. Running the deep review now.", {
@@ -392,7 +404,13 @@ export default function Submit() {
                 </div>
                 <div className="space-y-1.5">
                   <Label className="label-caps text-[9px]">Channel</Label>
-                  <Select value={channel} onValueChange={setChannel}>
+                  <Select
+                    value={channel}
+                    onValueChange={(value) => {
+                      setChannel(value);
+                      setSampleId(null);
+                    }}
+                  >
                     <SelectTrigger className="h-9 w-full rounded-none border-border bg-background text-[13px] capitalize">
                       <SelectValue />
                     </SelectTrigger>
@@ -413,7 +431,10 @@ export default function Submit() {
                 <Label className="label-caps text-[9px]">Audience</Label>
                 <Input
                   value={audience}
-                  onChange={(e) => setAudience(e.target.value)}
+                  onChange={(e) => {
+                    setAudience(e.target.value);
+                    setSampleId(null);
+                  }}
                   className="h-9 rounded-none border-border bg-background text-[13px]"
                   placeholder="Who is this for?"
                 />
@@ -475,6 +496,7 @@ export default function Submit() {
                   value={text}
                   onChange={(e) => {
                     setText(e.target.value.slice(0, MAX_TEXT_CHARS));
+                    setSampleId(null);
                     setDeckPages(null);
                     setDeckFile(null);
                     setDeckName(null);
@@ -593,6 +615,7 @@ export default function Submit() {
                       onClick={() => {
                         setImagePreview(null);
                         setImageFile(null);
+                        setSampleId(null);
                         setPalette([]);
                       }}
                       className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground"
@@ -625,7 +648,10 @@ export default function Submit() {
                   <Label className="label-caps text-[9px]">Alt text</Label>
                   <Textarea
                     value={altText}
-                    onChange={(e) => setAltText(e.target.value)}
+                    onChange={(e) => {
+                      setAltText(e.target.value);
+                      setSampleId(null);
+                    }}
                     rows={2}
                     placeholder="Describe the image for someone who cannot see it."
                     className="rounded-none border-border bg-background text-[12.5px]"
