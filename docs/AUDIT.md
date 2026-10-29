@@ -103,7 +103,8 @@ Still open:
 | --- | --- | --- |
 | Signature verified by the external receiver | Partial | The echo endpoint returns 200 but does not inspect headers; signature verification was proven locally |
 | Dead-letter observed live | Partial | Would take ~9.5 h of backoff; proven through the real mutation with a fake database |
-| Google Docs sidebar | Built, untested | No Google Workspace access here |
+| Google Docs sidebar, script logic | Works, unit-tested with mocks | `tests/google-docs.test.ts`: 23 pass over `Code.gs` with `DocumentApp`, `PropertiesService`, `UrlFetchApp`, `Utilities` mocked — empty doc, 20,000-char cap, idempotency-key stability and per-field changes, all `computeDigest` byte-array shapes, status/findings parsing, 401/403/409/429 messages, highlight, span-not-found, clear highlights |
+| Google Docs sidebar, install in a real account | Not run | No Google Workspace access here: OAuth consent, menu, sidebar rendering and highlight colouring in a live Doc are unverified |
 
 ## Saved runs and no-key behaviour
 
@@ -122,12 +123,13 @@ Still open:
 | --- | --- |
 | Typecheck | `bunx tsc -b --noEmit` exit 0 |
 | Lint | 0 errors, 24 warnings |
-| Unit tests | **80 pass, 0 fail**, 314 assertions, 10 files |
+| Unit tests | **103 pass, 0 fail**, 430 assertions, 11 files (incl. 23 for the Google Docs script) |
 | Red-team eval | 60 items, precision 95.2%, recall 100% (deterministic lane only) |
 | Visual eval | 5/5 checks, mean IoU 0.918 |
 | Analytics eval | PASS, 0 mismatches, idempotent, 3 evidenced suggestions |
 | Adversarial UI pass | Not run: no browser in the sandbox |
-| Google Docs | Not run: no Workspace access |
+| Google Docs script logic | `bun test tests/google-docs.test.ts`: 23 pass (mocked Apps Script services) |
+| Google Docs install in Workspace | Not run: no Workspace access |
 | Secrets | `.env.example` placeholders only; keys stored hashed; secrets created in this pass were not written to disk |
 
 ## Fixes made in this pass

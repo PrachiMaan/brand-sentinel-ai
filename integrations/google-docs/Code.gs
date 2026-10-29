@@ -71,6 +71,8 @@ function api_(path, method, body, idempotencyKey) {
     method: method || 'get',
     headers: headers,
     muteHttpExceptions: true,
+    // Never replay the bearer key to another host on a redirect.
+    followRedirects: false,
   };
   if (body) options.payload = JSON.stringify(body);
   var response = UrlFetchApp.fetch(settings.apiBase + path, options);
@@ -87,18 +89,27 @@ function api_(path, method, body, idempotencyKey) {
     json && json.error && json.error.message
       ? json.error.message
       : 'Request failed (' + code + ')';
-  throw new Error(message + (json && json.error ? ' [' + json.error.code + ']' : ''));
+  if (json && json.error && json.error.code) message += ' [' + json.error.code + ']';
+  if (code === 429) {
+    var retry = response.getHeader('retry-after');
+    if (retry) message += ' Retry in ' + retry + ' seconds.';
+  }
+  throw new Error(message);
 }
 
 /** Cheap, stable digest so the same document body reuses the same idempotency key. */
 function digest_(text) {
   var raw = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text, Utilities.Charset.UTF_8);
-  return raw
-    .map(function (b) {
-      var v = (b < 0 ? b + 256 : b).toString(16);
-      return v.length === 1 ? '0' + v : v;
-    })
-    .join('');
+  // The runtime hands back a plain array of signed bytes, a typed array or a
+  // bare array-like depending on the version, so walk it by index instead of
+  // calling array methods that may coerce the hex strings back to numbers.
+  var out = '';
+  for (var i = 0; i < raw.length; i++) {
+    var b = raw[i];
+    var v = ((b < 0 ? b + 256 : b) & 0xff).toString(16);
+    out += v.length === 1 ? '0' + v : v;
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ */
@@ -135,16 +146,19 @@ function submitDocument(channel, team) {
         '.',
     };
   }
-  var idempotencyKey = 'gdoc-' + digest_(doc.docId + ':' + digest_(text)).slice(0, 40);
+  var payload = {
+    title: doc.title || 'Google Doc',
+    text: text,
+    channel: channel || 'instagram',
+    audience: 'Google Docs reviewer',
+    team: team || 'Social',
+    externalRef: doc.docId,
+  };
+  // The API answers 409 when a key is reused with a different body, so the key
+  // has to cover every field: text, channel, team and the document title.
+  var idempotencyKey = 'gdoc-' + digest_(doc.docId + ':' + digest_(JSON.stringify(payload))).slice(0, 40);
   try {
-    var result = api_('/api/v1/submissions', 'post', {
-      title: doc.title || 'Google Doc',
-      text: text,
-      channel: channel || 'instagram',
-      audience: 'Google Docs reviewer',
-      team: team || 'Social',
-      externalRef: doc.docId,
-    }, idempotencyKey);
+    var result = api_('/api/v1/submissions', 'post', payload, idempotencyKey);
     return {
       ok: true,
       submissionId: result.id,

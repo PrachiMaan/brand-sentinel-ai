@@ -15,8 +15,18 @@ working in the UI.
   `/app/audit` (before and after Verify chain), `/app/rules`,
   `/app/reliability`, `/app/api`.
 - **The Google Docs sidebar has never been installed.** The Apps Script code and
-  install guide exist; nothing was run in Google Workspace. Quotas, highlight
-  behaviour and OAuth consent are unverified.
+  install guide exist; nothing was run in Google Workspace, so OAuth consent, the
+  menu, sidebar rendering, live highlighting and quota behaviour are unverified.
+  The script *logic* is covered by `tests/google-docs.test.ts` (23 tests running
+  `Code.gs` against mocked `DocumentApp`, `PropertiesService`, `UrlFetchApp` and
+  `Utilities`): empty and oversize documents, idempotency-key stability and
+  per-field changes, every byte-array shape from `Utilities.computeDigest`,
+  status and findings parsing, 401/403/409/429 messages, highlighting,
+  span-not-found and clearing highlights. Four bugs those tests found are fixed
+  in `Code.gs` (garbage digest from typed arrays, an idempotency key that ignored
+  title/channel/team, redirects followed with the bearer key, no `retry-after` on
+  429). Everything outside that logic — Google's runtime, permissions screen and
+  document rendering — is still untested.
 
 ## Review API and webhooks
 
