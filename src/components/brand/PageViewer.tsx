@@ -80,7 +80,6 @@ export function PageViewer({
       <div className="relative bg-[#EDE7DC]">
         {page.url ? (
           <div className="relative mx-auto max-w-[760px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={page.url}
               alt={`Page ${page.page} of the submitted deck`}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T19:08:18.138Z",
+  "generatedAt": "2026-10-28T21:20:22.033Z",
   "dataset": "eval/dataset.json",
   "pipeline": "src/convex/ai/pipeline.ts",
   "model": "gpt-4o-mini",
@@ -86,8 +86,8 @@
     "needsHuman": 0
   },
   "timing": {
-    "fastMedianMs": 0.233,
-    "fullMedianMs": 5207.5
+    "fastMedianMs": 0.138,
+    "fullMedianMs": 1
   },
   "injection": {
     "items": 2,
@@ -121,14 +121,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 1.4864899999999892,
-      "totalMs": 6623,
+      "fastMs": 1.1495859999999993,
+      "totalMs": 4,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -138,14 +138,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 0.21305900000000122,
-      "totalMs": 6609,
+      "fastMs": 0.20778199999999458,
+      "totalMs": 3,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -155,14 +155,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 0.10125199999998813,
-      "totalMs": 6599,
+      "fastMs": 0.08562899999999729,
+      "totalMs": 2,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -172,14 +172,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 0.07473200000001157,
-      "totalMs": 6593,
+      "fastMs": 0.42651999999999646,
+      "totalMs": 2,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -189,14 +189,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 0.9236469999999883,
-      "totalMs": 6621,
+      "fastMs": 0.6621430000000004,
+      "totalMs": 2,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -206,14 +206,14 @@
       "ruleIds": [],
       "findingCount": 0,
       "suppressed": 0,
-      "fastMs": 0.12219299999999578,
-      "totalMs": 6620,
+      "fastMs": 0.08717099999999789,
+      "totalMs": 2,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -229,14 +229,14 @@
       ],
       "findingCount": 3,
       "suppressed": 0,
-      "fastMs": 0.498258000000007,
-      "totalMs": 6620,
+      "fastMs": 0.49797800000000336,
+      "totalMs": 1,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -250,14 +250,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.10383600000000115,
-      "totalMs": 6620,
+      "fastMs": 0.8416430000000048,
+      "totalMs": 2,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.6s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -271,14 +271,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.09077699999998856,
-      "totalMs": 6610,
+      "fastMs": 0.21852800000000627,
+      "totalMs": 1,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -293,14 +293,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 1.6540020000000055,
-      "totalMs": 6598,
+      "fastMs": 0.28852299999999786,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Visual: review:visual failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Claims: review:claims failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.5s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17533s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -315,14 +315,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.42815299999983836,
-      "totalMs": 6227,
+      "fastMs": 0.14993499999999926,
+      "totalMs": 0,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -336,14 +336,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.22366599999986647,
-      "totalMs": 6283,
+      "fastMs": 0.08124200000000315,
+      "totalMs": 0,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -359,14 +359,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.2386580000002141,
-      "totalMs": 6218,
+      "fastMs": 0.21748600000000806,
+      "totalMs": 1,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -380,14 +380,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.14286400000037247,
-      "totalMs": 6215,
+      "fastMs": 0.12787199999999643,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -401,14 +401,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.1630249999998341,
-      "totalMs": 6245,
+      "fastMs": 0.09094600000000241,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -422,14 +422,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.14477700000043114,
-      "totalMs": 6246,
+      "fastMs": 0.082484000000008,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -443,14 +443,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.16651999999976397,
-      "totalMs": 6245,
+      "fastMs": 0.1097040000000078,
+      "totalMs": 1,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -464,14 +464,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.14537800000016432,
-      "totalMs": 6234,
+      "fastMs": 0.10880299999999465,
+      "totalMs": 1,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -486,14 +486,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.22511800000029325,
-      "totalMs": 6235,
+      "fastMs": 0.15055599999999458,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -507,14 +507,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.1447470000002795,
-      "totalMs": 6233,
+      "fastMs": 0.08510800000000529,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17527s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -529,14 +529,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.6392799999994168,
-      "totalMs": 6184,
+      "fastMs": 0.2552729999999883,
+      "totalMs": 1,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17521s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -554,14 +554,14 @@
       ],
       "findingCount": 4,
       "suppressed": 0,
-      "fastMs": 0.5759139999991021,
-      "totalMs": 5196,
+      "fastMs": 0.2689240000000126,
+      "totalMs": 1,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s.",
-        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -577,14 +577,14 @@
       ],
       "findingCount": 3,
       "suppressed": 0,
-      "fastMs": 0.48129299999891373,
-      "totalMs": 5188,
+      "fastMs": 0.17231900000000167,
+      "totalMs": 0,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17522s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -598,14 +598,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 1.1700660000005882,
-      "totalMs": 2211,
+      "fastMs": 0.07953899999999692,
+      "totalMs": 0,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17525s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -619,14 +619,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.2637859999995271,
-      "totalMs": 2219,
+      "fastMs": 0.1724090000000018,
+      "totalMs": 3,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -641,14 +641,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.3162339999998949,
-      "totalMs": 2240,
+      "fastMs": 0.15173699999999712,
+      "totalMs": 2,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -662,14 +662,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.19666499999948428,
-      "totalMs": 2239,
+      "fastMs": 1.1503359999999958,
+      "totalMs": 2,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -683,14 +683,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.1419530000002851,
-      "totalMs": 2220,
+      "fastMs": 0.13342000000000098,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -704,14 +704,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.15996999999879336,
-      "totalMs": 2225,
+      "fastMs": 0.85794700000001,
+      "totalMs": 3,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -725,14 +725,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.23696600000039325,
-      "totalMs": 2243,
+      "fastMs": 0.17943900000000212,
+      "totalMs": 2,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -746,14 +746,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.38904399999955785,
-      "totalMs": 6198,
+      "fastMs": 0.11271899999999846,
+      "totalMs": 2,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
-        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -767,14 +767,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.4676309999995283,
-      "totalMs": 6189,
+      "fastMs": 0.21004500000000803,
+      "totalMs": 2,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
-        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17518s.",
-        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17515s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -788,14 +788,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.24495799999931478,
-      "totalMs": 5202,
+      "fastMs": 0.13081599999999582,
+      "totalMs": 1,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -812,14 +812,14 @@
       ],
       "findingCount": 3,
       "suppressed": 0,
-      "fastMs": 0.43307999999888125,
-      "totalMs": 5205,
+      "fastMs": 0.21717599999999493,
+      "totalMs": 0,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -835,14 +835,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.2538009999989299,
-      "totalMs": 5205,
+      "fastMs": 0.142122999999998,
+      "totalMs": 0,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -856,14 +856,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.183735999999044,
-      "totalMs": 5210,
+      "fastMs": 0.0783180000000101,
+      "totalMs": 0,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17516s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -877,14 +877,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.20230399999854853,
-      "totalMs": 2231,
+      "fastMs": 0.15081599999999185,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -898,14 +898,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.19220800000039162,
-      "totalMs": 2237,
+      "fastMs": 0.0981180000000137,
+      "totalMs": 1,
       "errors": [
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -919,14 +919,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.1342510000031325,
-      "totalMs": 2238,
+      "fastMs": 0.09546299999999519,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -940,14 +940,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.3912080000009155,
-      "totalMs": 2234,
+      "fastMs": 0.08373600000000181,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -961,14 +961,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.36305500000162283,
-      "totalMs": 6197,
+      "fastMs": 0.09427100000000621,
+      "totalMs": 0,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
-        "Claims: review:claims failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
-        "Accessibility: review:accessibility failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -982,14 +982,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.18930399999953806,
-      "totalMs": 6197,
+      "fastMs": 0.07418099999999583,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1003,14 +1003,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.14767199999914737,
-      "totalMs": 2286,
+      "fastMs": 0.07383099999999843,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17512s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1024,14 +1024,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.1890029999995022,
-      "totalMs": 2276,
+      "fastMs": 0.07783699999998817,
+      "totalMs": 0,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1045,14 +1045,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.515903999999864,
-      "totalMs": 5236,
+      "fastMs": 0.25560399999999106,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17509s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1066,14 +1066,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.266379999997298,
-      "totalMs": 3271,
+      "fastMs": 0.13203800000000854,
+      "totalMs": 0,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17511s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1087,14 +1087,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.2232350000012957,
-      "totalMs": 2286,
+      "fastMs": 0.09495299999998963,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1108,14 +1108,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.22110199999951874,
-      "totalMs": 2292,
+      "fastMs": 0.07662500000000705,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1129,14 +1129,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.22856299999693874,
-      "totalMs": 2296,
+      "fastMs": 0.1832550000000026,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1150,14 +1150,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.3282330000001821,
-      "totalMs": 2292,
+      "fastMs": 0.18030000000000257,
+      "totalMs": 1,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.3s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1171,14 +1171,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.6770360000009532,
-      "totalMs": 6201,
+      "fastMs": 0.19437100000000385,
+      "totalMs": 0,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
-        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1192,14 +1192,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.3054290000000037,
-      "totalMs": 6198,
+      "fastMs": 0.1108069999999941,
+      "totalMs": 0,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1213,14 +1213,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.2761740000023565,
-      "totalMs": 6198,
+      "fastMs": 0.12610899999999958,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (3.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17505s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
-        "Accessibility: review:accessibility failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s.",
-        "Tone & Voice: review:tone failed after 2 attempts (6.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17502s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1236,14 +1236,14 @@
       ],
       "findingCount": 2,
       "suppressed": 0,
-      "fastMs": 0.46593900000152644,
-      "totalMs": 5196,
+      "fastMs": 0.16987499999999045,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (5.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17503s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1257,14 +1257,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.16505799999868032,
-      "totalMs": 2217,
+      "fastMs": 0.07581400000000826,
+      "totalMs": 0,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1278,14 +1278,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.17278900000019348,
-      "totalMs": 2254,
+      "fastMs": 0.10189199999999232,
+      "totalMs": 0,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1299,14 +1299,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.6610519999994722,
-      "totalMs": 2224,
+      "fastMs": 0.09141699999999275,
+      "totalMs": 1,
       "errors": [
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1320,14 +1320,14 @@
       ],
       "findingCount": 1,
       "suppressed": 0,
-      "fastMs": 0.17813699999896926,
-      "totalMs": 2230,
+      "fastMs": 0.059950000000000614,
+      "totalMs": 1,
       "errors": [
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1346,14 +1346,14 @@
       ],
       "findingCount": 5,
       "suppressed": 0,
-      "fastMs": 0.6276519999992161,
-      "totalMs": 2236,
+      "fastMs": 0.21838800000000447,
+      "totalMs": 1,
       "errors": [
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     },
     {
@@ -1373,14 +1373,14 @@
       ],
       "findingCount": 5,
       "suppressed": 0,
-      "fastMs": 1.4682339999999385,
-      "totalMs": 2251,
+      "fastMs": 0.22214300000000264,
+      "totalMs": 1,
       "errors": [
-        "Claims: review:claims failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Tone & Voice: review:tone failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Terminology & Messaging: review:terminology failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s.",
-        "Visual: review:visual failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: the gateway-wide daily LLM spend budget is exhausted. Retry after 17506s.",
-        "Accessibility: review:accessibility failed after 2 attempts (2.2s): Failed after 3 attempts. Last error: Rate limit exceeded: more than 240 LLM requests per minute. Retry after 1s."
+        "Tone & Voice: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Terminology & Messaging: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Claims: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Visual: No model credentials are configured on this deployment. No model credentials on this deployment.",
+        "Accessibility: No model credentials are configured on this deployment. No model credentials on this deployment."
       ]
     }
   ]

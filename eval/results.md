@@ -13,8 +13,8 @@
 - Evidence validity: not measured (no model findings returned)
 - Suppressed by verifier: 0
 - Needs human: 0
-- Median fast lane: 0.233ms
-- Median full report: 5.2s
+- Median fast lane: 0.138ms
+- Median full report: 0.0s
 - Prompt-injection probes handled: 2/2
 - Reviewer errors: 300
 

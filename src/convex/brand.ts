@@ -12,10 +12,6 @@ export const overview = query({
       .withIndex("by_workspace", (q) => q.eq("workspaceId", session.workspace._id))
       .order("desc")
       .collect();
-    const runs = await ctx.db
-      .query("runs")
-      .withIndex("by_status", (q) => q.eq("status", "complete"))
-      .collect();
     const calls = await ctx.db
       .query("llmCalls")
       .withIndex("by_created")

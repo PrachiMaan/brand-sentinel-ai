@@ -9,7 +9,7 @@ import {
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import { appendAudit, requireMember, requireRole } from "./helpers";
-import { buildPayload, headerValue, MAX_ATTEMPTS, nextAttemptAt } from "./lib/webhooks";
+import { buildPayload, MAX_ATTEMPTS, nextAttemptAt } from "./lib/webhooks";
 import { canonicalJson, sha256Hex } from "./lib/sha256";
 
 function appBase() {

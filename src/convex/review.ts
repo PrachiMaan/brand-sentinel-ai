@@ -10,7 +10,6 @@ import {
   errorCodeOf,
   hasModelAccess,
   LIMITS,
-  providerName,
 } from "./ai/gateway";
 import { verifyCachedFindings } from "./lib/verifier";
 import { REVIEWERS } from "./lib/types";
@@ -21,12 +20,16 @@ type RunSummary = {
   reused: boolean;
   findings: number;
   degraded: boolean;
-  source: "live" | "cached" | "deterministic";
+  source: "live" | "saved_run" | "deterministic";
   cause?: string;
   suppressed?: number;
   errors?: string[];
   deepMs?: number;
   fastMs?: number;
+  savedOn?: string;
+  model?: string;
+  inputTokens?: number;
+  outputTokens?: number;
 };
 
 /**
@@ -82,11 +85,13 @@ export const runReview = action({
       const cache = await ctx.runQuery(internal.reviewInternal.findCache, {
         workspaceId,
         contentHash: data.version.contentHash,
+        rulebookVersion: data.rulebookVersion,
       });
       if (!cache) return null;
       const stored = JSON.parse(cache.findingsJson) as Finding[];
       const rechecked = verifyCachedFindings(stored, verifyInput);
       if (!rechecked.findings.length && stored.length) return null;
+      const savedOn = new Date(cache.createdAt).toISOString().slice(0, 10);
       const verifier = {
         total: stored.length,
         kept: rechecked.findings.length,
@@ -99,7 +104,7 @@ export const runReview = action({
         evidenceRate: stored.length
           ? Math.round((rechecked.findings.length / stored.length) * 1000) / 10
           : 100,
-        mode: "cached-recheck",
+        mode: "saved-recheck",
         recheckReasons: rechecked.reasons.slice(0, 10),
       };
       await ctx.runMutation(internal.reviewInternal.saveResults, {
@@ -114,21 +119,23 @@ export const runReview = action({
         brandFit: cache.brandFit,
         fastMs: 0,
         deepMs: 0,
-        model: `${cache.model} · ${providerName()} · cached`,
-        source: "cached",
-        degradedCause: reason,
-        error: `Cached model result from a previous live run (${new Date(cache.createdAt).toISOString().slice(0, 10)}). ${reason}`,
+        model: `Saved from a live run on ${savedOn} · ${cache.model}`,
+        source: "saved_run",
         progressJson: JSON.stringify(
-          REVIEWERS.map((reviewer) => ({ reviewer, status: "cached" })),
+          REVIEWERS.map((reviewer) => ({ reviewer, status: "saved" })),
         ),
       });
       return {
         runId: begin.runId,
         reused: false,
         findings: rechecked.findings.length,
-        degraded: true,
-        source: "cached",
+        degraded: false,
+        source: "saved_run",
         cause: reason,
+        savedOn,
+        model: cache.model,
+        inputTokens: cache.inputTokens,
+        outputTokens: cache.outputTokens,
       };
     };
 
@@ -258,6 +265,7 @@ export const runReview = action({
           brandFit: result.brandFit,
           model: result.model,
           sourceRunId: begin.runId,
+          rulebookVersion: data.rulebookVersion,
         });
       }
 
@@ -525,5 +533,129 @@ export const probeModel = action({
         },
       };
     }
+  },
+});
+
+type SeedOutcome = {
+  sampleId: string;
+  contentHash: string;
+  outcome: "saved" | "already_saved" | "failed" | "skipped";
+  findings?: number;
+  model?: string;
+  inputTokens?: number;
+  outputTokens?: number;
+  cause?: string;
+};
+
+/**
+ * Run the seeded Lumora samples through the model once each and store the
+ * result as a saved run (content hash + rulebook version). This is the only
+ * place that spends model budget outside an ordinary review, it is limited to
+ * submissions that carry a sampleId, and it is admin/approver gated. Replays
+ * of these rows always pass through the verifier again.
+ */
+export const seedSavedRuns = action({
+  args: { limit: v.optional(v.number()) },
+  handler: async (ctx, args): Promise<{ results: SeedOutcome[]; stoppedAt?: string }> => {
+    const access: { workspaceId: Id<"workspaces"> } = await ctx.runQuery(
+      internal.reviewInternal.probeAccess,
+      {},
+    );
+    if (!hasModelAccess()) {
+      return {
+        results: [],
+        stoppedAt: "No model credentials are configured on this deployment.",
+      };
+    }
+    const data = await ctx.runQuery(internal.reviewInternal.sampleReviewData, {
+      workspaceId: access.workspaceId,
+    });
+    const limit = Math.max(1, Math.min(args.limit ?? data.samples.length, 12));
+    const results: SeedOutcome[] = [];
+    let stoppedAt: string | undefined;
+
+    for (const sample of data.samples.slice(0, limit)) {
+      const existing = await ctx.runQuery(internal.reviewInternal.findCache, {
+        workspaceId: access.workspaceId,
+        contentHash: sample.contentHash,
+        rulebookVersion: data.rulebookVersion,
+      });
+      if (existing) {
+        results.push({
+          sampleId: sample.sampleId,
+          contentHash: sample.contentHash,
+          outcome: "already_saved",
+        });
+        continue;
+      }
+      let inputTokens = 0;
+      let outputTokens = 0;
+      try {
+        const result = await runPipeline(sample.input, data.brand, {
+          guidelineText: data.guidelineText,
+          onLog: async (entry) => {
+            inputTokens += entry.inputTokens ?? 0;
+            outputTokens += entry.outputTokens ?? 0;
+            await ctx.runMutation(internal.reviewInternal.logCall, {
+              workspaceId: access.workspaceId,
+              submissionId: sample.submissionId,
+              ...entry,
+            });
+          },
+        });
+        if (result.errors.length >= REVIEWERS.length) {
+          const cause = result.errors[0] ?? "The model failed for every reviewer.";
+          results.push({
+            sampleId: sample.sampleId,
+            contentHash: sample.contentHash,
+            outcome: "failed",
+            cause,
+          });
+          if (result.degradedCause === "budget_exhausted") {
+            stoppedAt = cause;
+            break;
+          }
+          continue;
+        }
+        await ctx.runMutation(internal.reviewInternal.cacheRun, {
+          workspaceId: access.workspaceId,
+          contentHash: sample.contentHash,
+          sampleId: sample.sampleId,
+          findingsJson: JSON.stringify(result.findings),
+          verifierJson: JSON.stringify(result.verifier),
+          countsJson: JSON.stringify(result.counts),
+          summary: result.summary,
+          brandFit: result.brandFit,
+          model: `${result.model} · ${result.provider}`,
+          sourceRunId: "",
+          rulebookVersion: data.rulebookVersion,
+          inputTokens,
+          outputTokens,
+        });
+        results.push({
+          sampleId: sample.sampleId,
+          contentHash: sample.contentHash,
+          outcome: "saved",
+          findings: result.findings.length,
+          model: `${result.model} · ${result.provider}`,
+          inputTokens,
+          outputTokens,
+        });
+      } catch (error) {
+        const code = errorCodeOf(error);
+        const message = error instanceof Error ? error.message : String(error);
+        results.push({
+          sampleId: sample.sampleId,
+          contentHash: sample.contentHash,
+          outcome: "failed",
+          cause: message.slice(0, 300),
+        });
+        if (code === "budget_exhausted") {
+          stoppedAt = message.slice(0, 300);
+          break;
+        }
+      }
+    }
+    return stoppedAt ? { results, stoppedAt } : { results };
   },
 });

@@ -9,7 +9,12 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
+    "test": "bun test",
+    "typecheck": "tsc -b --noEmit",
     "eval": "bun eval/run.ts",
+    "eval:visual": "bun eval/visual-eval.ts",
+    "eval:analytics": "bun eval/analytics-check.ts",
+    "test:all": "bun run lint && bun run typecheck && bun test && bun run eval:visual && bun run eval:analytics",
     "demo:assets": "node scripts/make-demo-assets.mjs",
     "demo:dataset": "node eval/build-dataset.mjs"
   },

@@ -245,6 +245,7 @@ export default function Review() {
               brandFit: run.brandFit,
               model: run.model,
               finishedAt: run.finishedAt,
+              source: run.source,
             }
           : null,
         calls,
@@ -366,6 +367,23 @@ export default function Review() {
         </div>
       )}
 
+      {run?.source === "saved_run" && (
+        <div className="mb-5 border border-border bg-card px-5 py-4">
+          <div className="flex gap-2">
+            <History className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <div>
+              <p className="text-[13px] font-medium">{run.model ?? "Saved model result"}</p>
+              <p className="mt-1 max-w-[80ch] text-[11.5px] leading-5 text-muted-foreground">
+                This sample has a saved deep-lane result, so the model was not called again.
+                The saved findings were re-checked against the current rulebook before being
+                shown here. Submitted content of your own always runs live when the model is
+                available, and falls back to the fast lane when it is not.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {(run?.status === "degraded" || run?.status === "failed") && (
         <div className="mb-5 border border-[#A9552F]/40 bg-[#A9552F]/[0.05] px-5 py-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
@@ -397,7 +415,7 @@ export default function Review() {
                 ) : (
                   <RefreshCw className="mr-1.5 size-3.5" />
                 )}
-                Retry review
+                Retry deep review
               </Button>
             )}
           </div>

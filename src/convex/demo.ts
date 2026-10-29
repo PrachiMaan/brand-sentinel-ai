@@ -56,6 +56,35 @@ export const progress = query({
   },
 });
 
+/**
+ * Saved model results for seeded samples: what exists, when it was produced,
+ * by which model, and what it cost in tokens. Read-only.
+ */
+export const savedRuns = query({
+  args: {},
+  handler: async (ctx) => {
+    const session = await requireMember(ctx);
+    const rows = await ctx.db
+      .query("cachedRuns")
+      .withIndex("by_workspace", (q) =>
+        q.eq("workspaceId", session.workspace._id),
+      )
+      .collect();
+    return rows
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .map((row) => ({
+        id: row._id,
+        sampleId: row.sampleId,
+        model: row.model,
+        rulebookVersion: row.rulebookVersion ?? null,
+        inputTokens: row.inputTokens ?? 0,
+        outputTokens: row.outputTokens ?? 0,
+        findings: JSON.parse(row.findingsJson).length as number,
+        createdAt: row.createdAt,
+      }));
+  },
+});
+
 export const dismissChecklist = mutation({
   args: {},
   handler: async (ctx) => {

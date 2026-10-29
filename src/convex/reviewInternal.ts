@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
+import type { Id } from "./_generated/dataModel";
 import {
   appendAudit,
   brandState,
@@ -177,6 +178,8 @@ export const prepare = internalQuery({
         })),
       },
       guidelineText: GUIDELINE_DOCUMENT,
+      /** Saved runs are only valid against the rulebook that produced them. */
+      rulebookVersion: brand.pack.version,
     };
   },
 });
@@ -336,8 +339,118 @@ export const probeAccess = internalQuery({
   },
 });
 
+/**
+ * Everything the seeded samples need to run a live review from the seeding
+ * action: the current rulebook, the guideline text and each sample's current
+ * version. Sample submissions only, so user content can never be picked up.
+ */
+export const sampleReviewData = internalQuery({
+  args: { workspaceId: v.id("workspaces") },
+  handler: async (ctx, args) => {
+    const brand = await brandState(ctx, args.workspaceId);
+    if (!brand.pack) throw new Error("No published brand pack in this workspace.");
+    const submissions = await ctx.db
+      .query("submissions")
+      .withIndex("by_workspace", (q) => q.eq("workspaceId", args.workspaceId))
+      .collect();
+    const samples: {
+      submissionId: Id<"submissions">;
+      sampleId: string;
+      contentHash: string;
+      input: {
+        text: string;
+        channel: string;
+        audience: string;
+        altText: string;
+        hasImage: boolean;
+        design?: { textHex: string; bgHex: string };
+        imagePalette?: { hex: string; share: number }[];
+      };
+    }[] = [];
+    for (const submission of submissions) {
+      if (!submission.sampleId) continue;
+      const versions = await ctx.db
+        .query("versions")
+        .withIndex("by_submission", (q) =>
+          q.eq("submissionId", submission._id),
+        )
+        .collect();
+      const version = versions.find((v) => v.version === submission.currentVersion);
+      if (!version || !version.text.trim()) continue;
+      let imagePalette: { hex: string; share: number }[] = [];
+      if (submission.imagePalette) {
+        try {
+          imagePalette = JSON.parse(submission.imagePalette);
+        } catch {
+          imagePalette = [];
+        }
+      }
+      samples.push({
+        submissionId: submission._id,
+        sampleId: submission.sampleId,
+        contentHash: version.contentHash,
+        input: {
+          text: version.text,
+          channel: version.channel,
+          audience: version.audience,
+          altText: version.altText,
+          hasImage:
+            Boolean(submission.imageStorageId) || (version.pageCount ?? 1) > 1,
+          design:
+            submission.designTextColor && submission.designBgColor
+              ? {
+                  textHex: submission.designTextColor,
+                  bgHex: submission.designBgColor,
+                }
+              : undefined,
+          imagePalette,
+        },
+      });
+    }
+    return {
+      rulebookVersion: brand.pack.version,
+      guidelineText: GUIDELINE_DOCUMENT,
+      brand: {
+        name: brand.pack.name,
+        palette: brand.pack.palette,
+        voice: brand.pack.voice,
+        rules: brand.rules.map((r) => ({
+          ruleId: r.ruleId,
+          category: r.category,
+          type: r.type,
+          title: r.title,
+          description: r.description,
+          severity: r.severity,
+          sourceExcerpt: r.sourceExcerpt,
+          config: r.config,
+        })),
+        claims: brand.claims.map((c) => ({
+          claimId: c.claimId,
+          text: c.text,
+          status: c.status,
+          approvedWording: c.approvedWording,
+          evidence: c.evidence,
+          owner: c.owner,
+          expiresAt: c.expiresAt ?? null,
+        })),
+        glossary: brand.glossary.map((g) => ({
+          term: g.term,
+          status: g.status,
+          replacement: g.replacement,
+          note: g.note,
+        })),
+      },
+      samples,
+    };
+  },
+});
+
 export const findCache = internalQuery({
-  args: { workspaceId: v.id("workspaces"), contentHash: v.string() },
+  args: {
+    workspaceId: v.id("workspaces"),
+    contentHash: v.string(),
+    rulebookVersion: v.optional(v.string()),
+  },
   handler: async (ctx, args) => {
     const row = await ctx.db
       .query("cachedRuns")
@@ -346,6 +459,12 @@ export const findCache = internalQuery({
       )
       .first();
     if (!row) return null;
+    // A saved result is only reusable against the rulebook version that
+    // produced it. Rows saved before this field existed are skipped rather
+    // than guessed at.
+    if (!args.rulebookVersion || row.rulebookVersion !== args.rulebookVersion) {
+      return null;
+    }
     return {
       id: row._id,
       findingsJson: row.findingsJson,
@@ -354,6 +473,9 @@ export const findCache = internalQuery({
       summary: row.summary,
       brandFit: row.brandFit,
       model: row.model,
+      rulebookVersion: row.rulebookVersion ?? null,
+      inputTokens: row.inputTokens ?? 0,
+      outputTokens: row.outputTokens ?? 0,
       createdAt: row.createdAt,
     };
   },
@@ -375,8 +497,40 @@ export const cacheRun = internalMutation({
     brandFit: v.number(),
     model: v.string(),
     sourceRunId: v.string(),
+    rulebookVersion: v.optional(v.string()),
+    /** Passed by the seeding path, which has no run row of its own. */
+    inputTokens: v.optional(v.number()),
+    outputTokens: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    // Token totals come from the call log of the live run, so a saved result
+    // records what the model actually spent.
+    const calls =
+      args.inputTokens == null && args.sourceRunId
+        ? await ctx.db
+            .query("llmCalls")
+            .withIndex("by_run", (q) => q.eq("runId", args.sourceRunId as Id<"runs">))
+            .collect()
+        : [];
+    const inputTokens =
+      args.inputTokens ?? calls.reduce((sum, c) => sum + (c.inputTokens ?? 0), 0);
+    const outputTokens =
+      args.outputTokens ?? calls.reduce((sum, c) => sum + (c.outputTokens ?? 0), 0);
+    const payload = {
+      workspaceId: args.workspaceId,
+      contentHash: args.contentHash,
+      sampleId: args.sampleId,
+      findingsJson: args.findingsJson,
+      verifierJson: args.verifierJson,
+      countsJson: args.countsJson,
+      summary: args.summary,
+      brandFit: args.brandFit,
+      model: args.model,
+      sourceRunId: args.sourceRunId,
+      rulebookVersion: args.rulebookVersion,
+      inputTokens,
+      outputTokens,
+    };
     const existing = await ctx.db
       .query("cachedRuns")
       .withIndex("by_hash", (q) =>
@@ -384,10 +538,10 @@ export const cacheRun = internalMutation({
       )
       .first();
     if (existing) {
-      await ctx.db.patch(existing._id, { ...args, createdAt: Date.now() });
+      await ctx.db.patch(existing._id, { ...payload, createdAt: Date.now() });
       return existing._id;
     }
-    return await ctx.db.insert("cachedRuns", { ...args, createdAt: Date.now() });
+    return await ctx.db.insert("cachedRuns", { ...payload, createdAt: Date.now() });
   },
 });
 

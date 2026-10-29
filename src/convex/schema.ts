@@ -406,6 +406,11 @@ const schema = defineSchema(
       brandFit: v.number(),
       model: v.string(),
       sourceRunId: v.string(),
+      /** Saved runs are only valid for the rulebook version that produced them. */
+      rulebookVersion: v.optional(v.string()),
+      /** Token totals from the live run that produced this saved result. */
+      inputTokens: v.optional(v.number()),
+      outputTokens: v.optional(v.number()),
       createdAt: v.number(),
     })
       .index("by_hash", ["workspaceId", "contentHash"])

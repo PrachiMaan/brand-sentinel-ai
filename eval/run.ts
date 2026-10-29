@@ -279,8 +279,24 @@ const deepLane = {
 
 const notes: string[] = [];
 if (!deepLane.available) {
+  const allErrors = results.flatMap((r) => r.errors ?? []);
+  const cause = allErrors.length
+    ? Array.from(
+        new Set(
+          allErrors.map((error) =>
+            /no model credentials/i.test(error)
+              ? "no model credentials configured for this run"
+              : /quota|budget|spend/i.test(error)
+                ? "the model budget was exhausted"
+                : /rate limit/i.test(error)
+                  ? "the provider rate-limited the run"
+                  : "the gateway returned an error",
+          ),
+        ),
+      ).join(", ")
+    : "the reviewer calls did not return";
   notes.push(
-    "The model-backed deep lane returned no findings in this run: every reviewer call failed (gateway quota). The table above therefore measures the deterministic rule engine only. It is not a measurement of the full two-lane pipeline.",
+    `The model-backed deep lane returned no findings in this run: every reviewer call failed (${cause}). The table above therefore measures the deterministic rule engine only. It is not a measurement of the full two-lane pipeline.`,
   );
 } else if (deepLane.reviewerFailures) {
   notes.push(

@@ -142,7 +142,6 @@ export function buildHealthRows(args: {
     else if (decision.decision === "edit") row.edited += 1;
     else if (decision.decision === "reject") row.rejected += 1;
     else row.overridden += 1;
-    if (decision.decision !== "accept") row.overridden += 0;
   }
 
   for (const row of buckets.values()) {
@@ -289,11 +288,6 @@ export type Suggestion = {
   rationale: string;
   evidenceDecisionIds: string[];
   method: "template" | "model";
-};
-
-const REASON_PREFIX: Record<string, string> = {
-  reject: "rejected",
-  edit: "edited",
 };
 
 /**

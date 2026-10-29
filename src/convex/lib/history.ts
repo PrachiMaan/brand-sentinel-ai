@@ -121,7 +121,7 @@ const TITLES = [
 ];
 
 const DAY = 86_400_000;
-const HISTORY_DAYS = 90;
+export const HISTORY_DAYS = 90;
 export const BATCH_DAYS = 30;
 
 export const HISTORY_BATCHES = Math.ceil(HISTORY_DAYS / BATCH_DAYS);

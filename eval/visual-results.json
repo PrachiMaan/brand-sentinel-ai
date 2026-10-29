@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T19:51:53.466Z",
+  "generatedAt": "2026-10-28T21:20:00.775Z",
   "engine": "deterministic (lib/visual.ts)",
   "raster": "Pages decoded from the fixture PNGs generated from the same geometry as the PDFs; no canvas backend in this environment.",
   "decks": [
