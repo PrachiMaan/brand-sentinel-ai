@@ -8,7 +8,7 @@ Round 3 prototype, October 2026. Seeded synthetic brand: **Lumora**.
 
 - Live app: **https://brandsentinel.freebuff.app/**
 - Repository: **https://github.com/PrachiMaan/brand-sentinel-ai**
-- API base: `https://tremendous-rabbit-679.convex.site/api/v1`
+- API base: `https://joyous-herring-358.convex.site/api/v1`
 
 ## Try it in 4 minutes (no signup)
 
@@ -220,7 +220,7 @@ self-authored, so these numbers are upper bounds.
 
 ## Review API
 
-Base: `https://tremendous-rabbit-679.convex.site/api/v1`. OpenAPI:
+Base: `https://joyous-herring-358.convex.site/api/v1`. OpenAPI:
 `GET /api/v1/openapi.json`.
 
 ```bash
