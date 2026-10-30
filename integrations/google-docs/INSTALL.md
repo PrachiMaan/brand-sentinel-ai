@@ -49,7 +49,7 @@ account.
    requests to your BrandSentinel deployment.
 4. Reload the Google Doc — the **BrandSentinel** menu appears in the toolbar.
 5. **BrandSentinel → Open review panel**. Paste your API base URL
-   (`https://your-deployment`) and an API key, then Save.
+   (`https://your-deployment](https://joyous-herring-358.convex.site`) and an API key, then Save.
 
 The key is stored in your own user properties. It is never written into the
 document or shared with other editors.
