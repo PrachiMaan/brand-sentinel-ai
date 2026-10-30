@@ -3,7 +3,7 @@
 Base URL: `https://<your-convex-deployment>.convex.site/api/v1`
 
 The deployed prototype uses
-`https://tremendous-rabbit-679.convex.site/api/v1`.
+`https://joyous-herring-358.convex.site/api/v1`.
 
 OpenAPI 3.1 document: `GET /api/v1/openapi.json` (also served at `/api/v1`).
 The document and the handler live in the same file, `src/convex/httpApi.ts`, so a
@@ -181,7 +181,7 @@ Workspace in this environment; see `docs/KNOWN_LIMITATIONS.md`.
 ## Quick start without the web app
 
 ```bash
-export BASE="https://tremendous-rabbit-679.convex.site/api/v1"
+export BASE="https://joyous-herring-358.convex.site/api/v1"
 export BRANDSENTINEL_KEY="bss_live_…"   # create in the app, shown once
 
 ID=$(curl -sS -X POST "$BASE/submissions" \
@@ -203,7 +203,7 @@ These commands were run live on 29 October 2026, including replay, 409, 403 and
 `scripts/api-demo.ts` runs the whole path and asserts each status:
 
 ```bash
-BASE_URL="https://tremendous-rabbit-679.convex.site/api/v1" \
+BASE_URL="https://joyous-herring-358.convex.site/api/v1" \
 BRANDSENTINEL_KEY="bss_live_…" \
 BRANDSENTINEL_CREATOR_KEY="bss_live_…" \
   bun run scripts/api-demo.ts
