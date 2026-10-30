@@ -203,6 +203,8 @@ bun run eval:visual      # visual engine fixtures, writes eval/visual-results.js
 bun run eval:analytics   # recompute consistency, writes eval/analytics-results.json
 ```
 
+Type-checking and tests/webhook-delivery.test.ts need generated Convex types. Run bunx convex dev --once once (needs a Convex login) before bun test and bunx tsc -b --noEmit.
+
 Current numbers and how to read them: **`docs/EVALUATION.md`**. Summary:
 
 | Eval | Result |
